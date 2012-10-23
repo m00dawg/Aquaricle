@@ -6,7 +6,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'aquaridawg.views.home', name='home'),
+#    url(r'^$', 'aquaridawg.views.home', name='home'),
+    url(r'^$', 'aquaridawg.views.index', name='index'),
+    url(r'^aquarium/(?P<aquarium_id>\d+)/$', 'aquaridawg.views.aquarium', name='aquarium'),
     # url(r'^aquaridawg/', include('aquaridawg.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

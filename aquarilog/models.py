@@ -1,47 +1,74 @@
 from django.db import models
+from aquaridawg.fields import EnumField
 
 class WaterProfile(models.Model):
-	WATER_TYPE_CHOICES = (
-		(1, 'Freshwater'),
-		(2, 'Saltwater'),
-		(3, 'Other')
-	)
-	waterProfileID = models.AutoField(primary_key=True)
-	waterType = models.PositiveSmallIntegerField(choices=WATER_TYPE_CHOICES,null=False,blank=False)
-	name = models.CharField(max_length=24,unique=True)
-	temperature = models.PositiveSmallIntegerField(null=True,blank=True)
-	pH = models.DecimalField(max_digits=3,decimal_places=1,null=True,blank=True)
-	KH = models.PositiveSmallIntegerField(null=True,blank=True)
-	def __unicode__(self):
-		return self.name
-	class Meta:
-		db_table = 'WaterProfiles'	
+    waterProfileID = models.AutoField(primary_key=True)
+    waterType = EnumField(values=('Freshwater', 'Saltwater', 'Other'),null=True,blank=True)
+#    waterType = models.PositiveSmallIntegerField(null=True,blank=True)
+    name = models.CharField(max_length=24,unique=True)
+    temperature = models.PositiveSmallIntegerField(null=True,blank=True)
+    pH = models.DecimalField(max_digits=3,decimal_places=1,null=True,blank=True)
+    KH = models.PositiveSmallIntegerField(null=True,blank=True)
+    def __unicode__(self):
+        return self.name
+    class Meta:
+        db_table = 'WaterProfiles'  
+        verbose_name = 'Water Profile'
+        verbose_name_plural = 'Water Profiles'
 
 class Aquarium(models.Model):
-	aquariumID = models.AutoField(primary_key=True)
-	waterProfileID = models.ForeignKey(WaterProfile,verbose_name='Water Profile',db_column='waterProfileID')
-	activeSince = models.DateTimeField(verbose_name='Active Since',editable=True,null=True,blank=True)
-	size = models.PositiveSmallIntegerField(null=False,blank=False)
-	name = models.CharField(max_length=24,unique=True)
-	location = models.CharField(max_length=24,blank=True)
-	def __unicode__(self):
-		return self.name
-	class Meta:
-		db_table = 'Aquariums'
+    aquariumID = models.AutoField(primary_key=True)
+    waterProfileID = models.ForeignKey(WaterProfile,verbose_name='Water Profile',db_column='waterProfileID')
+    activeSince = models.DateTimeField(verbose_name='Active Since',editable=True,null=True,blank=True)
+    size = models.PositiveSmallIntegerField(null=False,blank=False)
+    name = models.CharField(max_length=24,unique=True)
+    location = models.CharField(max_length=24,blank=True)
+    def __unicode__(self):
+        return self.name
+    class Meta:
+        db_table = 'Aquariums'
 
 class WaterLog(models.Model):
-	waterLogID = models.AutoField(primary_key=True)
-	aquariumID = models.ForeignKey(Aquarium,verbose_name='Aquarium',db_column='aquariumID')
-	testedOn = models.DateTimeField(verbose_name='Tested On',editable=True,blank=False)
-	temperature = models.PositiveSmallIntegerField(null=True,blank=True)
-	ammonia = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
-	nitrites = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
-	nitrates = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
-	pH = models.DecimalField(max_digits=3,decimal_places=1,null=True,blank=True)
-	KH = models.PositiveSmallIntegerField(null=True,blank=True)
-	amountExchanged = models.PositiveSmallIntegerField(null=True,blank=True)
-	comments = models.TextField(blank=True)
-	def __unicode__(self):
-		return unicode(self.testedOn)
-	class Meta:
-		db_table = 'WaterLog'
+    waterLogID = models.AutoField(primary_key=True)
+    aquariumID = models.ForeignKey(Aquarium,verbose_name='Aquarium',db_column='aquariumID')
+    testedOn = models.DateTimeField(verbose_name='Tested On',editable=True,blank=False)
+    temperature = models.PositiveSmallIntegerField(null=True,blank=True)
+    ammonia = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
+    nitrites = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
+    nitrates = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
+    pH = models.DecimalField(verbose_name='pH',max_digits=3,decimal_places=1,null=True,blank=True)
+    KH = models.PositiveSmallIntegerField(null=True,blank=True)
+    amountExchanged = models.PositiveSmallIntegerField(verbose_name='Amount Exchanged',null=True,blank=True)
+    comments = models.TextField(blank=True)
+    def __unicode__(self):
+        return unicode(self.testedOn)
+    class Meta:
+        db_table = 'WaterLog'
+        verbose_name = 'Water Log'
+        verbose_name_plural = 'Water Logs'
+
+class Equipment(models.Model):
+    equipmentID = models.AutoField(primary_key=True)
+    aquariumID = models.ForeignKey(Aquarium,verbose_name='Aquarium',db_column='aquariumID')
+    installDate = models.DateTimeField(verbose_name='Install Date',editable=True,blank=False)
+    name = models.CharField(max_length=24,unique=True)
+    maintenanceInterval = models.PositiveSmallIntegerField(verbose_name='Maintenance Interval (Days)',null=True,blank=True)
+    comments = models.TextField(blank=True)
+    def __unicode__(self):
+        return unicode(self.name)
+    class Meta:
+        db_table = 'Equipment'
+        verbose_name = 'Equipment'
+        verbose_name_plural = 'Equipment'
+
+class EquipmentLog(models.Model):
+    equipmentLogID = models.AutoField(primary_key=True)
+    equipmentID = models.ForeignKey(Equipment,verbose_name='Equipment',db_column='equipmentID')
+    logDate = models.DateTimeField(verbose_name='Tested On',editable=True,blank=False)
+    maintenance = EnumField(values=('Yes', 'No'),null=True,blank=False) 
+#    maintenance = models.PositiveSmallIntegerField(null=True,blank=True)
+    action = models.CharField(max_length=24,unique=True)
+    class Meta:
+        db_table = 'EquipmentLog'
+        verbose_name = 'Equipment Log'
+        verbose_name_plural = 'Equipment Logs'
