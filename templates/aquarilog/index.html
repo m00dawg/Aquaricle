@@ -1,18 +1,15 @@
-<html>
-<title>Aquaridawg</title>
-<body>
-<h1>Aquaridawg</h1>
+{% include "header_aquarilog.html" %}
 
 <h3>Aquariums</h3>
 
 {% if aquarium_list %}
     <ul>
     {% for aquarium in aquarium_list %}
-        <li><a href="/aquarilog/aquarium/{{ aquarium.aquariumID}}/">{{ aquarium.name }}</a></li>
+        <li><a href="/aquarilog/aquarium/{{ aquarium.aquariumID }}/">{{ aquarium.name }}</a></li>
+	{% empty %}
+		<li>No aquariums available</li>
     {% endfor %}
     </ul>
-{% else %}
-    <p>No aquariums available</p>
 {% endif %} 
 
 </body>

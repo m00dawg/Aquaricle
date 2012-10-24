@@ -1,6 +1,10 @@
-{% include "header.html" %}
+{% include "header_aquarilog.html" %}
 
 <h2>{{ aquarium }}</h2>
+
+{% if error_message %}
+	<h4>{{ error_message }}</h4>
+{% endif %}
 
 <ul>
 	<li>Location: {{ aquarium.location }}</li>
@@ -9,37 +13,144 @@
 	<li>Water Profile: {{ aquarium.waterProfileID }}</li>
 </ul>
 
+<div id="waterLogs">
+
 <h3>Water Logs</h3>
 
-{% if latest_water_logs %}
-	<table>
-		<tr>
-			<th>Tested On</th>
-			<th>Temperature (C)</th>
-			<th>Ammonia</th>
-			<th>Nitrites</th>
-			<th>Nitrates</th>
-			<th>pH</th>
-			<th>KH</th>
-			<th>Water Exchanged (Litter)</th>
-			<th>Comments</th>
-		</tr>
+<table>
+	<tr>
+		<th class="testedOn">Tested On</th>
+		<th class="temperature">Temperature (C)</th>
+		<th class="ammonia">Ammonia</th>
+		<th class="nitrites">Nitrites</th>
+		<th class="nitrates">Nitrates</th>
+		<th class="pH">pH</th>
+		<th class="KH">KH</th>
+		<th class="amountExchanged">Water Exchanged</th>
+		<th class="comments">Comments</th>
+	</tr>
     {% for log in latest_water_logs %}
 		<tr>
-        	<td>{{ log.testedOn }}</td>
-        	<td>{{ log.temperature }}</td>
-        	<td>{{ log.ammonia }}</td>
-        	<td>{{ log.nitrites }}</td>
-        	<td>{{ log.nitrates }}</td>
-        	<td>{{ log.pH }}</td>
-        	<td>{{ log.KH }}</td>
-        	<td>{{ log.amountExchanged }}</td>
-        	<td>{{ log.comments }}</td>
+        	<td class="testedOn">{{ log.testedOn }}</td>
+
+			{# Temperature #}
+			{% if log.temperature != None %}
+        		<td>{{ log.temperature }} C</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+			
+			{# Ammonia #}
+			{% if log.ammonia != None %}
+				{% if log.ammonia >= 8.0 %}
+					<td class="ammonia800">
+				{% elif log.ammonia >= 4.0 %}
+					<td class="ammonia400">
+				{% elif log.ammonia >= 2.0 %}
+					<td class="ammonia200">
+				{% elif log.ammonia >= 1.0 %}
+					<td class="ammonia100">
+				{% elif log.ammonia >= 0.5 %}
+					<td class="ammonia050">
+				{% elif log.ammonia >= 0.25 %}
+					<td class="ammonia025">
+				{% else %}
+					<td class="ammonia000">
+				{% endif %}
+				{{ log.ammonia }} ppm
+				</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+			
+			{# Nitrites #}
+			{% if log.nitrites != None %}
+				{% if log.nitrites >= 5.0 %}
+					<td class="nitrite500">
+				{% elif log.nitrites >= 2.0 %}
+					<td class="nitrite200">
+				{% elif log.nitrites >= 1.0 %}
+					<td class="nitrite100">
+				{% elif log.nitrites >= 0.50 %}
+					<td class="nitrite050">
+				{% elif log.nitrites >= 0.25 %}
+					<td class="nitrite025">
+				{% else %}
+					<td class="nitrite000">
+				{% endif %}
+				{{ log.nitrites }} ppm
+				</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+
+			{# Nitrates #}
+			{% if log.nitrates != None %}
+				{% if log.nitrates >= 160 %}
+					<td class="nitrate160">
+				{% elif log.nitrates >= 80 %}
+					<td class="nitrate080">
+				{% elif log.nitrates >= 40 %}
+					<td class="nitrate040">
+				{% elif log.nitrates >= 20 %}
+					<td class="nitrate020">
+				{% elif log.nitrates >= 10 %}
+					<td class="nitrate010">
+				{% elif log.nitrates >= 5 %}
+					<td class="nitrate005">
+				{% else %}
+					<td class="nitrate000">
+				{% endif %}
+				{{ log.nitrates }} ppm
+				</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+
+        	<td class="pH">
+				{% if log.pH != None %}
+					{{ log.pH }}
+				{% else %}
+					&nbsp;
+				{% endif %}
+			</td>
+        	<td class="KH">
+				{% if log.KH != None %}
+					{{ log.KH }}
+				{% else %}
+					&nbsp;
+				{% endif %}
+			</td>
+        	<td class="amountExchanged">
+				{% if log.amountExchanged %}
+					{{ log.amountExchanged }} L
+				{% else %}
+					None
+				{% endif %}
+			</td>
+        	<td class="comments"><p>{{ log.comments }}</p></td>
 		</tr>
-    {% endfor %}
-	</table>
-{% else %}
-    <p>No Logs are available.</p>
-{% endif %}
+    {% empty %}
+	<tr><td colspan="9">No log-data available</td></tr>
+	{% endfor %}
+</table>
+
+<h4>Add Water Test Sample</h4>
+
+<form action="/aquarilog/aquarium/{{ aquarium.aquariumID }}/add_water_sample" method="post">
+	{% csrf_token %}
+	Temperature: <input type="text" name="temperature" size="4" /> C<br />
+	Ammonia: <input type="text" name="ammonia" size="4" /> ppm<br />
+	Nitrite: <input type="text" name="nitrite" size="4" /> ppm<br />
+	Nitrate: <input type="text" name="nitrate" size="4" /> ppm<br />
+	pH: <input type="text" name="pH" size="4" /><br />
+	KH: <input type="text" name="KH" size="4" /><br />
+	Water Exchanged: <input type="text" name="ammountExchanged" size="4" /> L<br />
+	Comments: <textarea cols="40" rows="5" name="comments"></textarea><br />
+	<input type="submit" value="Add Sample" />
+</form>
+
+
+
 
 {% include "footer.html" %}
