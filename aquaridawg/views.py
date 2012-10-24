@@ -4,14 +4,13 @@ from aquarilog.models import Aquarium, WaterLog
 #from django.template import Context, loader
 #from django.http import HttpResponse
 
-'''
-def index(request):
-    aquarium_list = Aquarium.objects.all().order_by('-activeSince')
-    return render_to_response(
-        'aquarilog/index.html',
-        {'aquarium_list': aquarium_list}
-    )
 
+def index(request):
+    return render_to_response(
+        'index.html',
+    )
+    
+'''
 def aquarium(request, aquarium_id):
     aquarium = get_object_or_404(Aquarium, pk=aquarium_id)
     latest_water_logs = 
