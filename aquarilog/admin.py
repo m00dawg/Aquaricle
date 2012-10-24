@@ -5,16 +5,15 @@ from aquarilog.models import Equipment
 from aquarilog.models import EquipmentLog
 from django.contrib import admin
 
-
 class WaterProfileAdmin(admin.ModelAdmin):
     list_display = ('name', 'waterType', 'temperature', 'pH', 'KH')
 
 class WaterLogAdmin(admin.ModelAdmin):
-	list_display = ('testedOn', 'temperature', 'ammonia', 'nitrites', 
+	list_display = ('aquariumID', 'testedOn', 'temperature', 'ammonia', 'nitrites', 
 		'nitrates', 'pH', 'KH', 'amountExchanged')
 
 class EquipmentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'maintenanceInterval')
+    list_display = ('aquariumID', 'name', 'maintenanceInterval')
 
 class EquipmentLogAdmin(admin.ModelAdmin):
     list_display = ('equipmentID', 'logDate', 'maintenance')

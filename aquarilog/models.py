@@ -6,7 +6,7 @@ class WaterProfile(models.Model):
     waterType = EnumField(values=('Freshwater', 'Saltwater', 'Other'),null=True,blank=True)
 #    waterType = models.PositiveSmallIntegerField(null=True,blank=True)
     name = models.CharField(max_length=24,unique=True)
-    temperature = models.PositiveSmallIntegerField(null=True,blank=True)
+    temperature = models.DecimalField(verbose_name='Temperature (C)',max_digits=4,decimal_places=2,null=True,blank=True)
     pH = models.DecimalField(max_digits=3,decimal_places=1,null=True,blank=True)
     KH = models.PositiveSmallIntegerField(null=True,blank=True)
     def __unicode__(self):
@@ -20,7 +20,7 @@ class Aquarium(models.Model):
     aquariumID = models.AutoField(primary_key=True)
     waterProfileID = models.ForeignKey(WaterProfile,verbose_name='Water Profile',db_column='waterProfileID')
     activeSince = models.DateTimeField(verbose_name='Active Since',editable=True,null=True,blank=True)
-    size = models.PositiveSmallIntegerField(null=False,blank=False)
+    size = models.PositiveSmallIntegerField(verbose_name='Size (Liter)',null=False,blank=False)
     name = models.CharField(max_length=24,unique=True)
     location = models.CharField(max_length=24,blank=True)
     def __unicode__(self):
@@ -32,7 +32,7 @@ class WaterLog(models.Model):
     waterLogID = models.AutoField(primary_key=True)
     aquariumID = models.ForeignKey(Aquarium,verbose_name='Aquarium',db_column='aquariumID')
     testedOn = models.DateTimeField(verbose_name='Tested On',editable=True,blank=False)
-    temperature = models.PositiveSmallIntegerField(null=True,blank=True)
+    temperature = models.DecimalField(verbose_name='Temperature (C)',max_digits=4,decimal_places=2,null=True,blank=True)    
     ammonia = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
     nitrites = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
     nitrates = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
@@ -64,10 +64,10 @@ class Equipment(models.Model):
 class EquipmentLog(models.Model):
     equipmentLogID = models.AutoField(primary_key=True)
     equipmentID = models.ForeignKey(Equipment,verbose_name='Equipment',db_column='equipmentID')
-    logDate = models.DateTimeField(verbose_name='Tested On',editable=True,blank=False)
+    logDate = models.DateTimeField(verbose_name='Date',editable=True,blank=False)
     maintenance = EnumField(values=('Yes', 'No'),null=True,blank=False) 
 #    maintenance = models.PositiveSmallIntegerField(null=True,blank=True)
-    action = models.CharField(max_length=24,unique=True)
+    action = models.CharField(max_length=24,unique=False)
     class Meta:
         db_table = 'EquipmentLog'
         verbose_name = 'Equipment Log'

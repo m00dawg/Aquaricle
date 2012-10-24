@@ -1,1 +1,46 @@
-{{ aquarium }}
+{% include "header.html" %}
+
+<h2>{{ aquarium }}</h2>
+
+<ul>
+	<li>Location: {{ aquarium.location }}</li>
+	<li>Size: {{ aquarium.size }}</li>
+	<li>Active Since: {{ aquarium.activeSince }}</li>
+	<li>Water Profile: {{ aquarium.waterProfileID }}</li>
+</ul>
+
+<h3>Water Logs</h3>
+
+{% if latest_water_logs %}
+	<table>
+		<tr>
+			<th>Tested On</th>
+			<th>Temperature (C)</th>
+			<th>Ammonia</th>
+			<th>Nitrites</th>
+			<th>Nitrates</th>
+			<th>pH</th>
+			<th>KH</th>
+			<th>Water Exchanged (Litter)</th>
+			<th>Comments</th>
+		</tr>
+    {% for log in latest_water_logs %}
+		<tr>
+        	<td>{{ log.testedOn }}</td>
+        	<td>{{ log.temperature }}</td>
+        	<td>{{ log.ammonia }}</td>
+        	<td>{{ log.nitrites }}</td>
+        	<td>{{ log.nitrates }}</td>
+        	<td>{{ log.pH }}</td>
+        	<td>{{ log.KH }}</td>
+        	<td>{{ log.amountExchanged }}</td>
+        	<td>{{ log.comments }}</td>
+		</tr>
+    {% endfor %}
+	</table>
+{% else %}
+    <p>No Logs are available.</p>
+{% endif %}
+
+</body>
+</html>
