@@ -13,6 +13,63 @@
 	<li>Water Profile: {{ aquarium.waterProfileID }}</li>
 </ul>
 
+<div id="equipment">
+<h3>Equipment</h3>
+
+<table>
+	<tr>
+		<th class="equipmentName">Name</th>
+		<th class="equipmentDate">Date Installed</th>
+		<th class="equipmentMaintInt">Maint Interval (Days)</th>
+		<th class="equipmentLastMaint">Last Maint</th>
+		<th class="equipmentNextMaint">Next Maint (Days)</th>
+		<th class="equipmentComments">Comments</th>
+	</tr>
+	{% for item in equipment %}
+		<tr>
+			<td>
+				{% if item.url %}
+					<a href="{{ item.url }}">{{ item.name }}</a>
+				{% else %}
+					{{ item.name }}
+				{% endif %}
+			</td>
+			<td>{{ item.installDate }}</td>
+			<td>
+				{% if item.maintenanceInterval %}
+					{{ item.maintenanceInterval }}
+				{% else %}
+					N/A
+				{% endif %}
+			</td>
+			<td>
+				{% if item.lastMaint %}
+					{{ item.lastMaint }}
+				{% else %}
+					&nbsp;
+				{% endif %}
+			</td>
+			{% if item.nextMaint != None %}
+				{% if item.nextMaint <= 0 %}
+					<td class="equipmentMaintOverdue">
+				{% else %}
+					<td>
+				{% endif %}
+				{{ item.nextMaint }}
+				</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+
+			<td>{{ item.comments }}</td>
+		</tr>
+    {% empty %}
+	<tr><td colspan="4">No Equipment Found</td></tr>
+	{% endfor %}
+</table>
+
+</div>
+
 <div id="waterLogs">
 
 <h3>Water Logs</h3>
@@ -125,7 +182,7 @@
 				{% if log.amountExchanged %}
 					{{ log.amountExchanged }} L
 				{% else %}
-					None
+					&nbsp;
 				{% endif %}
 			</td>
         	<td class="comments"><p>{{ log.comments }}</p></td>
@@ -137,16 +194,9 @@
 
 <h4>Add Water Test Sample</h4>
 
-<form action="/aquarilog/aquarium/{{ aquarium.aquariumID }}/add_water_sample" method="post">
+<form action="/aquarilog/aquarium/{{ aquarium.aquariumID }}/" method="post">
 	{% csrf_token %}
-	Temperature: <input type="text" name="temperature" size="4" /> C<br />
-	Ammonia: <input type="text" name="ammonia" size="4" /> ppm<br />
-	Nitrite: <input type="text" name="nitrite" size="4" /> ppm<br />
-	Nitrate: <input type="text" name="nitrate" size="4" /> ppm<br />
-	pH: <input type="text" name="pH" size="4" /><br />
-	KH: <input type="text" name="KH" size="4" /><br />
-	Water Exchanged: <input type="text" name="ammountExchanged" size="4" /> L<br />
-	Comments: <textarea cols="40" rows="5" name="comments"></textarea><br />
+	{{ water_log_form.as_p }}
 	<input type="submit" value="Add Sample" />
 </form>
 

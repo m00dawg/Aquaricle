@@ -1,16 +1,45 @@
+body{
+    background-color: #074788;
+    color: #FFFFFF;
+}
+
+h1{ font-size: 200%; }
+h2{ font-size: 150%; }
+h3{ font-size: 130%; }
+
 table{
     border-collapse:collapse;
     width: 90%;
     margin-left: auto;
     margin-right: auto;
+    border: 1px;
+    border-style: solid;
+    border-color: #000000;
+    box-shadow: 2px 2px 12px #000000;
+    color: #000000;
+    background-color: #FFFFFF;
 }
 
 th{
     color: #FFFFFF;
-    background-color: #000000;
+    background-color: #000033;
 }
 
 td, th{
-    border: 1px solid black;
+    border: 1px;
+    border-style: solid;
+    border-color: #000033; 
 }
+
+td{
+    border-style: dotted;
+    border-color: #AAAAAA;
+}
+
+a{ 
+    text-decoration: none; 
+    font-weight: bold; 
+}
+a:link, a:visited, a:active { color: #000000; }
+a:hover {color: #0000FF; }
 

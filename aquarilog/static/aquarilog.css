@@ -1,22 +1,50 @@
+/* Equpiment */
+
+#equipment{
+    text-align: center;
+}
+
+th.equipmentName{
+
+}
+
+th.equipmentDate{
+
+}
+
+th.equipmentMaintInt{
+
+}
+
+th.equipmentComments{
+
+}
+
+td.equipmentMaintOverdue{
+    color: #990000;
+    font-weight: bold;
+}
+
+/* Water Logs */
+
 #waterLogs{
     text-align: center;
 }
 
 th.testedOn{
-    width: 15%;
+    width: 13%;
 }
-
 
 th.temperature{
     width: 10%;
 }
 
 th.ammonia, th.nitrites, th.nitrates, th.pH, th.KH, th.amountExchanged{
-    width: 10%;
+    width: 8%;
 }
 
 th.comments{
-    width: 25%;
+    width: 29%;
 }
 
 /* Temperature Range Colors */
