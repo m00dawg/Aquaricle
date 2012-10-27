@@ -45,7 +45,6 @@ def aquarium_details(request, aquarium_id, error_message=None):
         'aquarilog/aquarium.html',
         {'aquarium': aquarium,
          'equipment' : equipment,
-         'equipment_logs' : equipment_logs,
          'latest_water_logs': latest_water_logs,
          'error_message': error_message,
          'water_log_form': water_log_form,}
