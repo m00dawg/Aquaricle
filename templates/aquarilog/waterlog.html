@@ -1,0 +1,16 @@
+{% include "header_aquarilog.html" %}
+
+<div class="formBox">
+	<h2>Add Water Test Sample</h2>
+<form action="/aquarilog/aquarium/{{ aquarium_id }}/waterlog/{{ waterlog.waterLogID }}/" method="post">
+	{% csrf_token %}
+	{{ waterlog_form.as_p }}
+	{% if waterlog.waterLogID > 0 %}
+		<input type="submit" value="Update" />
+	{% else %}
+		<input type="submit" value="Add" />
+	{% endif %}
+</form>
+</div>
+
+{% include "footer.html" %}

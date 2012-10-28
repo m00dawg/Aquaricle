@@ -4,25 +4,27 @@
     text-align: center;
 }
 
-th.equipmentName{
-
+.equipmentMaintName{
+    text-align: left;
+    border-right-color: #000000;
 }
 
-th.equipmentDate{
-
+.equipmentMaintInterval{
+    text-align: center;
 }
 
-th.equipmentMaintInt{
-
+.equipmentMaintLast{
+    text-align: center;
 }
 
-th.equipmentComments{
-
+.equipmentMaintSince{
+    text-align: center;
 }
 
 td.equipmentMaintOverdue{
     color: #990000;
     font-weight: bold;
+    text-align: center;
 }
 
 /* Water Logs */
@@ -32,7 +34,7 @@ td.equipmentMaintOverdue{
 }
 
 th.testedOn{
-    width: 13%;
+    width: 17%;
 }
 
 th.temperature{
@@ -44,7 +46,7 @@ th.ammonia, th.nitrites, th.nitrates, th.pH, th.KH, th.amountExchanged{
 }
 
 th.comments{
-    width: 29%;
+    width: 25%;
 }
 
 /* Temperature Range Colors */

@@ -3,6 +3,49 @@ body{
     color: #FFFFFF;
 }
 
+#frame{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #063778;
+    border: 1px;
+    border-style: solid;
+    border-color: #000040;
+    padding-bottom: 2%;
+    border-radius: 32px;
+    box-shadow: 0px 0px 32px rgba(0,0,0,0.5);
+}
+
+#banner{
+    background-image: url('/static/banner.jpg');
+    height: 160px;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 4px;
+    border-color: #000040;
+    border-style: solid;
+    position: relative;
+    border-radius: 32px 32px 0 0;
+}
+
+#title{
+    position: absolute;
+    bottom: 0px;
+    left: 24px;
+}
+
+#content{
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+#footer{
+    text-align: center;
+    font-size: 0.85em;
+    padding-top: 2%;
+}
+
 h1{ font-size: 200%; }
 h2{ font-size: 150%; }
 h3{ font-size: 130%; }
@@ -15,9 +58,17 @@ table{
     border: 1px;
     border-style: solid;
     border-color: #000000;
-    box-shadow: 2px 2px 12px #000000;
+    box-shadow: 8px 8px 12px rgba(0,0,0,0.4);
     color: #000000;
+    background-color: #F0F0F0;
+}
+
+tr.odd{
     background-color: #FFFFFF;
+}
+
+tr.even{
+    background-color: #EEEEEE;
 }
 
 th{
@@ -28,11 +79,11 @@ th{
 td, th{
     border: 1px;
     border-style: solid;
-    border-color: #000033; 
+    border-color: #000000; 
 }
 
 td{
-    border-style: dotted;
+    border-style: solid;
     border-color: #CCCCCC;
 }
 
@@ -43,3 +94,11 @@ a{
 a:link, a:visited, a:active { color: #000000; }
 a:hover {color: #0000FF; }
 
+.formBox{
+    background-color: #000055;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}

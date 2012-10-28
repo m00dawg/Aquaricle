@@ -2,10 +2,6 @@
 
 <h2>{{ aquarium }}</h2>
 
-{% if error_message %}
-	<h4>{{ error_message }}</h4>
-{% endif %}
-
 <ul>
 	<li>Location: {{ aquarium.location }}</li>
 	<li>Size: {{ aquarium.size }}</li>
@@ -14,54 +10,57 @@
 </ul>
 
 <div id="equipment">
-<h3>Equipment</h3>
+<h3>Equipment Maintenance</h3>
 
 <table>
 	<tr>
-		<th class="equipmentName">Name</th>
-		<th class="equipmentDate">Date Installed</th>
-		<th class="equipmentMaintInt">Maint Interval (Days)</th>
-		<th class="equipmentLastMaint">Last Maint</th>
-		<th class="equipmentNextMaint">Next Maint (Days)</th>
-		<th class="equipmentComments">Comments</th>
+		<th></th>
+		<th colspan="3">Maintenance</th>
+	</tr>
+	<tr>
+		<th >Name</th>
+		<th>Interval (Days)</th>
+		<th>Last</th>
+		<th>Days Since</th>
 	</tr>
 	{% for item in equipment %}
-		<tr>
-			<td>
+		<tr class="{% cycle 'odd' 'even' %}">
+			<td class="equipmentMaintName">
 				{% if item.url %}
 					<a href="{{ item.url }}">{{ item.name }}</a>
 				{% else %}
 					{{ item.name }}
 				{% endif %}
 			</td>
-			<td>{{ item.installDate }}</td>
-			<td>
+			<td class="equipmentMaintInterval">
 				{% if item.maintenanceInterval %}
 					{{ item.maintenanceInterval }}
 				{% else %}
 					N/A
 				{% endif %}
 			</td>
-			<td>
+			<td class="equipmentMaintLast">
 				{% if item.lastMaint %}
-					{{ item.lastMaint }}
+					{% if item.maintenance = 'Yes' %}
+						{{ item.lastMaint }}
+					{% else %}
+						None Yet Performed
+					{% endif %}
 				{% else %}
 					&nbsp;
 				{% endif %}
 			</td>
-			{% if item.nextMaint != None %}
-				{% if item.nextMaint <= 0 %}
+			{% if item.daysSinceMaint != None and item.maintenance = 'Yes' %}
+				{% if item.daysSinceMaint > item.maintenanceInterval %}
 					<td class="equipmentMaintOverdue">
 				{% else %}
-					<td>
+					<td class="equipmentMaintSince">
 				{% endif %}
-				{{ item.nextMaint }}
+				{{ item.daysSinceMaint }}
 				</td>
 			{% else %}
 				<td>&nbsp;</td>
 			{% endif %}
-
-			<td>{{ item.comments }}</td>
 		</tr>
     {% empty %}
 	<tr><td colspan="4">No Equipment Found</td></tr>
@@ -72,7 +71,7 @@
 
 <div id="waterLogs">
 
-<h3>Water Logs</h3>
+<h3>Latest Water Tests</h3>
 
 <table>
 	<tr>
@@ -87,8 +86,12 @@
 		<th class="comments">Comments</th>
 	</tr>
     {% for log in latest_water_logs %}
-		<tr>
-        	<td class="testedOn">{{ log.testedOn }}</td>
+		<tr class="{% cycle 'odd' 'even' %}">
+        	<td class="testedOn">
+				<a href="/aquarilog/aquarium/{{ aquarium.aquariumID }}/waterlog/{{ log.waterLogID }}/">
+					{{ log.testedOn }}
+				</a>
+			</td>
 
 			{# Temperature #}
 			{% if log.temperature != None %}
@@ -191,14 +194,6 @@
 	<tr><td colspan="9">No log-data available</td></tr>
 	{% endfor %}
 </table>
-
-<h4>Add Water Test Sample</h4>
-
-<form action="/aquarilog/aquarium/{{ aquarium.aquariumID }}/" method="post">
-	{% csrf_token %}
-	{{ water_log_form.as_p }}
-	<input type="submit" value="Add Sample" />
-</form>
 
 
 
