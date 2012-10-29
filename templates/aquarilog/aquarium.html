@@ -26,11 +26,16 @@
 	{% for item in equipment %}
 		<tr class="{% cycle 'odd' 'even' %}">
 			<td class="equipmentMaintName">
-				{% if item.url %}
-					<a href="{{ item.url }}">{{ item.name }}</a>
-				{% else %}
+				{% comment %}
+					{% if item.url %}
+						<a href="{{ item.url }}">{{ item.name }}</a>
+						{% else %}
+						{{ item.name }}
+						{% endif %}
+				{% endcomment %}
+				<a href="/aquarilog/aquarium/{{ aquarium.aquariumID }}/equipment/{{ item.equipmentID }}/">
 					{{ item.name }}
-				{% endif %}
+				</a>
 			</td>
 			<td class="equipmentMaintInterval">
 				{% if item.maintenanceInterval %}
