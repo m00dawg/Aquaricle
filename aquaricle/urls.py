@@ -5,7 +5,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'aquaridawg.views.index', name='index'),
-    url(r'^aquarilog/', include('aquarilog.urls')),
+    url(r'^$', 'aquaricle.views.index', name='index'),
+    url(r'^waterlogs/', include('waterlogs.urls')),
+    url(r'^aquariums/', include('aquariums.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )

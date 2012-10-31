@@ -1,4 +1,4 @@
-Aquaridawg
-==========
+Aquaricle
+=========
 
-Django-powered web-application for managing an aquarium, and tracking stats from an Aquariduino.
+Django-powered web-project for managing an aquarium, and tracking stats from an Aquariduino.

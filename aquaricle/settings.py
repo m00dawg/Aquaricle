@@ -1,4 +1,4 @@
-# Django settings for aquaridawg project.
+# Django settings for aquaricle project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -14,10 +14,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'aquaridawg',                      # Or path to database file if using sqlite3.
         'USER': 'aquaridawg',                      # Not used with sqlite3.
-        'PASSWORD': 'XXXXXX',                  # Not used with sqlite3.
+        'PASSWORD': 'e9xlb18',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-        'OPTIONS': {'init_command': 'SET storage_engine=INNODB,character_set_connection=utf8'}
+        'OPTIONS': {'init_command': 'SET storage_engine=INNODB,character_set_connection=utf8,sql_mode=TRADITIONAL'}
     }
 }
 
@@ -65,9 +65,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    '/Users/tim/git/aquaricle/static',
 )
 
 # List of finder classes that know how to find static files in
@@ -98,29 +96,32 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'aquaridawg.urls'
+ROOT_URLCONF = 'aquaricle.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'aquaridawg.wsgi.application'
+WSGI_APPLICATION = 'aquaricle.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    '/Users/tim/git/aquaricle/templates',
+    '/Users/tim/git/aquaricle/templates/aquariums',
+    '/Users/tim/git/aquaricle/templates/waterlogs',
 )
 
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-#    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
-	'aquarilog'
+    'waterprofiles',
+    'aquariums',
+	'waterlogs',
+	'equipment',
+
 )
 
 # A sample logging configuration. The only tangible logging
