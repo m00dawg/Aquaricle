@@ -1,0 +1,207 @@
+{% include "header.html" %}
+
+<h2>{{ aquarium }}</h2>
+
+<ul>
+	<li>Location: {{ aquarium.location }}</li>
+	<li>Size: {{ aquarium.size }}</li>
+	<li>Active Since: {{ aquarium.activeSince }}</li>
+	<li>Water Profile: {{ aquarium.waterProfileID }}</li>
+</ul>
+
+<div id="equipment">
+<h3>Equipment Maintenance</h3>
+
+<table>
+	<tr>
+		<th></th>
+		<th colspan="3">Maintenance</th>
+	</tr>
+	<tr>
+		<th >Name</th>
+		<th>Interval (Days)</th>
+		<th>Last</th>
+		<th>Days Since</th>
+	</tr>
+	{% for item in equipment %}
+		<tr class="{% cycle 'odd' 'even' %}">
+			<td class="equipmentMaintName">
+				{% comment %}
+					{% if item.url %}
+						<a class="equipment" href="{{ item.url }}">{{ item.name }}</a>
+						{% else %}
+						{{ item.name }}
+						{% endif %}
+				{% endcomment %}
+				<a class="equipment" href="/equipment/{{ item.equipmentID }}/">
+					{{ item.name }}
+				</a>
+			</td>
+			<td class="equipmentMaintInterval">
+				{% if item.maintenanceInterval %}
+					{{ item.maintenanceInterval }}
+				{% else %}
+					N/A
+				{% endif %}
+			</td>
+			<td class="equipmentMaintLast">
+				{% if item.lastMaint %}
+					{% if item.maintenance = 'Yes' %}
+						{{ item.lastMaint }}
+					{% else %}
+						None Yet Performed
+					{% endif %}
+				{% else %}
+					&nbsp;
+				{% endif %}
+			</td>
+			{% if item.daysSinceMaint != None and item.maintenance = 'Yes' %}
+				{% if item.daysSinceMaint > item.maintenanceInterval %}
+					<td class="equipmentMaintOverdue">
+				{% else %}
+					<td class="equipmentMaintSince">
+				{% endif %}
+				{{ item.daysSinceMaint }}
+				</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+		</tr>
+    {% empty %}
+	<tr><td colspan="4">No Equipment Found</td></tr>
+	{% endfor %}
+</table>
+
+</div>
+
+<div id="waterLogs">
+
+<h3>Latest Water Tests</h3>
+
+<table>
+	<tr>
+		<th class="testedOn">Tested On</th>
+		<th class="temperature">Temperature (C)</th>
+		<th class="ammonia">Ammonia</th>
+		<th class="nitrites">Nitrites</th>
+		<th class="nitrates">Nitrates</th>
+		<th class="pH">pH</th>
+		<th class="KH">KH</th>
+		<th class="amountExchanged">Water Exchanged</th>
+		<th class="comments">Comments</th>
+	</tr>
+    {% for log in latest_water_logs reversed %}
+		<tr class="{% cycle 'odd' 'even' %}">
+        	<td class="testedOn">
+				<a class="waterlogs" href="/waterlogs/{{ log.waterLogID }}/">
+					{{ log.testedOn }}
+				</a>
+			</td>
+
+			{# Temperature #}
+			{% if log.temperature != None %}
+        		<td>{{ log.temperature }} C</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+			
+			{# Ammonia #}
+			{% if log.ammonia != None %}
+				{% if log.ammonia >= 8.0 %}
+					<td class="ammonia800">
+				{% elif log.ammonia >= 4.0 %}
+					<td class="ammonia400">
+				{% elif log.ammonia >= 2.0 %}
+					<td class="ammonia200">
+				{% elif log.ammonia >= 1.0 %}
+					<td class="ammonia100">
+				{% elif log.ammonia >= 0.5 %}
+					<td class="ammonia050">
+				{% elif log.ammonia >= 0.25 %}
+					<td class="ammonia025">
+				{% else %}
+					<td class="ammonia000">
+				{% endif %}
+				{{ log.ammonia }} ppm
+				</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+			
+			{# Nitrites #}
+			{% if log.nitrites != None %}
+				{% if log.nitrites >= 5.0 %}
+					<td class="nitrite500">
+				{% elif log.nitrites >= 2.0 %}
+					<td class="nitrite200">
+				{% elif log.nitrites >= 1.0 %}
+					<td class="nitrite100">
+				{% elif log.nitrites >= 0.50 %}
+					<td class="nitrite050">
+				{% elif log.nitrites >= 0.25 %}
+					<td class="nitrite025">
+				{% else %}
+					<td class="nitrite000">
+				{% endif %}
+				{{ log.nitrites }} ppm
+				</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+
+			{# Nitrates #}
+			{% if log.nitrates != None %}
+				{% if log.nitrates >= 160 %}
+					<td class="nitrate160">
+				{% elif log.nitrates >= 80 %}
+					<td class="nitrate080">
+				{% elif log.nitrates >= 40 %}
+					<td class="nitrate040">
+				{% elif log.nitrates >= 20 %}
+					<td class="nitrate020">
+				{% elif log.nitrates >= 10 %}
+					<td class="nitrate010">
+				{% elif log.nitrates >= 5 %}
+					<td class="nitrate005">
+				{% else %}
+					<td class="nitrate000">
+				{% endif %}
+				{{ log.nitrates }} ppm
+				</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+
+        	<td class="pH">
+				{% if log.pH != None %}
+					{{ log.pH }}
+				{% else %}
+					&nbsp;
+				{% endif %}
+			</td>
+        	<td class="KH">
+				{% if log.KH != None %}
+					{{ log.KH }}
+				{% else %}
+					&nbsp;
+				{% endif %}
+			</td>
+        	<td class="amountExchanged">
+				{% if log.amountExchanged %}
+					{{ log.amountExchanged }} L
+				{% else %}
+					&nbsp;
+				{% endif %}
+			</td>
+        	<td class="comments"><p>{{ log.comments }}</p></td>
+		</tr>
+    {% empty %}
+	<tr><td colspan="9">No log-data available</td></tr>
+	{% endfor %}
+</table>
+<br />
+<a href="/waterlogs/add/{{ aquarium.aquariumID }}">Add Sample</a>
+
+
+
+{% include "footer.html" %}

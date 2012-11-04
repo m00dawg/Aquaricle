@@ -1,0 +1,65 @@
+{% include "header.html" %}
+
+<h3>
+	<a href="{{ equipment.url }}">{{ equipment.name }}</a>
+</h3>
+
+<table>
+	<tr>
+		<th>Aquarium</th>
+		<td>
+			<a href="/aquariums/{{equipment.aquariumID.aquariumID}}">{{equipment.aquariumID.name}}</a>
+		</td>
+	</tr>
+	<tr>
+		<th>Install Date</th>
+		<td>{{ equipment.installDate }}</td>
+	</tr>
+	<tr>
+		<th>Maintenance Interval</th>
+		<td>{{ equipment.maintenanceInterval }}</td>
+	</tr>
+	<tr>
+		<th>Comments</th>
+		<td>
+			{% if equipment.comments %}
+				equipment.comments
+			{% else %}
+				No Comments
+			{% endif %}
+		</td>
+	</tr>
+</table>
+<br />
+
+<table>
+	<tr>
+		<th>Date</th>
+		<th>Maint</th>
+		<th>Action</th>
+	</tr>
+{% for entry in logs %}
+	<tr>
+		<td>{{ entry.logDate }}</td>
+		<td>{{ entry.maintenance }}</td>
+		<td>{{ entry.action }}</td>
+	</tr>
+{% empty %}
+	<tr><td colspan="3">No Logs</td></tr>
+{% endfor %}
+</table>
+
+
+<h2>Add Maintenance Item</h2>
+
+<div class="formBox">
+<form action="/equipment/{{ equipment.equipmentID }}/" method="post">
+	{% csrf_token %}
+	{{ log_form.as_p }}
+	<input type="submit" value="Add" />
+</form>
+</div>
+
+
+
+{% include "footer.html" %}

@@ -1,0 +1,30 @@
+{% include "header.html" %}
+
+<h3>Water Profiles</h3>
+
+
+{% if profiles %}
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Type</th>
+			<th>Temperature</th>
+			<th>pH</th>
+			<th>KH</th>
+		</tr>
+    {% for profile in profiles %}
+		<tr>
+			<td>{{ profile.name}}</td>
+			<td>{{ profile.waterType}}</td>
+			<td>{{ profile.temperature}}C</td>
+			<td>{{ profile.pH}}</td>
+			<td>{{ profile.KH}}</td>
+		</tr>
+	{% empty %}
+		<tr><td colspan="5">No Profiles Found</td></tr>
+    {% endfor %}
+    </table>
+{% endif %} 
+
+</body>
+</html>

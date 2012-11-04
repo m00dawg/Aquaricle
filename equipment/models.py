@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelForm
 from aquariums.models import Aquarium
 from equipment.managers import EquipmentManager
 
@@ -30,3 +31,10 @@ class EquipmentLog(models.Model):
         db_table = 'EquipmentLog'
         verbose_name = 'Equipment Log'
         verbose_name_plural = 'Equipment Logs'
+        
+        
+# Model Forms
+class EquipmentLogForm(ModelForm):
+    class Meta:
+        model = EquipmentLog
+        exclude = ('equipmentID')

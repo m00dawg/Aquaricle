@@ -1,0 +1,16 @@
+{% include "header.html" %}
+
+<h3>Aquariums</h3>
+
+{% if aquariums %}
+    <ul>
+    {% for aquarium in aquariums %}
+        <li><a class="aquariums" href="/aquariums/{{ aquarium.aquariumID }}/">{{ aquarium.name }}</a></li>
+	{% empty %}
+		<li>No aquariums available</li>
+    {% endfor %}
+    </ul>
+{% endif %} 
+
+</body>
+</html>

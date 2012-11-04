@@ -1,6 +1,5 @@
 from django.db import models
 from waterprofiles.models import WaterProfile
-
 class Aquarium(models.Model):
     aquariumID = models.AutoField(primary_key=True)
     waterProfileID = models.ForeignKey(WaterProfile,verbose_name='Water Profile',db_column='waterProfileID')

@@ -1,0 +1,17 @@
+{% include "header.html" %}
+
+<div id="waterLogs">
+<h2>Water Test Sample</h2>
+	
+<div class="formBox">
+<form action="/waterlogs/{{ waterlog.waterLogID }}/" method="post">
+	{% csrf_token %}
+	{{ waterlog_form.as_p }}
+	<input type="submit" value="Update" />
+</form>
+</div>
+
+<a href="/aquariums/{{waterlog.aquariumID.aquariumID}}">Go Back</a>
+
+</div>
+{% include "footer.html" %}

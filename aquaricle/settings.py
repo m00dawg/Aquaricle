@@ -107,7 +107,9 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     '/Users/tim/git/aquaricle/templates',
     '/Users/tim/git/aquaricle/templates/aquariums',
+    '/Users/tim/git/aquaricle/templates/waterprofiles',
     '/Users/tim/git/aquaricle/templates/waterlogs',
+    '/Users/tim/git/aquaricle/templates/equipment'
 )
 
 INSTALLED_APPS = (

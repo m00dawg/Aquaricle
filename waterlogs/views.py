@@ -40,7 +40,7 @@ def add_sample(request, aquarium_id):
         waterlog_form = WaterLogForm(request.POST, instance=waterlog)
         if waterlog_form.is_valid():
             new_sample = waterlog_form.save()
-            return HttpResponseRedirect(reverse('waterlogs.views.waterlog_entry', args=(new_sample.pk,)))
+            return HttpResponseRedirect(reverse('aquariums.views.aquarium_details', args=(aquarium_id,)))
 
     return render(request,
         'add_sample.html',
