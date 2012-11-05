@@ -6,7 +6,12 @@
 	<li>Location: {{ aquarium.location }}</li>
 	<li>Size: {{ aquarium.size }}</li>
 	<li>Active Since: {{ aquarium.activeSince }}</li>
-	<li>Water Profile: {{ aquarium.waterProfileID }}</li>
+	<li>
+		Water Profile: 
+		<a href="/waterprofiles/{{ aquarium.waterProfileID.waterProfileID }}">
+			{{ aquarium.waterProfileID }}
+		</a>
+	</li>
 </ul>
 
 <div id="equipment">
