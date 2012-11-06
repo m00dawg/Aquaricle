@@ -4,4 +4,3 @@ urlpatterns = patterns('waterprofiles.views',
     url(r'^$', 'waterprofiles'),
     url(r'^(?P<waterprofile_id>\d+)/$', 'waterprofile_details'),
 )
-

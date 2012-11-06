@@ -19,8 +19,7 @@ def equipment_details(request, equipment_id):
         if log_form.is_valid():
             new_log = log_form.save()
             return HttpResponseRedirect(reverse('equipment.views.equipment_details', args=(equipment_id,)))
-
-    
+        
     return render(request,
         'equipment_details.html',
         {'equipment' : equipment,

@@ -1,5 +1,6 @@
 from django.db import models
 from django.forms import ModelForm
+from django.forms.widgets import Select
 from aquariums.models import Aquarium
 from equipment.managers import EquipmentManager
 
@@ -36,5 +37,10 @@ class EquipmentLog(models.Model):
 # Model Forms
 class EquipmentLogForm(ModelForm):
     class Meta:
+        MAINTENANCE_CHOICES = (('Yes', 'Yes'),
+                               ('No', 'No'))
         model = EquipmentLog
         exclude = ('equipmentID')
+        widgets = {
+            'maintenance' : Select(choices=MAINTENANCE_CHOICES)
+        }

@@ -1,0 +1,165 @@
+{% include "header.html" %}
+
+<div id="waterLogs">
+<h2>Water Logs</h2>
+	
+<h3>Last Water Change</h3>
+
+<table>
+	<tr>
+		<th>Date</th>
+		<td>{{ lastChange.testedOn }}</td>
+	</tr>
+	<tr>
+		<th>Days Since Change</th>
+		<td>{{ lastChange.daysSinceChange }}</td>
+	</tr>
+	<tr>	
+		<th>Ammount</th>
+		<td>{{ lastChange.amountExchanged }} L</td>
+	</tr>
+</table>
+
+<h3>Logs</h3>
+
+<table>
+	<tr>
+		<th class="testedOn">Tested On</th>
+		<th class="temperature">Temp</th>
+		<th class="ammonia">Ammonia</th>
+		<th class="nitrites">Nitrites</th>
+		<th class="nitrates">Nitrates</th>
+		<th class="pH">pH</th>
+		<th class="KH">KH</th>
+		<th class="amountExchanged">Water Exchanged</th>
+		<th class="additives">Additives</th>
+		<th class="comments">Comments</th>
+	</tr>
+    {% for entry in entries reversed %}
+		<tr class="{% cycle 'odd' 'even' %}">
+        	<td class="testedOn">
+				<a class="waterlogs" href="/waterlogs/{{ entry.waterLogID }}/">
+					{{ entry.testedOn }}
+				</a>
+			</td>
+
+			{# Temperature #}
+			{% if entry.temperature != None %}
+        		<td>{{ entry.temperature }} C</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+			
+			{# Ammonia #}
+			{% if entry.ammonia != None %}
+				{% if entry.ammonia >= 8.0 %}
+					<td class="ammonia800">
+				{% elif entry.ammonia >= 4.0 %}
+					<td class="ammonia400">
+				{% elif entry.ammonia >= 2.0 %}
+					<td class="ammonia200">
+				{% elif entry.ammonia >= 1.0 %}
+					<td class="ammonia100">
+				{% elif entry.ammonia >= 0.5 %}
+					<td class="ammonia050">
+				{% elif entry.ammonia >= 0.25 %}
+					<td class="ammonia025">
+				{% else %}
+					<td class="ammonia000">
+				{% endif %}
+				{{ entry.ammonia }} ppm
+				</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+			
+			{# Nitrites #}
+			{% if entry.nitrites != None %}
+				{% if entry.nitrites >= 5.0 %}
+					<td class="nitrite500">
+				{% elif entry.nitrites >= 2.0 %}
+					<td class="nitrite200">
+				{% elif entry.nitrites >= 1.0 %}
+					<td class="nitrite100">
+				{% elif entry.nitrites >= 0.50 %}
+					<td class="nitrite050">
+				{% elif entry.nitrites >= 0.25 %}
+					<td class="nitrite025">
+				{% else %}
+					<td class="nitrite000">
+				{% endif %}
+				{{ entry.nitrites }} ppm
+				</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+
+			{# Nitrates #}
+			{% if entry.nitrates != None %}
+				{% if entry.nitrates >= 160 %}
+					<td class="nitrate160">
+				{% elif entry.nitrates >= 80 %}
+					<td class="nitrate080">
+				{% elif entry.nitrates >= 40 %}
+					<td class="nitrate040">
+				{% elif entry.nitrates >= 20 %}
+					<td class="nitrate020">
+				{% elif entry.nitrates >= 10 %}
+					<td class="nitrate010">
+				{% elif entry.nitrates >= 5 %}
+					<td class="nitrate005">
+				{% else %}
+					<td class="nitrate000">
+				{% endif %}
+				{{ entry.nitrates }} ppm
+				</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+
+        	<td class="pH">
+				{% if entry.pH != None %}
+					{{ entry.pH }}
+				{% else %}
+					&nbsp;
+				{% endif %}
+			</td>
+        	<td class="KH">
+				{% if entry.KH != None %}
+					{{ entry.KH }}
+				{% else %}
+					&nbsp;
+				{% endif %}
+			</td>
+        	<td class="amountExchanged">
+				{% if entry.amountExchanged %}
+					{{ entry.amountExchanged }} L
+				{% else %}
+					&nbsp;
+				{% endif %}
+			</td>
+			<td class="additives">
+				{% if entry.waterAdditiveID %}
+					{{ entry.additiveAmount }} mL 
+					<a class="waterlogs" 
+						href="/waterlogs/additive/{{entry.waterAdditiveID.waterAdditiveID}}">
+						{{ entry.waterAdditiveID.name }}
+					</a>
+				{% else %}
+					&nbsp;
+				{% endif %}
+			</td>
+        	<td class="comments"><p>{{ entry.comments }}</p></td>
+		</tr>
+    {% empty %}
+	<tr><td colspan="9">No entry-data available</td></tr>
+	{% endfor %}
+</table>
+
+
+<br />
+
+<a href="/aquariums/{{aquarium.aquariumID}}">Go Back</a>
+
+</div>
+{% include "footer.html" %}

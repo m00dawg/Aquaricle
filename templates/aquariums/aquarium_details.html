@@ -4,7 +4,7 @@
 
 <ul>
 	<li>Location: {{ aquarium.location }}</li>
-	<li>Size: {{ aquarium.size }}</li>
+	<li>Size: {{ aquarium.size }}L</li>
 	<li>Active Since: {{ aquarium.activeSince }}</li>
 	<li>
 		Water Profile: 
@@ -19,11 +19,10 @@
 
 <table>
 	<tr>
-		<th></th>
+		<th rowspan="2">Name</th>
 		<th colspan="3">Maintenance</th>
 	</tr>
 	<tr>
-		<th >Name</th>
 		<th>Interval (Days)</th>
 		<th>Last</th>
 		<th>Days Since</th>
@@ -81,18 +80,19 @@
 
 <div id="waterLogs">
 
-<h3>Latest Water Tests</h3>
+<h3>Latest Water Logs</h3>
 
 <table>
 	<tr>
 		<th class="testedOn">Tested On</th>
-		<th class="temperature">Temperature (C)</th>
+		<th class="temperature">Temp</th>
 		<th class="ammonia">Ammonia</th>
 		<th class="nitrites">Nitrites</th>
 		<th class="nitrates">Nitrates</th>
 		<th class="pH">pH</th>
 		<th class="KH">KH</th>
 		<th class="amountExchanged">Water Exchanged</th>
+		<th class="additives">Additives</th>
 		<th class="comments">Comments</th>
 	</tr>
     {% for log in latest_water_logs reversed %}
@@ -102,7 +102,6 @@
 					{{ log.testedOn }}
 				</a>
 			</td>
-
 			{# Temperature #}
 			{% if log.temperature != None %}
         		<td>{{ log.temperature }} C</td>
@@ -194,6 +193,17 @@
         	<td class="amountExchanged">
 				{% if log.amountExchanged %}
 					{{ log.amountExchanged }} L
+				{% else %}
+					&nbsp;
+				{% endif %}
+			</td>
+			<td class="additives">
+				{% if log.waterAdditiveID %}
+					{{ log.additiveAmount }} mL 
+					<a class="waterlogs" 
+						href="/waterlogs/additive/{{log.waterAdditiveID.waterAdditiveID}}">
+						{{ log.waterAdditiveID.name }}
+					</a>
 				{% else %}
 					&nbsp;
 				{% endif %}

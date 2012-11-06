@@ -2,7 +2,6 @@
 
 <h3>Water Profiles</h3>
 
-
 {% if profiles %}
 	<table>
 		<tr>
@@ -14,11 +13,11 @@
 		</tr>
     {% for profile in profiles %}
 		<tr>
-			<td>{{ profile.name}}</td>
-			<td>{{ profile.waterType}}</td>
-			<td>{{ profile.temperature}}C</td>
-			<td>{{ profile.pH}}</td>
-			<td>{{ profile.KH}}</td>
+			<td>{{ profile.name }}</td>
+			<td>{{ profile.waterType }}</td>
+			<td>{{ profile.temperature }}C</td>
+			<td>{{ profile.pH }}</td>
+			<td>{{ profile.KH }}</td>
 		</tr>
 	{% empty %}
 		<tr><td colspan="5">No Profiles Found</td></tr>
