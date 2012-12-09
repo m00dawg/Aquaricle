@@ -1,0 +1,32 @@
+{% include "header.html" %}
+
+<h3>Water Profile</h3>
+
+{% if profile %}
+	<table>
+	<tr>
+		<th>Name</th>
+		<td>{{ profile.name }}</td>
+	</tr>
+	<tr>
+		<th>Type</th>
+		<td>{{ profile.waterType }}</td>
+	</tr>
+	<tr>
+		<th>Temperature</th>
+		<td>{{ profile.temperature }}C</td>
+	</tr>
+	<tr>
+		<th>pH</th>
+		<td>{{ profile.pH }}</td>
+	</tr>
+	<tr>
+		<th>KH</th>
+		<td>{{ profile.KH }}</td>
+	</tr>
+	</table>
+{% else %}
+	Profile Not Found
+{% endif %}
+
+{% include "footer.html" %}
