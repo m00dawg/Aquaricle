@@ -21,7 +21,7 @@ class WaterLog(models.Model):
     aquariumID = models.ForeignKey(Aquarium,verbose_name='Aquarium',db_column='aquariumID')
     waterAdditiveID = models.ForeignKey(WaterAdditive,verbose_name="Additive",db_column='waterAdditiveID',null=True,blank=True)
     additiveAmount = models.PositiveSmallIntegerField(verbose_name='Additive Amount (mL)',null=True,blank=True)
-    testedOn = models.DateTimeField(verbose_name='Tested On',editable=True,blank=False)
+    testedOn = models.DateTimeField(verbose_name='Tested On',editable=True,blank=True,null=True)
     temperature = models.DecimalField(verbose_name='Temperature (C)',max_digits=4,decimal_places=2,null=True,blank=True)    
     ammonia = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
     nitrites = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
@@ -44,4 +44,5 @@ class WaterLog(models.Model):
 class WaterLogForm(ModelForm):
     class Meta:
         model = WaterLog
+        fields = ('testedOn', 'waterAdditiveID', 'additiveAmount', 'amountExchanged', 'ammonia', 'nitrites', 'nitrates', 'pH', 'KH', 'comments')
         exclude = ('aquariumID')
