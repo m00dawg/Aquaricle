@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
 
 from aquariums.models import Aquarium
 from equipment.models import Equipment, EquipmentLog, EquipmentLogForm
@@ -11,8 +11,10 @@ def equipment_details(request, equipment_id):
     equipment = get_object_or_404(Equipment, pk=equipment_id)
     logs = EquipmentLog.objects.filter(equipmentID = equipment_id)
     log_entry = EquipmentLog(equipmentID = equipment)        
+    if log_entry.logDate is None:
+        log_entry.logDate = timezone.datetime.now()
     log_form = EquipmentLogForm(instance=log_entry)
-    
+
     # Process Water Log Entries
     if request.method == 'POST':
         log_form = EquipmentLogForm(request.POST, instance=log_entry)

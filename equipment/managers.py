@@ -9,6 +9,7 @@ class EquipmentManager(models.Manager):
             DATEDIFF(NOW(), MAX(logDate)) AS daysSinceMaint 
             FROM Equipment 
             LEFT OUTER JOIN EquipmentLog ON EquipmentLog.equipmentID = Equipment.equipmentID 
-            WHERE Equipment.aquariumID = %s 
+            WHERE Equipment.aquariumID = %s
+            AND Equipment.active = 'Yes' 
             GROUP BY Equipment.equipmentID""",
             [aquarium_id])

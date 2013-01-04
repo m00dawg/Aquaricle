@@ -8,6 +8,7 @@ class Equipment(models.Model):
     equipmentID = models.AutoField(primary_key=True)
     aquariumID = models.ForeignKey(Aquarium,verbose_name='Aquarium',db_column='aquariumID')
     installDate = models.DateTimeField(verbose_name='Install Date',editable=True,blank=False)
+    active = models.CharField(verbose_name='Active',max_length='3',null=False,blank=False) 
     name = models.CharField(max_length=64,unique=True)
     url = models.URLField(max_length=255,blank=True)
     maintenanceInterval = models.PositiveSmallIntegerField(verbose_name='Maintenance Interval (Days)',null=True,blank=True)
