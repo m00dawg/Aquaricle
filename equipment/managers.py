@@ -6,7 +6,7 @@ class EquipmentManager(models.Manager):
         return self.raw(
             """SELECT Equipment.equipmentID, maintenance, action, 
             MAX(logDate) AS lastMaint, 
-            DATEDIFF(UTC_TIMESTAMP(), MAX(logDate)) AS daysSinceMaint 
+            DATEDIFF(UTC_TIMESTAMP()4, MAX(logDate)) AS daysSinceMaint 
             FROM Equipment 
             LEFT OUTER JOIN EquipmentLog ON EquipmentLog.equipmentID = Equipment.equipmentID 
             WHERE Equipment.aquariumID = %s

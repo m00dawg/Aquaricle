@@ -10,9 +10,9 @@ class Equipment(models.Model):
     installDate = models.DateTimeField(verbose_name='Install Date',editable=True,blank=False)
     active = models.CharField(verbose_name='Active',max_length='3',null=False,blank=False) 
     name = models.CharField(max_length=64,unique=True)
-    url = models.URLField(max_length=255,blank=True)
+    url = models.URLField(max_length=255,blank=True,null=True)
     maintenanceInterval = models.PositiveSmallIntegerField(verbose_name='Maintenance Interval (Days)',null=True,blank=True)
-    comments = models.TextField(blank=True)
+    comments = models.TextField(blank=True,null=True)
     def __unicode__(self):
         return unicode(self.name)
     class Meta:
