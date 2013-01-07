@@ -1,5 +1,7 @@
 from django.db import models
 from django.forms import ModelForm
+from django.utils import timezone
+
 from aquariums.models import Aquarium
 from waterlogs.managers import WaterLogStatsManager
 #from aquaridawg.fields import EnumField
@@ -21,14 +23,19 @@ class WaterLog(models.Model):
     aquariumID = models.ForeignKey(Aquarium,verbose_name='Aquarium',db_column='aquariumID')
     waterAdditiveID = models.ForeignKey(WaterAdditive,verbose_name="Additive",db_column='waterAdditiveID',null=True,blank=True)
     additiveAmount = models.PositiveSmallIntegerField(verbose_name='Additive Amount (mL)',null=True,blank=True)
-    testedOn = models.DateTimeField(verbose_name='Tested On',editable=True,blank=True,null=True)
+    testedOn = models.DateTimeField(
+        verbose_name='Tested On',
+        editable=True,
+        blank=False,
+        null=False,
+        default=timezone.datetime.now())
     temperature = models.DecimalField(verbose_name='Temperature (C)',max_digits=4,decimal_places=2,null=True,blank=True)    
     ammonia = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
     nitrites = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
     nitrates = models.DecimalField(max_digits=5,decimal_places=2,null=True,blank=True)
     pH = models.DecimalField(verbose_name='pH',max_digits=3,decimal_places=1,null=True,blank=True)
     KH = models.PositiveSmallIntegerField(null=True,blank=True)
-    amountExchanged = models.PositiveSmallIntegerField(verbose_name='Water Exchanged',null=True,blank=True)
+    amountExchanged = models.PositiveSmallIntegerField(verbose_name='Liters Exchanged',null=True,blank=True)
     comments = models.TextField(blank=True)
     def __unicode__(self):
         return unicode(self.testedOn)

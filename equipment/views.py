@@ -11,8 +11,6 @@ def equipment_details(request, equipment_id):
     equipment = get_object_or_404(Equipment, pk=equipment_id)
     logs = EquipmentLog.objects.filter(equipmentID = equipment_id)
     log_entry = EquipmentLog(equipmentID = equipment)        
-    if log_entry.logDate is None:
-        log_entry.logDate = timezone.datetime.now()
     log_form = EquipmentLogForm(instance=log_entry)
 
     # Process Water Log Entries

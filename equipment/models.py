@@ -1,6 +1,7 @@
 from django.db import models
 from django.forms import ModelForm
 from django.forms.widgets import Select
+from django.utils import timezone
 from aquariums.models import Aquarium
 from equipment.managers import EquipmentManager
 
@@ -24,7 +25,12 @@ class Equipment(models.Model):
 class EquipmentLog(models.Model):
     equipmentLogID = models.AutoField(primary_key=True)
     equipmentID = models.ForeignKey(Equipment,verbose_name='Equipment',db_column='equipmentID')
-    logDate = models.DateTimeField(verbose_name='Date',editable=True,blank=False)
+    logDate = models.DateTimeField(
+        verbose_name='Date',
+        editable=True,
+        blank=False,
+        default=timezone.datetime.now()
+    )
 #    maintenance = EnumField(values=('Yes', 'No'),null=True,blank=False) 
     maintenance = models.CharField(verbose_name='Maintenance',max_length='3',null=False,blank=False) 
 #    maintenance = models.PositiveSmallIntegerField(null=True,blank=True)
