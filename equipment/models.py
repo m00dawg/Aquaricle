@@ -40,7 +40,6 @@ class EquipmentLog(models.Model):
         verbose_name = 'Equipment Log'
         verbose_name_plural = 'Equipment Logs'
         
-        
 # Model Forms
 class EquipmentLogForm(ModelForm):
     class Meta:

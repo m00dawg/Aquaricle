@@ -9,7 +9,7 @@ class WaterProfile(models.Model):
     name = models.CharField(max_length=24,unique=True)
     temperature = models.DecimalField(verbose_name='Temperature (C)',max_digits=4,decimal_places=2,null=True,blank=True)
     pH = models.DecimalField(max_digits=3,decimal_places=1,null=True,blank=True)
-    KH = models.PositiveSmallIntegerField(null=True,blank=True)
+    KH = models.PositiveSmallIntegerField(verbose_name='KH (Degrees)',null=True,blank=True)
     def __unicode__(self):
         return self.name
     class Meta:

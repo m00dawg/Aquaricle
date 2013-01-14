@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from aquariums.models import Aquarium
 from equipment.models import Equipment
 from waterlogs.models import WaterLog
+from life.models import AquariumLife
 
 # Create your views here.
 

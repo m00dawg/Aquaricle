@@ -1,11 +1,9 @@
 from django.db import models
 from django.forms import ModelForm
 from django.utils import timezone
-
 from aquariums.models import Aquarium
 from waterlogs.managers import WaterLogStatsManager
 #from aquaridawg.fields import EnumField
-
 
 class WaterAdditive(models.Model):
     waterAdditiveID = models.AutoField(primary_key=True)
