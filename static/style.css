@@ -287,16 +287,21 @@ td.nitrate160{
 }
 
 .lifeCommonName{
-    width: 34%;
+    width: 25%;
+    text-align: center;
+}
+
+.lifeKind{
+    width: 25%;
     text-align: center;
 }
 
 .lifeNickname{
-    width: 33%;
+    width: 25%;
     text-align: center;
 }
 
 .lifeDateAdded{
-    width: 33%;
+    width: 25%;
     text-align: center;
 }

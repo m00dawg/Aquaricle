@@ -84,12 +84,14 @@
 <table>
 	<tr>
 		<th class="lifeCommonName">Common Name</th>
+		<th class="lifeKind">Kind</th>
 		<th class="lifeNickname">Nickname</th>
 		<th class="lifeDateAdded">Added</th>
 	<tr>
 	{% for item in life %}
 		<tr>
 			<td>{{ item.lifeID.commonName }}</td>
+			<td>{{ item.lifeID.kind }}</td>
 			<td>{{ item.nickname }}</td>
 			<td>{{ item.dateAdded }}</td>
 		</tr>
