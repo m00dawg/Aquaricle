@@ -4,8 +4,17 @@ from aquariums.models import Aquarium
 
 class Life(models.Model):
     lifeID = models.AutoField(primary_key=True)
-    commonName = models.CharField(max_length=64,blank=True,null=True)
-    kingdom = models.CharField(max_length=64,blank=True,null=True)
+    commonName = models.CharField(max_length=64, blank=False, null=False)
+    kind = models.CharField(max_length=64,
+        blank=False,
+        null=False,
+        choices=[('Fish', 'Fish'), ('Crustacean', 'Crustacean'),('Plant', 'Plant'), ('Coral', 'Coral')],
+        )
+    kingdom = models.CharField(max_length=64,
+        blank=True,
+        null=True,
+        choices=[('Animalia', 'Animalia'), ('Plantae', 'Plantae'), ('Fungi', 'Fungi')],
+        )
 #    phRangeLow
 #    phRangeHigh
 #    tempRangeLow
@@ -14,6 +23,8 @@ class Life(models.Model):
         return self.commonName
     class Meta:
         db_table = 'Life'
+        verbose_name = 'Life'
+        verbose_name_plural = 'Life'
 
 class AquariumLife(models.Model):
     aquariumLifeID = models.AutoField(primary_key=True)
@@ -34,3 +45,5 @@ class AquariumLife(models.Model):
     class Meta:
         db_table = 'AquariumLife'
         unique_together = ('aquariumID', 'nickname')
+        verbose_name = 'Aquarium Life'
+        verbose_name_plural = 'Aquarium Life'

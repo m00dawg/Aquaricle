@@ -279,3 +279,24 @@ td.nitrate160{
     background-color: #9A1500;
     color: #FFFFFF;
 }
+
+/* Life */
+
+#aquariumLife{
+    text-align: center;
+}
+
+.lifeCommonName{
+    width: 34%;
+    text-align: center;
+}
+
+.lifeNickname{
+    width: 33%;
+    text-align: center;
+}
+
+.lifeDateAdded{
+    width: 33%;
+    text-align: center;
+}

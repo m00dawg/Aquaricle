@@ -35,4 +35,27 @@ CREATE TABLE `WaterLog` (
 ALTER TABLE `WaterLog` ADD CONSTRAINT `aquariumID_refs_aquariumID_7024e925` FOREIGN KEY (`aquariumID`) REFERENCES `Aquariums` (`aquariumID`);
 CREATE INDEX `Aquariums_4e67733a` ON `Aquariums` (`waterProfileID`);
 CREATE INDEX `WaterLog_3926ad3f` ON `WaterLog` (`aquariumID`);
+
+CREATE TABLE `Life` (
+  `lifeID` int(11) NOT NULL AUTO_INCREMENT,
+  `commonName` varchar(64) NOT NULL,
+   kind enum('Fish', 'Crustacean', 'Plant', 'Coral'),
+  `kingdom` enum('Animalia', 'Plantae', 'Fungi') NOT NULL,
+  PRIMARY KEY (`lifeID`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `AquariumLife` (
+  `aquariumLifeID` int(11) NOT NULL AUTO_INCREMENT,
+  `lifeID` int(11) NOT NULL,
+  `aquariumID` int(11) NOT NULL,
+  `dateAdded` datetime NOT NULL,
+  `nickname` varchar(64) DEFAULT NULL,
+  `source` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`aquariumLifeID`),
+  KEY `al_lifeID_fk` (`lifeID`),
+  KEY `al_aquariumID_fk` (`aquariumID`),
+  CONSTRAINT `al_aquariumID_fk` FOREIGN KEY (`aquariumID`) REFERENCES `Aquariums` (`aquariumID`),
+  CONSTRAINT `al_lifeID_fk` FOREIGN KEY (`lifeID`) REFERENCES `Life` (`lifeID`)
+) ENGINE=InnoDB;
+
 COMMIT;

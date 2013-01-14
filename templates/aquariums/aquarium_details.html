@@ -78,6 +78,28 @@
 
 </div>
 
+<div id="aquariumLife">
+<h3>Life</h3>
+
+<table>
+	<tr>
+		<th class="lifeCommonName">Common Name</th>
+		<th class="lifeNickname">Nickname</th>
+		<th class="lifeDateAdded">Added</th>
+	<tr>
+	{% for item in life %}
+		<tr>
+			<td>{{ item.lifeID.commonName }}</td>
+			<td>{{ item.nickname }}</td>
+			<td>{{ item.dateAdded }}</td>
+		</tr>
+	{% empty %}
+    	<tr><td colspan="3">No Life Added</td></tr>
+	{% endfor %}
+</table>
+</div>
+
+
 <div id="waterLogs">
 
 <h3>Latest Water Logs</h3>
