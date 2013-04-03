@@ -38,6 +38,12 @@ class AquariumLife(models.Model):
         editable=True,
         blank=False,
         default=timezone.datetime.now())
+    dateRemoved = models.DateTimeField(
+        verbose_name='Date Removed',
+        editable=True,
+        blank=True,
+        null=True,
+        default=None)
     nickname = models.CharField(max_length=64,blank=True,null=True)
     source = models.CharField(max_length=64,blank=True,null=True)
     def __unicode__(self):
