@@ -8,7 +8,7 @@ class Life(models.Model):
     kind = models.CharField(max_length=64,
         blank=False,
         null=False,
-        choices=[('Fish', 'Fish'), ('Crustacean', 'Crustacean'),('Plant', 'Plant'), ('Coral', 'Coral')],
+        choices=[('Fish', 'Fish'), ('Crustacean', 'Crustacean'),('Plant', 'Plant'), ('Coral', 'Coral'), ('Gastropod', 'Gastropod')],
         )
     kingdom = models.CharField(max_length=64,
         blank=True,
