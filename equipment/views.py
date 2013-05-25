@@ -6,7 +6,15 @@ from django.http import HttpResponseRedirect, HttpResponse
 from aquariums.models import Aquarium
 from equipment.models import Equipment, EquipmentLog, EquipmentLogForm
 
-# Create your views here.
+def equipment_list(request, aquarium_id):
+    aquarium = get_object_or_404(Aquarium, pk=aquarium_id)
+    equipment = Equipment.objects.filter(aquariumID = aquarium_id)
+    return render(request,
+        'equipment_list.html',
+        {'equipment' : equipment,
+         'aquarium' : aquarium}
+    )
+
 def equipment_details(request, equipment_id):
     equipment = get_object_or_404(Equipment, pk=equipment_id)
     logs = EquipmentLog.objects.filter(equipmentID = equipment_id)

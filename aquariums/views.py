@@ -27,6 +27,7 @@ def aquarium_details(request, aquarium_id):
         latest_water_logs = \
             WaterLog.objects.filter(aquariumID = aquarium_id) \
                 .order_by('-testedOn')[:15]
+        
         return render(request,
             'aquarium_details.html',
             {'aquarium': aquarium,

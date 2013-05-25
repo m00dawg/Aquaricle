@@ -15,10 +15,6 @@ class Life(models.Model):
         null=True,
         choices=[('Animalia', 'Animalia'), ('Plantae', 'Plantae'), ('Fungi', 'Fungi')],
         )
-#    phRangeLow
-#    phRangeHigh
-#    tempRangeLow
-#    tempRangeHigh
     def __unicode__(self):
         return self.commonName
     class Meta:
@@ -53,3 +49,17 @@ class AquariumLife(models.Model):
         unique_together = ('aquariumID', 'nickname')
         verbose_name = 'Aquarium Life'
         verbose_name_plural = 'Aquarium Life'
+
+class LifeLog(models.Model):
+        lifeLogID = models.AutoField(primary_key=True)
+        aquariumLifeID = models.ForeignKey(AquariumLife,db_column='aquariumLifeID')
+        logDate = models.DateTimeField(
+            verbose_name='Date Added',
+            editable=True,
+            blank=False,
+            default=timezone.datetime.now())
+        logEntry = models.CharField(max_length=128,blank=False,null=False)
+        class Meta:
+            db_table = 'LifeLog'
+            verbose_name = 'Life Log'
+            verbose_name_plural = 'Life Log'

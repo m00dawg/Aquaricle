@@ -58,4 +58,15 @@ CREATE TABLE `AquariumLife` (
   CONSTRAINT `al_lifeID_fk` FOREIGN KEY (`lifeID`) REFERENCES `Life` (`lifeID`)
 ) ENGINE=InnoDB;
 
+CREATE TABLE `LifeLog` (
+    `lifeLogID` int NOT NULL AUTO_INCREMENT,
+    `aquariumLifeID` int NOT NULL,
+    `logDate` datetime NOT NULL,
+    `logEntry` varchar(12) NOT NULL,
+    PRIMARY KEY (`lifeLogID`),
+    KEY `ll_aquariumLifeID_fk` (aquariumLifeID),
+    KEY `logDate_idx` (logDate),
+    CONSTRAINT `ll_aquariumLifeID_fk` FOREIGN KEY (`aquariumLifeID`) REFERENCES `AquariumLife` (`aquariumLifeID`)
+) ENGINE=InnoDB;
+
 COMMIT;
