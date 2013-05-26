@@ -62,7 +62,7 @@ CREATE TABLE `LifeLog` (
     `lifeLogID` int NOT NULL AUTO_INCREMENT,
     `aquariumLifeID` int NOT NULL,
     `logDate` datetime NOT NULL,
-    `logEntry` varchar(12) NOT NULL,
+    `logEntry` varchar(128) NOT NULL,
     PRIMARY KEY (`lifeLogID`),
     KEY `ll_aquariumLifeID_fk` (aquariumLifeID),
     KEY `logDate_idx` (logDate),
