@@ -2,8 +2,8 @@ from django.db import models
 from django.utils import timezone
 from aquariums.models import Aquarium
 
-class Life(models.Model):
-    lifeID = models.AutoField(primary_key=True)
+class LifeTypes(models.Model):
+    lifeTypeID = models.AutoField(primary_key=True)
     commonName = models.CharField(max_length=64, blank=False, null=False)
     kind = models.CharField(max_length=64,
         blank=False,
@@ -18,13 +18,13 @@ class Life(models.Model):
     def __unicode__(self):
         return self.commonName
     class Meta:
-        db_table = 'Life'
-        verbose_name = 'Life'
-        verbose_name_plural = 'Life'
+        db_table = 'LifeTypes'
+        verbose_name = 'Life Type'
+        verbose_name_plural = 'Life Types'
 
 class AquariumLife(models.Model):
     aquariumLifeID = models.AutoField(primary_key=True)
-    lifeID = models.ForeignKey(Life,verbose_name='Species',db_column='lifeID')
+    lifeTypeID = models.ForeignKey(LifeTypes,verbose_name='Species',db_column='lifeTypeID')
     aquariumID = models.ForeignKey(
         Aquarium,
         verbose_name='Aquarium',
@@ -51,15 +51,21 @@ class AquariumLife(models.Model):
         verbose_name_plural = 'Aquarium Life'
 
 class LifeLog(models.Model):
-        lifeLogID = models.AutoField(primary_key=True)
-        aquariumLifeID = models.ForeignKey(AquariumLife,db_column='aquariumLifeID')
-        logDate = models.DateTimeField(
-            verbose_name='Date Added',
-            editable=True,
-            blank=False,
-            default=timezone.datetime.now())
-        logEntry = models.CharField(max_length=128,blank=False,null=False)
-        class Meta:
-            db_table = 'LifeLog'
-            verbose_name = 'Life Log'
-            verbose_name_plural = 'Life Log'
+    lifeLogID = models.AutoField(primary_key=True)
+    aquariumLifeID = models.ForeignKey(AquariumLife,db_column='aquariumLifeID')
+    logDate = models.DateTimeField(
+        verbose_name='Date Added',
+        editable=True,
+        blank=False,
+        default=timezone.datetime.now())
+    logEntry = models.CharField(
+        verbose_name='Log Entry',
+        max_length=128,
+        blank=False,
+        null=False)
+    def __unicode__(self):
+        return u'%s - %s' % (self.aquariumLifeID, self.logDate)
+    class Meta:
+        db_table = 'LifeLog'
+        verbose_name = 'Life Log'
+        verbose_name_plural = 'Life Log'
