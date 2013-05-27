@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from aquariums.models import Aquarium
 from equipment.models import Equipment
 from waterlogs.models import WaterLog
-from life.models import AquariumLife
+from life.models import Life
 
 # Create your views here.
 
@@ -23,7 +23,7 @@ def aquarium_details(request, aquarium_id):
         equipment = Equipment.objects.get_maintenance(aquarium_id)
 #https://docs.djangoproject.com/en/1.4/topics/db/queries/
 #        lifeSummary = AquariumLife.objects.values('kind').annotate(dcount=Count(''))
-        life = AquariumLife.objects.filter(aquariumID = aquarium_id,dateRemoved=None)
+        life = Life.objects.filter(aquariumID = aquarium_id,dateRemoved=None)
         latest_water_logs = \
             WaterLog.objects.filter(aquariumID = aquarium_id) \
                 .order_by('-testedOn')[:15]

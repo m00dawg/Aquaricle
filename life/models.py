@@ -22,8 +22,8 @@ class LifeTypes(models.Model):
         verbose_name = 'Life Type'
         verbose_name_plural = 'Life Types'
 
-class AquariumLife(models.Model):
-    aquariumLifeID = models.AutoField(primary_key=True)
+class Life(models.Model):
+    lifeID = models.AutoField(primary_key=True)
     lifeTypeID = models.ForeignKey(LifeTypes,verbose_name='Species',db_column='lifeTypeID')
     aquariumID = models.ForeignKey(
         Aquarium,
@@ -45,14 +45,14 @@ class AquariumLife(models.Model):
     def __unicode__(self):
         return self.nickname
     class Meta:
-        db_table = 'AquariumLife'
+        db_table = 'Life'
         unique_together = ('aquariumID', 'nickname')
         verbose_name = 'Aquarium Life'
         verbose_name_plural = 'Aquarium Life'
 
 class LifeLog(models.Model):
     lifeLogID = models.AutoField(primary_key=True)
-    aquariumLifeID = models.ForeignKey(AquariumLife,db_column='aquariumLifeID')
+    lifeID = models.ForeignKey(Life,db_column='lifeID')
     logDate = models.DateTimeField(
         verbose_name='Date Added',
         editable=True,
@@ -64,7 +64,7 @@ class LifeLog(models.Model):
         blank=False,
         null=False)
     def __unicode__(self):
-        return u'%s - %s' % (self.aquariumLifeID, self.logDate)
+        return u'%s - %s' % (self.lifeID, self.logDate)
     class Meta:
         db_table = 'LifeLog'
         verbose_name = 'Life Log'
