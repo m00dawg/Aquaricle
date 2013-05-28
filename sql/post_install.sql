@@ -39,7 +39,7 @@ CREATE INDEX `WaterLog_3926ad3f` ON `WaterLog` (`aquariumID`);
 CREATE TABLE `LifeTypes` (
   `lifeTypeID` int(11) NOT NULL AUTO_INCREMENT,
   `commonName` varchar(64) NOT NULL,
-   kind enum('Fish', 'Crustacean', 'Plant', 'Coral'),
+   kind enum('Fish', 'Crustacean', 'Plant', 'Coral', 'Gastropod'),
   `kingdom` enum('Animalia', 'Plantae', 'Fungi') NOT NULL,
   PRIMARY KEY (`lifeTypeID`)
 ) ENGINE=InnoDB;
@@ -49,6 +49,7 @@ CREATE TABLE `Life` (
   `lifeTypeID` int(11) NOT NULL,
   `aquariumID` int(11) NOT NULL,
   `dateAdded` datetime NOT NULL,
+  `dateRemoved` datetime DEFAULT NULL,
   `nickname` varchar(64) DEFAULT NULL,
   `source` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`lifeID`),
