@@ -83,16 +83,16 @@
 
 <table>
 	<tr>
+		<th class="lifeNickname">Nickname</th>
 		<th class="lifeCommonName">Common Name</th>
 		<th class="lifeKind">Kind</th>
-		<th class="lifeNickname">Nickname</th>
 		<th class="lifeDateAdded">Added</th>
 	<tr>
 	{% for item in life %}
-		<tr>
+		<tr class="{% cycle 'odd' 'even' %}">
+			<td><a href="/life/{{ item.lifeID }}">{{ item.nickname }}</td>
 			<td>{{ item.lifeTypeID.commonName }}</td>
 			<td>{{ item.lifeTypeID.kind }}</td>
-			<td>{{ item.nickname }}</td>
 			<td>{{ item.dateAdded }}</td>
 		</tr>
 	{% empty %}
@@ -240,7 +240,5 @@
 </table>
 <br />
 <a href="/waterlogs/add/{{ aquarium.aquariumID }}">Add Sample</a>
-
-
 
 {% include "footer.html" %}

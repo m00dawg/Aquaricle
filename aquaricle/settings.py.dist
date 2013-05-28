@@ -109,7 +109,8 @@ TEMPLATE_DIRS = (
     'aquaricle/templates/aquariums',
     'aquaricle/templates/waterprofiles',
     'aquaricle/templates/waterlogs',
-    'aquaricle/templates/equipment'
+    'aquaricle/templates/equipment',
+    'aquaricle/templates/life'
 )
 
 INSTALLED_APPS = (

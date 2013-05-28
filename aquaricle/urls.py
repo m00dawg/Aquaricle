@@ -10,5 +10,6 @@ urlpatterns = patterns('',
     url(r'^waterlogs/', include('waterlogs.urls')),
     url(r'^aquariums/', include('aquariums.urls')),
     url(r'^equipment/', include('equipment.urls')),
+    url(r'^life/', include('life.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )

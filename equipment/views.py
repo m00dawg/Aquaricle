@@ -26,7 +26,9 @@ def equipment_details(request, equipment_id):
         log_form = EquipmentLogForm(request.POST, instance=log_entry)
         if log_form.is_valid():
             new_log = log_form.save()
-            return HttpResponseRedirect(reverse('equipment.views.equipment_details', args=(equipment_id,)))
+            return HttpResponseRedirect(
+                reverse('equipment.views.equipment_details', 
+                args=(equipment_id,)))
         
     return render(request,
         'equipment_details.html',

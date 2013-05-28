@@ -1,0 +1,40 @@
+{% include "header.html" %}
+
+<h2>{{ life.nickname }}</h2>
+
+<table>
+	<tr>
+		<th>Aquarium</th>
+		<td>{{ life.aquariumID.name }}</td>
+	</tr>
+	<tr>	
+		<th>Common Name</th>
+		<td>{{ life.lifeTypeID.commonName }}</td>
+	</tr>
+	<tr>
+		<th>Source</th>
+		<td>{{ life.source }}</td>
+	</tr>
+	<tr>
+		<th>Date Introduced</th>
+		<td>{{ life.dateAdded }}</td>
+	</tr>
+</table>
+
+<h3>Log</h3>
+<table>
+	<tr>
+		<th>Date</th>
+		<th>Entry</th>
+	</tr>
+{% for entry in lifeLog %}
+	<tr>
+		<td>{{ log.logDate }}</td>
+		<td>{{ log.logEntry }}</td>
+	</tr>
+{% empty %}
+	<tr><td colspan="2">No Equipment Found</td></tr>
+{% endfor %}
+</table>
+
+{% include "footer.html" %}
