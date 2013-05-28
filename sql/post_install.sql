@@ -56,7 +56,7 @@ CREATE TABLE `Life` (
   KEY `al_lifeTypeID_fk` (`lifeTypeID`),
   KEY `al_aquariumID_fk` (`aquariumID`),
   CONSTRAINT `al_aquariumID_fk` FOREIGN KEY (`aquariumID`) REFERENCES `Aquariums` (`aquariumID`),
-  CONSTRAINT `al_lifeTypeID_fk` FOREIGN KEY (`lifeTypeID`) REFERENCES `Life` (`lifeID`)
+  CONSTRAINT `al_lifeTypeID_fk` FOREIGN KEY (`lifeTypeID`) REFERENCES `LifeTypes` (`lifeTypeID`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `LifeLog` (
