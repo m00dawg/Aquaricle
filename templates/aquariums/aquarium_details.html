@@ -3,16 +3,16 @@
 <h2>{{ aquarium }}</h2>
 
 <ul>
-	<li>Location: {{ aquarium.location }}</li>
-	<li>Capacity: {{ aquarium.capacity }} {{ volumeUnit }}
+	<li><strong>Location:</strong> {{ aquarium.location }}</li>
+	<li><strong>Capacity:</strong> {{ aquarium.capacity }} {{ volumeUnit }}
 		({{ aquarium.length}} {{ distanceUnit }}
 		x 
 		{{ aquarium.width }} {{ distanceUnit }}
 		x 
 		{{ aquarium.height }} {{ distanceUnit }})</li>
-	<li>Active Since: {{ aquarium.activeSince }}</li>
+	<li><strong>Active Since:</strong> {{ aquarium.activeSince }}</li>
 	<li>
-		Water Profile: 
+		<strong>Water Profile:</strong>
 		<a href="/waterprofiles/{{ aquarium.waterProfileID.waterProfileID }}">
 			{{ aquarium.waterProfileID }}
 		</a>
@@ -104,6 +104,22 @@
     	<tr><td colspan="3">No Living Creatures</td></tr>
 	{% endfor %}
 </table>
+<br />
+<table>
+	<tr>
+		<th>Kind</th>
+		<th>Count</th>
+	</tr>
+	{% for kind in life_kind_summary %}
+		<tr>
+			<td>{{ kind.kind }}</td>
+			<td>{{ kind.kindCount }}</td>
+		</tr>
+	{% empty %}
+		<tr><td colspan="2">No Living Creatures</td></tr>
+	{% endfor %}
+</table>
+
 </div>
 
 

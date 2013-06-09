@@ -2,6 +2,7 @@ from django.db import models
 from django.forms import ModelForm
 from django.utils import timezone
 from aquariums.models import Aquarium
+from life.managers import LifeTypeManager
 
 class LifeTypes(models.Model):
     lifeTypeID = models.AutoField(primary_key=True)
@@ -22,6 +23,7 @@ class LifeTypes(models.Model):
         db_table = 'LifeTypes'
         verbose_name = 'Life Type'
         verbose_name_plural = 'Life Types'
+    objects = LifeTypeManager();
 
 class Life(models.Model):
     lifeID = models.AutoField(primary_key=True)
