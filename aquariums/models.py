@@ -8,11 +8,15 @@ class Aquarium(models.Model):
         blank=False,
         null=False,
         choices=[('Metric', 'Metric'), ('Imperial', 'Imperial')]
-        )
-    capacity = models.PositiveSmallIntegerField(verbose_name='Capacity (Liter)',null=False,blank=False)
-    length = models.PositiveSmallIntegerField(verbose_name='Length (cm)',null=False,blank=False)
-    width = models.PositiveSmallIntegerField(verbose_name='Width (cm)',null=False,blank=False)
-    height = models.PositiveSmallIntegerField(verbose_name='Height (cm)',null=False,blank=False)
+        )    
+    capacity = models.DecimalField(verbose_name='Capacity', 
+        max_digits=5, decimal_places=2, null=False,blank=False)
+    length = models.DecimalField(verbose_name='Length', 
+        max_digits=5, decimal_places=2, null=False,blank=False)
+    width = models.DecimalField(verbose_name='Width', 
+        max_digits=5, decimal_places=2, null=False,blank=False)
+    height = models.DecimalField(verbose_name='Height', 
+        max_digits=5, decimal_places=2, null=False,blank=False)
     name = models.CharField(max_length=24,unique=True)
     location = models.CharField(max_length=24,blank=True)
     def __unicode__(self):

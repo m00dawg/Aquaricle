@@ -15,10 +15,10 @@ CREATE TABLE `Aquariums` (
     `waterProfileID` integer NOT NULL,
     `activeSince` datetime,
     `measurementUnits` ENUM('Metric', 'Imperial') NOT NULL,
-    `capacity` smallint UNSIGNED NOT NULL,
-    `length` smallint UNSIGNED NOT NULL,
-    `width` smallint UNSIGNED NOT NULL,
-    `height` smallint UNSIGNED NOT NULL,
+    `capacity` decimal(5,2) NOT NULL,
+    `length` decimal(5,2) NOT NULL,
+    `width` decimal(5,2) NOT NULL,
+    `height` decimal(5,2) NOT NULL,
     `name` varchar(24) NOT NULL UNIQUE,
     `location` varchar(24) NOT NULL
 );
