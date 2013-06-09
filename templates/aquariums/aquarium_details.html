@@ -4,7 +4,12 @@
 
 <ul>
 	<li>Location: {{ aquarium.location }}</li>
-	<li>Size: {{ aquarium.size }}L</li>
+	<li>Capacity: {{ aquarium.capacity }} {{ volumeUnit }}
+		({{ aquarium.length}} {{ distanceUnit }}
+		x 
+		{{ aquarium.width }} {{ distanceUnit }}
+		x 
+		{{ aquarium.height }} {{ distanceUnit }})</li>
 	<li>Active Since: {{ aquarium.activeSince }}</li>
 	<li>
 		Water Profile: 

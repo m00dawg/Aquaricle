@@ -14,7 +14,11 @@ CREATE TABLE `Aquariums` (
     `aquariumID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
     `waterProfileID` integer NOT NULL,
     `activeSince` datetime,
-    `tankSize` smallint UNSIGNED NOT NULL,
+    `measurementUnits` ENUM('Metric', 'Imperial') NOT NULL,
+    `capacity` smallint UNSIGNED NOT NULL,
+    `length` smallint UNSIGNED NOT NULL,
+    `width` smallint UNSIGNED NOT NULL,
+    `height` smallint UNSIGNED NOT NULL,
     `name` varchar(24) NOT NULL UNIQUE,
     `location` varchar(24) NOT NULL
 );
