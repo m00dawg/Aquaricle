@@ -19,13 +19,13 @@ def equipment_details(request, equipment_id):
     equipment = get_object_or_404(Equipment, pk=equipment_id)
     logs = EquipmentLog.objects.filter(equipmentID = equipment_id)
     log_entry = EquipmentLog(equipmentID = equipment)        
-    log_form = EquipmentLogForm(instance=log_entry)
+    equipment_log_form = EquipmentLogForm(instance=log_entry)
 
     # Process Equipment Log Entries
     if request.method == 'POST':
-        log_form = EquipmentLogForm(request.POST, instance=log_entry)
+        equipment_log_form = EquipmentLogForm(request.POST, instance=log_entry)
         if log_form.is_valid():
-            new_log = log_form.save()
+            new_log = equipment_log_form.save()
             return HttpResponseRedirect(
                 reverse('equipment.views.equipment_details', 
                 args=(equipment_id,)))
@@ -34,5 +34,5 @@ def equipment_details(request, equipment_id):
         'equipment_details.html',
         {'equipment' : equipment,
          'logs' : logs,
-         'log_form' : log_form}
+         'equipment_log_form' : equipment_log_form}
     )
