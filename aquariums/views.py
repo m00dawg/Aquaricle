@@ -15,7 +15,7 @@ def aquarium_details(request, aquarium_id):
     aquarium = get_object_or_404(Aquarium, pk=aquarium_id)
     equipment = Equipment.objects.get_maintenance(aquarium_id)
     life = Life.objects.filter(aquariumID = aquarium_id,dateRemoved=None) \
-            .order_by('lifeTypeID', 'dateAdded')
+            .order_by('lifeTypeID', 'dateAdded', 'nickname')
     life_kind_summary = LifeTypes.objects.get_kind_summary(aquarium_id)
     latest_water_logs = \
         WaterLog.objects.filter(aquariumID = aquarium_id) \
