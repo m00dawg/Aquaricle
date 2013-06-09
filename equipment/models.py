@@ -31,9 +31,7 @@ class EquipmentLog(models.Model):
         blank=False,
         default=timezone.datetime.now()
     )
-#    maintenance = EnumField(values=('Yes', 'No'),null=True,blank=False) 
     maintenance = models.CharField(verbose_name='Maintenance',max_length='3',null=False,blank=False) 
-#    maintenance = models.PositiveSmallIntegerField(null=True,blank=True)
     action = models.CharField(max_length=64,unique=False)
     class Meta:
         db_table = 'EquipmentLog'

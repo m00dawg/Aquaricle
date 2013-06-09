@@ -111,6 +111,11 @@ a.equipment:visited { color: #000000; }
 a.equipment:active { color: #000000; }
 a.equipment:hover { color: #0000FF; }
 
+a.life:link { color: #000000; }
+a.life:visited { color: #000000; }
+a.life:active { color: #000000; }
+a.life:hover { color: #0000FF; }
+
 
 .formBox{
     background-color: #000055;
@@ -304,4 +309,12 @@ td.nitrate160{
 .lifeDateAdded{
     width: 25%;
     text-align: center;
+}
+
+th.lifeLogDate{
+    width: 20%;
+}
+
+th.lifeLogEntry{
+    width: 80%;
 }

@@ -44,7 +44,6 @@ class WaterLog(models.Model):
     objects = models.Manager()
     stats = WaterLogStatsManager();
 
-
 # Model Forms
 class WaterLogForm(ModelForm):
     class Meta:

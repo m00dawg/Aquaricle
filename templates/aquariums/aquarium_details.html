@@ -90,7 +90,7 @@
 	<tr>
 	{% for item in life %}
 		<tr class="{% cycle 'odd' 'even' %}">
-			<td><a href="/life/{{ item.lifeID }}">{{ item.nickname }}</td>
+			<td><a class="life" href="/life/{{ item.lifeID }}">{{ item.nickname }}</td>
 			<td>{{ item.lifeTypeID.commonName }}</td>
 			<td>{{ item.lifeTypeID.kind }}</td>
 			<td>{{ item.dateAdded }}</td>

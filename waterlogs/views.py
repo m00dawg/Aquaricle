@@ -4,12 +4,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
-
 from aquariums.models import Aquarium
 from waterlogs.models import WaterLog, WaterLogForm
-
-# Add success_url somehow?
-# def waterlog_form (request, form=_class='someForm', template_name='template.html', success_url='/foo')
 
 def waterlog_entries(request, aquarium_id, page=1, limit=20):
     """ 

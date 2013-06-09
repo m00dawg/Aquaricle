@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelForm
 from django.utils import timezone
 from aquariums.models import Aquarium
 
@@ -69,3 +70,18 @@ class LifeLog(models.Model):
         db_table = 'LifeLog'
         verbose_name = 'Life Log'
         verbose_name_plural = 'Life Log'
+        
+# Model Forms
+class LifeForm(ModelForm):
+    class Meta:
+        model = Life
+        fields = ('lifeTypeID', 'dateAdded', 'nickname', 'source')
+        exclude = ('aquariumID', 'dateRemoved')
+
+class LifeLogForm(ModelForm):
+    class Meta:
+        model = LifeLog
+        fields = ('logDate', 'logEntry')
+        exclude = ('lifeLogID')
+
+

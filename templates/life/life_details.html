@@ -24,17 +24,30 @@
 <h3>Log</h3>
 <table>
 	<tr>
-		<th>Date</th>
-		<th>Entry</th>
+		<th class="lifeLogDate">Date</th>
+		<th class="lifeLogEntry">Entry</th>
 	</tr>
-{% for entry in lifeLog %}
+{% for log in life_logs %}
 	<tr>
 		<td>{{ log.logDate }}</td>
 		<td>{{ log.logEntry }}</td>
 	</tr>
 {% empty %}
-	<tr><td colspan="2">No Equipment Found</td></tr>
+	<tr><td colspan="2">No Log Found</td></tr>
 {% endfor %}
 </table>
+
+<h2>Add Log Entry</h2>
+
+<div class="formBox">
+<form action="/life/{{ life.lifeID }}/" method="post">
+	{% csrf_token %}
+	{{ life_log_form.as_p }}
+	<input type="submit" value="Add" />
+</form>
+</div>
+
+<a href="/aquariums/{{ life.aquariumID.aquariumID}}">Go Back</a>
+</div>
 
 {% include "footer.html" %}

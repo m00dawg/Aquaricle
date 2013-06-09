@@ -21,7 +21,7 @@ def equipment_details(request, equipment_id):
     log_entry = EquipmentLog(equipmentID = equipment)        
     log_form = EquipmentLogForm(instance=log_entry)
 
-    # Process Water Log Entries
+    # Process Equipment Log Entries
     if request.method == 'POST':
         log_form = EquipmentLogForm(request.POST, instance=log_entry)
         if log_form.is_valid():

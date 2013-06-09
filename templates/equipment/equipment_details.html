@@ -51,18 +51,17 @@
 {% endfor %}
 </table>
 
-
 <h2>Add Maintenance Item</h2>
 
 <div class="formBox">
 <form action="/equipment/{{ equipment.equipmentID }}/" method="post">
 	{% csrf_token %}
-	{{ log_form.as_p }}
+	{{ equipment_log_form.as_p }}
 	<input type="submit" value="Add" />
 </form>
 </div>
 
-<a href="/aquariums/{{ equipment.aquariumID.aquariumID}}">Go Back</a>
+<a href="/aqua	riums/{{ equipment.aquariumID.aquariumID}}">Go Back</a>
 </div>
 
 {% include "footer.html" %}
