@@ -24,7 +24,7 @@ def equipment_details(request, equipment_id):
     # Process Equipment Log Entries
     if request.method == 'POST':
         equipment_log_form = EquipmentLogForm(request.POST, instance=log_entry)
-        if log_form.is_valid():
+        if equipment_log_form.is_valid():
             new_log = equipment_log_form.save()
             return HttpResponseRedirect(
                 reverse('equipment.views.equipment_details', 
