@@ -45,6 +45,7 @@ class Life(models.Model):
         default=None)
     nickname = models.CharField(max_length=64,blank=True,null=True)
     source = models.CharField(max_length=64,blank=True,null=True)
+    notes = models.CharField(max_length=256,blank=True,null=True)
     def __unicode__(self):
         return self.nickname
     class Meta:

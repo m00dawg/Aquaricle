@@ -56,6 +56,7 @@ CREATE TABLE `Life` (
   `dateRemoved` datetime DEFAULT NULL,
   `nickname` varchar(64) DEFAULT NULL,
   `source` varchar(64) DEFAULT NULL,
+  `notes` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`lifeID`),
   KEY `al_lifeTypeID_fk` (`lifeTypeID`),
   KEY `al_aquariumID_fk` (`aquariumID`),
