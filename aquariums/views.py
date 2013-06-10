@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from aquariums.models import Aquarium
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core.urlresolvers import reverse
+from aquariums.models import Aquarium, AquariumForm
 from equipment.models import Equipment
 from waterlogs.models import WaterLog
 from life.models import Life, LifeTypes
@@ -9,6 +11,20 @@ def aquariums(request):
     return render(request,
         'aquariums.html',
         {'aquariums': aquariums,}
+    )
+
+def add_aquarium(request):
+    aquarium = Aquarium()
+    aquarium_form = AquariumForm(instance=aquarium)
+    # Process New Aquarium
+    if request.method == 'POST':
+        aquarium_form = AquariumForm(request.POST, instance=aquarium)
+        if aquarium_form.is_valid():
+            aquarium_form.save()
+            return HttpResponseRedirect(reverse('aquariums.views.aquariums'))
+    return render(request,
+        'add_aquarium.html',
+        {'aquarium_form' : aquarium_form}
     )
 
 def aquarium_details(request, aquarium_id):

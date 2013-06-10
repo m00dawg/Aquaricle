@@ -1,0 +1,13 @@
+{% include "header.html" %}
+
+<h3>Add an Aquarium</h3>
+
+<div class="formBox">
+<form action="/aquariums/add" method="post">
+	{% csrf_token %}
+	{{ aquarium_form.as_p }}
+	<input type="submit" value="Add" />
+</form>
+</div>
+
+{% include "footer.html" %}
