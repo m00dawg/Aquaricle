@@ -11,6 +11,7 @@ class EquipmentManager(models.Manager):
             LEFT OUTER JOIN EquipmentLog ON EquipmentLog.equipmentID = Equipment.equipmentID 
             WHERE Equipment.aquariumID = %s
             AND Equipment.active = 'Yes'
-            AND EquipmentLog.maintenance = 'Yes' 
-            GROUP BY Equipment.equipmentID""",
+            AND EquipmentLog.maintenance = 'Yes'
+            GROUP BY Equipment.equipmentID
+            ORDER BY daysSinceMaint DESC""",        
             [aquarium_id])

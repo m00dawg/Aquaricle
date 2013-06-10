@@ -22,7 +22,7 @@ def aquarium_details(request, aquarium_id):
             .order_by('-testedOn')[:15]  
     if aquarium.measurementUnits == 'Metric':
         distanceUnit = 'cm'
-        volumeUnit = 'liter'
+        volumeUnit = 'L'
     else:
         distanceUnit = 'in'
         volumeUnit = 'gal'
