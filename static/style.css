@@ -311,6 +311,11 @@ td.nitrate160{
     text-align: center;
 }
 
+.lifeDateRemoved{
+    width: 25%;
+    text-align: center;
+}
+
 th.lifeLogDate{
     width: 20%;
 }

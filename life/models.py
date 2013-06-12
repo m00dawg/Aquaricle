@@ -78,8 +78,7 @@ class LifeLog(models.Model):
 class LifeForm(ModelForm):
     class Meta:
         model = Life
-        fields = ('lifeTypeID', 'dateAdded', 'nickname', 'source')
-        exclude = ('aquariumID', 'dateRemoved')
+        exclude = ('aquariumID')
 
 class LifeLogForm(ModelForm):
     class Meta:

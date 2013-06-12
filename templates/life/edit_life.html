@@ -1,0 +1,15 @@
+{% include "header.html" %}
+
+<h2>{{ life.nickname }}</h2>
+
+<div class="formBox">
+<form action="/life/add/{{ aquarium_id }}/" method="post">
+	{% csrf_token %}
+	{{ life_form.as_p }}
+	<input type="submit" value="Edit" />
+</form>
+</div>
+<br />
+<a href="/life/{{ life.lifeID }}">Go Back</a>
+
+{% include "footer.html" %}

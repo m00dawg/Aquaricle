@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 
 from aquariums.models import Aquarium
-from life.models import Life, LifeLog, LifeForm, LifeLogForm
+from life.models import Life, LifeLog, LifeForm, LifeLogForm, LifeTypes
 
 def life_details(request, life_id):
     life = get_object_or_404(Life, pk=life_id)
@@ -28,6 +28,19 @@ def life_details(request, life_id):
          'life_log_form' : life_log_form,}
     )
     
+def life_list(request, aquarium_id):
+    aquarium = get_object_or_404(Aquarium, pk=aquarium_id)
+    life = Life.objects.filter(aquariumID = aquarium_id) \
+            .order_by('lifeTypeID', 'dateAdded', 'nickname')
+    life_kind_summary = LifeTypes.objects.get_kind_summary(aquarium_id)
+
+    return render(request,
+        'life_list.html',
+        {'aquarium_id' : aquarium_id,
+         'life' : life,
+         'life_kind_summary' : life_kind_summary,}
+    )
+
 def add_life(request, aquarium_id):
     aquarium = get_object_or_404(Aquarium, pk=aquarium_id)
     life = Life(aquariumID = aquarium)
@@ -39,3 +52,14 @@ def add_life(request, aquarium_id):
          'life' : life,
          'life_form' : life_form}
     )
+    
+def edit_life(request, life_id):
+    life = get_object_or_404(Life, pk=life_id)
+    life_form = LifeForm(instance=life)
+    return render(request,
+        'edit_life.html', 
+        {'life' : life,
+         'life_form' : life_form}
+    )
+    
+    
