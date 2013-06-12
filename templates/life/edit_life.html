@@ -3,7 +3,7 @@
 <h2>{{ life.nickname }}</h2>
 
 <div class="formBox">
-<form action="/life/add/{{ aquarium_id }}/" method="post">
+<form action="/life/{{ life.lifeID }}/edit" method="post">
 	{% csrf_token %}
 	{{ life_form.as_p }}
 	<input type="submit" value="Edit" />

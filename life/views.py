@@ -46,6 +46,16 @@ def add_life(request, aquarium_id):
     life = Life(aquariumID = aquarium)
     life.dateAdded = timezone.datetime.now()
     life_form = LifeForm(instance=life)
+    
+    # Process Life Log Entries
+    if request.method == 'POST':
+        life_form = LifeForm(request.POST, instance=life)
+        if life_form.is_valid():
+            new_life = life_form.save()
+            return HttpResponseRedirect(
+                reverse('life.views.life_details', 
+                args=(life_id,)))
+    
     return render(request,
         'add_life.html', 
         {'aquarium_id' : aquarium_id,
@@ -56,6 +66,16 @@ def add_life(request, aquarium_id):
 def edit_life(request, life_id):
     life = get_object_or_404(Life, pk=life_id)
     life_form = LifeForm(instance=life)
+    
+    # Process Life Log Entries
+    if request.method == 'POST':
+        life_form = LifeForm(request.POST, instance=life)
+        if life_form.is_valid():
+            new_life = life_form.save()
+            return HttpResponseRedirect(
+                reverse('life.views.life_details', 
+                args=(life_id,)))
+    
     return render(request,
         'edit_life.html', 
         {'life' : life,
