@@ -39,6 +39,16 @@ class EquipmentLog(models.Model):
         verbose_name_plural = 'Equipment Logs'
         
 # Model Forms
+class EquipmentForm(ModelForm):
+    class Meta:
+        ACTIVE_CHOICES = (('Yes', 'Yes'),
+                          ('No', 'No'))
+        model = Equipment
+        exclude = ('equipmentID')
+        widgets = {
+            'active' : Select(choices=ACTIVE_CHOICES)
+        }
+
 class EquipmentLogForm(ModelForm):
     class Meta:
         MAINTENANCE_CHOICES = (('Yes', 'Yes'),

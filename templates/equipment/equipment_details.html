@@ -2,6 +2,7 @@
 
 <h3>
 	<a href="{{ equipment.url }}">{{ equipment.name }}</a>
+	(<a href="/equipment/{{ equipment.equipmentID }}/edit">Edit</a>)
 </h3>
 
 <table>
@@ -18,6 +19,10 @@
 	<tr>
 		<th>Maintenance Interval</th>
 		<td>{{ equipment.maintenanceInterval }}</td>
+	</tr>
+	<tr>
+		<th>Active</th>
+		<td>{{ equipment.active }}</td>
 	</tr>
 	<tr>
 		<th>Comments</th>

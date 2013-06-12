@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 
 from aquariums.models import Aquarium
-from equipment.models import Equipment, EquipmentLog, EquipmentLogForm
+from equipment.models import Equipment, EquipmentForm, EquipmentLog, EquipmentLogForm
 
 def equipment_list(request, aquarium_id):
     aquarium = get_object_or_404(Aquarium, pk=aquarium_id)
@@ -35,4 +35,23 @@ def equipment_details(request, equipment_id):
         {'equipment' : equipment,
          'logs' : logs,
          'equipment_log_form' : equipment_log_form}
+    )
+    
+def edit_equipment(request, equipment_id):
+    equipment = get_object_or_404(Equipment, pk=equipment_id)
+    equipment_form = EquipmentForm(instance=equipment)
+    
+    # Process Equipment Log Entries
+    if request.method == 'POST':
+        equipment_form = EquipmentForm(request.POST, instance=equipment)
+        if equipment_form.is_valid():
+            new_equipment = equipment_form.save()
+            return HttpResponseRedirect(
+                reverse('equipment.views.equipment_details', 
+                args=(equipment_id,)))
+    
+    return render(request,
+        'edit_equipment.html',
+        {'equipment' : equipment,
+         'equipment_form' : equipment_form}
     )
