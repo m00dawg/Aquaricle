@@ -6,15 +6,11 @@
 
 <table>
 	<tr>
-		<th rowspan="2">Name</th>
-		<th rowspan="2">Active</th>
-		<th colspan="3">Maintenance</th>
-	</tr>
-	<tr>
-		<th>Interval (Days)</th>
-		<th>Last</th>
-		<th>Days Since</th>
-	</tr>
+		<th>Name</th>
+		<th>Date Installed</th>
+		<th>Active</th>
+		<th>Maintenance<br />Interval</th>
+
 	{% for item in equipment %}
 		<tr class="{% cycle 'odd' 'even' %}">
 			<td class="equipmentMaintName">
@@ -29,6 +25,7 @@
 					{{ item.name }}
 				</a>
 			</td>
+			<td>{{ item.installDate }}</td>
 			<td>{{ item.active }}</td>
 			<td class="equipmentMaintInterval">
 				{% if item.maintenanceInterval %}
@@ -37,28 +34,6 @@
 					N/A
 				{% endif %}
 			</td>
-			<td class="equipmentMaintLast">
-				{% if item.lastMaint %}
-					{% if item.maintenance = 'Yes' %}
-						{{ item.lastMaint }}
-					{% else %}
-						None Yet Performed
-					{% endif %}
-				{% else %}
-					&nbsp;
-				{% endif %}
-			</td>
-			{% if item.daysSinceMaint != None and item.maintenance = 'Yes' %}
-				{% if item.daysSinceMaint > item.maintenanceInterval %}
-					<td class="equipmentMaintOverdue">
-				{% else %}
-					<td class="equipmentMaintSince">
-				{% endif %}
-				{{ item.daysSinceMaint }}
-				</td>
-			{% else %}
-				<td>&nbsp;</td>
-			{% endif %}
 		</tr>
     {% empty %}
 	<tr><td colspan="4">No Equipment Found</td></tr>
