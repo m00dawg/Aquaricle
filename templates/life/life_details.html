@@ -11,18 +11,29 @@
 		<th>Common Name</th>
 		<td>{{ life.lifeTypeID.commonName }}</td>
 	</tr>
-	<tr>
-		<th>Source</th>
-		<td>{{ life.source }}</td>
-	</tr>
+	
+	{% if life.source %}
+		<tr>
+			<th>Source</th>
+			<td>{{ life.source }}</td>
+		</tr>
+	{% endif %}
 	<tr>
 		<th>Date Introduced</th>
 		<td>{{ life.dateAdded }}</td>
 	</tr>
-	<tr>
-		<th>Notes</th>
-		<td>{{ life.notes }}</td>
-	</tr>
+	{% if life.dateRemoved %}
+		<tr>
+			<th>Date Removed</th>
+			<td>{{ life.dateRemoved }}</td>
+		</tr>
+	{% endif %}
+	{% if life.notes %}	
+		<tr>
+			<th>Notes</th>
+			<td>{{ life.notes }}</td>
+		</tr>
+	{% endif %}
 </table>
 
 <h3>Log</h3>
