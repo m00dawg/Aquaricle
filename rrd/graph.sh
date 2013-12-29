@@ -12,9 +12,9 @@ CDEF:weightedHeater=heater,20,* \
 CDEF:weightedLight=light,20,* \
 VDEF:lastTemperature=temperature,LAST \
 VDEF:avgTemperature=temperature,AVERAGE \
-LINE1:temperature#FF0000:"Temperature" \
-GPRINT:lastTemperature:"Current\: %2.2lf" \
-GPRINT:avgTemperature:" Average\: %2.2lf\l" \
-AREA:weightedHeater#FFFF00:"Heater\l" \
-AREA:weightedLight#0000FF:"Light\l":STACK
+LINE3:temperature#FF0000:"Temperature" \
+GPRINT:lastTemperature:"Current\: %2.2lfC" \
+GPRINT:avgTemperature:" Average\: %2.2lfC\l" \
+AREA:heater#FFFF00:"Heater\l":STACK \
+AREA:light#AAAAFF:"Light\l":STACK
 
