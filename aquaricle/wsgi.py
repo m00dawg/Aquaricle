@@ -14,8 +14,17 @@ framework.
 
 """
 import os
+import sys
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "aquaridawg.settings")
+#path = '/home/tim/git/aquaricle'
+#if path not in sys.path:
+#    sys.path.append(path)
+sys.path.append('/home/tim/git/aquaricle/aquaricle')
+sys.path.append('/home/tim/git/aquaricle/')
+sys.path.append('/home/tim/git/')
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "aquaricle.settings")
+#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
