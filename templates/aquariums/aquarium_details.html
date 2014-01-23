@@ -17,13 +17,14 @@
 			{{ aquarium.waterProfileID }}
 		</a>
 	</li>
+	{% for entry in last_water_change %}
 	<li>
-		{% for entry in last_water_change %}
 			<strong>Last Water Change:</strong>
 			{{ entry.daysSinceChange }} days
 			({{ entry.amountExchanged }} litters)
-		{% endfor %}
+
 	</li>
+	{% endfor %}
 </ul>
 
 <div id="graph">
