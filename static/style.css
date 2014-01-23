@@ -46,6 +46,10 @@ body{
     padding-top: 2%;
 }
 
+#graph{
+    text-align: center;
+}
+
 h1{ font-size: 200%; }
 h2{ font-size: 150%; }
 h3{ font-size: 130%; }
