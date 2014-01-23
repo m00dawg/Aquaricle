@@ -13,5 +13,5 @@ class EquipmentManager(models.Manager):
             AND Equipment.active = 'Yes'
             AND EquipmentLog.maintenance = 'Yes'
             GROUP BY Equipment.equipmentID
-            ORDER BY daysSinceMaint DESC""",        
+            ORDER BY daysSinceMaint DESC LIMIT 1""",        
             [aquarium_id])

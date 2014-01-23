@@ -17,4 +17,4 @@ class WaterLogStatsManager(models.Manager):
                 WHERE amountExchanged IS NOT NULL
                 AND aquariumID = %s 
                 ORDER BY testedOn DESC LIMIT 1""",
-            [aquarium_id])[0]
+            [aquarium_id])

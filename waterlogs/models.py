@@ -49,4 +49,4 @@ class WaterLogForm(ModelForm):
     class Meta:
         model = WaterLog
         fields = ('testedOn', 'waterAdditiveID', 'additiveAmount', 'amountExchanged', 'ammonia', 'nitrites', 'nitrates', 'pH', 'KH', 'comments')
-        exclude = ('aquariumID')
+        exclude = ('aquariumID',)

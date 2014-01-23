@@ -36,6 +36,7 @@ def aquarium_details(request, aquarium_id):
     latest_water_logs = \
         WaterLog.objects.filter(aquariumID = aquarium_id) \
             .order_by('-testedOn')[:15]  
+    last_water_change = WaterLog.stats.get_last_water_change(aquarium_id)
     if aquarium.measurementUnits == 'Metric':
         distanceUnit = 'cm'
         volumeUnit = 'L'
@@ -49,6 +50,7 @@ def aquarium_details(request, aquarium_id):
          'life' : life,
          'life_kind_summary' : life_kind_summary,
          'latest_water_logs': latest_water_logs,
+         'last_water_change' : last_water_change,
          'distanceUnit' : distanceUnit,
          'volumeUnit' : volumeUnit,}
     )

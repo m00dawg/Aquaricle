@@ -44,7 +44,7 @@ class EquipmentForm(ModelForm):
         ACTIVE_CHOICES = (('Yes', 'Yes'),
                           ('No', 'No'))
         model = Equipment
-        exclude = ('equipmentID')
+        exclude = {'equipmentID'}
         widgets = {
             'active' : Select(choices=ACTIVE_CHOICES)
         }
@@ -54,7 +54,7 @@ class EquipmentLogForm(ModelForm):
         MAINTENANCE_CHOICES = (('Yes', 'Yes'),
                                ('No', 'No'))
         model = EquipmentLog
-        exclude = ('equipmentID')
+        exclude = {'equipmentID'}
         widgets = {
             'maintenance' : Select(choices=MAINTENANCE_CHOICES)
         }
