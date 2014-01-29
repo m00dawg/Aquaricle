@@ -20,9 +20,9 @@
 	{% for entry in last_water_change %}
 	<li>
 			<strong>Last Water Change:</strong>
-			{{ entry.daysSinceChange }} days
-			({{ entry.amountExchanged }} litters)
-
+			{{ entry.testedOn}}
+			({{ entry.daysSinceChange }} days ago, 
+			 {{ entry.amountExchanged }} litters)
 	</li>
 	{% endfor %}
 </ul>
