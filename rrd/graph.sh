@@ -32,7 +32,7 @@ DEF:light=$ID.rrd:light:AVERAGE \
 AREA:light#AAAAFF:"Light\l":STACK \
 AREA:heater#FFFF00:"Heater\l":STACK 
 
-rrdtool graph ../static/graphs/$ID-temp-full.png \
+rrdtool graph ../static/graphs/$ID-relays-full.png \
 -t "Aquarium Temperature" \
 -w 1280 -h 640 \
 -E \
