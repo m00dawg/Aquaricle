@@ -157,6 +157,7 @@
 		<th class="nitrates">Nitrates</th>
 		<th class="pH">pH</th>
 		<th class="KH">KH</th>
+		<th class="phosphates">Phosphates</th>
 		<th class="amountExchanged">Water Exchanged</th>
 		<th class="additives">Additives</th>
 		<th class="comments">Comments</th>
@@ -252,6 +253,13 @@
         	<td class="KH">
 				{% if log.KH != None %}
 					{{ log.KH }}
+				{% else %}
+					&nbsp;
+				{% endif %}
+			</td>
+        	<td class="phosphates">
+				{% if log.phosphates != None %}
+					{{ log.phosphates }}
 				{% else %}
 					&nbsp;
 				{% endif %}
