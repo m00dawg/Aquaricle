@@ -17,7 +17,27 @@
 			{{ aquarium.waterProfileID }}
 		</a>
 	</li>
+	{% for entry in last_water_change %}
+	<li>
+			<strong>Last Water Change:</strong>
+			{{ entry.testedOn}}
+			({{ entry.daysSinceChange }} days ago, 
+			 {{ entry.amountExchanged }} litters)
+	</li>
+	{% endfor %}
 </ul>
+
+<div id="graph">
+<a href="/static/graphs/{{ aquarium.aquariumID }}-temps-full.png">
+<img src="/static/graphs/{{ aquarium.aquariumID }}-temps-thumb.png" alt="Temperature Graph" />
+</a>
+<br />
+<a href="/static/graphs/{{ aquarium.aquariumID }}-relays-full.png">
+<img src="/static/graphs/{{ aquarium.aquariumID }}-relays-thumb.png" alt="Relays Graph" />
+</a>
+<br />
+
+</div>
 
 <div id="equipment">
 <h3>Equipment Maintenance Schedule</h3>
@@ -135,6 +155,7 @@
 		<th class="ammonia">Ammonia</th>
 		<th class="nitrites">Nitrites</th>
 		<th class="nitrates">Nitrates</th>
+		<th class="phosphates">Phosphates</th>
 		<th class="pH">pH</th>
 		<th class="KH">KH</th>
 		<th class="amountExchanged">Water Exchanged</th>
@@ -221,7 +242,30 @@
 			{% else %}
 				<td>&nbsp;</td>
 			{% endif %}
-
+ 
+			{# Phosphates #}
+			{% if log.phosphates != None %}
+				{% if log.phosphates >= 10.00 %}
+					<td class="phosphate1000">
+				{% elif log.phosphates >= 5.00 %}
+					<td class="phosphate0500">
+				{% elif log.phosphates >= 2.00 %}
+					<td class="phosphate0200">
+				{% elif log.phosphates >= 1.00 %}
+					<td class="phosphate0100">
+				{% elif log.phosphates >= 0.50 %}
+					<td class="phosphate0050">
+				{% elif log.phosphates >= 0.25 %}
+					<td class="phosphate0025">
+				{% else %}
+					<td class="phosphates0000">
+				{% endif %}
+				{{ log.phosphates }} ppm
+				</td>
+			{% else %}
+				<td>&nbsp;</td>
+			{% endif %}
+ 
         	<td class="pH">
 				{% if log.pH != None %}
 					{{ log.pH }}

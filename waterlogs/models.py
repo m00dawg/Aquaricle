@@ -31,6 +31,7 @@ class WaterLog(models.Model):
     ammonia = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
     nitrites = models.DecimalField(max_digits=3,decimal_places=2,null=True,blank=True)
     nitrates = models.DecimalField(max_digits=5,decimal_places=2,null=True,blank=True)
+    phosphates = models.DecimalField(max_digits=5,decimal_places=2,null=True,blank=True)
     pH = models.DecimalField(verbose_name='pH',max_digits=3,decimal_places=1,null=True,blank=True)
     KH = models.PositiveSmallIntegerField(null=True,blank=True)
     amountExchanged = models.PositiveSmallIntegerField(verbose_name='Liters Exchanged',null=True,blank=True)
@@ -48,5 +49,5 @@ class WaterLog(models.Model):
 class WaterLogForm(ModelForm):
     class Meta:
         model = WaterLog
-        fields = ('testedOn', 'waterAdditiveID', 'additiveAmount', 'amountExchanged', 'ammonia', 'nitrites', 'nitrates', 'pH', 'KH', 'comments')
-        exclude = ('aquariumID')
+        fields = ('testedOn', 'waterAdditiveID', 'additiveAmount', 'amountExchanged', 'ammonia', 'nitrites', 'nitrates', 'phosphates', 'pH', 'KH', 'comments')
+        exclude = ('aquariumID',)

@@ -12,9 +12,10 @@ class WaterLogStatsManager(models.Manager):
         '''
         return self.raw(
             """SELECT waterLogID,
-                 DATEDIFF(NOW(), testedOn) AS daysSinceChange
+                 DATEDIFF(NOW(), testedOn) AS daysSinceChange,
+                 testedOn
                 FROM WaterLogs 
                 WHERE amountExchanged IS NOT NULL
                 AND aquariumID = %s 
                 ORDER BY testedOn DESC LIMIT 1""",
-            [aquarium_id])[0]
+            [aquarium_id])

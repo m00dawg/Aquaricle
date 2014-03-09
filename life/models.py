@@ -78,12 +78,12 @@ class LifeLog(models.Model):
 class LifeForm(ModelForm):
     class Meta:
         model = Life
-        exclude = ('aquariumID')
+        exclude = {'aquariumID'}
 
 class LifeLogForm(ModelForm):
     class Meta:
         model = LifeLog
         fields = ('logDate', 'logEntry')
-        exclude = ('lifeLogID')
+        exclude = {'lifeLogID'}
 
 
