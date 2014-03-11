@@ -28,6 +28,12 @@ def add_aquarium(request):
     )
 
 def aquarium_details(request, aquarium_id):
+    if request.user.is_authenticated():
+        return True;
+        # Do something for authenticated users.
+    else:
+        return False;
+        # Do something for anonymous users.
     aquarium = get_object_or_404(Aquarium, pk=aquarium_id)
     equipment = Equipment.objects.get_maintenance(aquarium_id)
     life = Life.objects.filter(aquariumID = aquarium_id,dateRemoved=None) \
