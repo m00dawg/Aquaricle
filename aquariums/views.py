@@ -39,9 +39,10 @@ def aquarium_details(request, aquarium_id):
     life = Life.objects.filter(aquariumID = aquarium_id,dateRemoved=None) \
             .order_by('lifeTypeID', 'dateAdded', 'nickname')
     life_kind_summary = LifeTypes.objects.get_kind_summary(aquarium_id)
-    latest_water_logs = \
-        WaterLog.objects.filter(aquariumID = aquarium_id) \
-            .order_by('-testedOn')[:15]  
+#    latest_water_logs = \
+#        WaterLog.objects.filter(aquariumID = aquarium_id) \
+#            .order_by('-testedOn')[:15]  
+    latest_water_logs = WaterLog.stats.get_water_logs(aquarium_id, 15)
     last_water_change = WaterLog.stats.get_last_water_change(aquarium_id)
     if aquarium.measurementUnits == 'Metric':
         distanceUnit = 'cm'
