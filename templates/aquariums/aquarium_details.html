@@ -20,9 +20,8 @@
 	{% for entry in last_water_change %}
 	<li>
 			<strong>Last Water Change:</strong>
-			{{ entry.testedOn}}
-			({{ entry.daysSinceChange }} days ago, 
-			 {{ entry.amountExchanged }} litters)
+			{{ entry.testedOn}} ({{ entry.daysSinceChange }} days ago),
+			 {{ entry.amountExchanged }} litters ({{ entry.exchangedPercentage }}%)
 	</li>
 	{% endfor %}
 </ul>
@@ -282,7 +281,7 @@
 			</td>
         	<td class="amountExchanged">
 				{% if log.amountExchanged %}
-					{{ log.amountExchanged }} {{ volumeUnit }}
+					{{ log.amountExchanged }} {{ volumeUnit }} ({{ log.exchangedPercentage}}%)
 				{% else %}
 					&nbsp;
 				{% endif %}
