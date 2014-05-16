@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from users.models import User
+from users.models import AquaricleUser
 
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
@@ -12,7 +12,7 @@ class UserCreationForm(forms.ModelForm):
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
-        model = User
+        model = AquaricleUser
         fields = ('username', 'email',)
 
     def clean_password2(self):
@@ -40,7 +40,7 @@ class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
 
     class Meta:
-        model = User
+        model = AquaricleUser
         fields = ('email', 'password')
 
     def clean_password(self):
@@ -83,7 +83,7 @@ class UserAdmin(UserAdmin):
     filter_horizontal = ()
 
 # Now register the new UserAdmin...
-admin.site.register(User, UserAdmin)
+admin.site.register(AquaricleUser, UserAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)

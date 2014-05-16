@@ -3,8 +3,6 @@
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-AUTH_USER_MODEL = 'aquaricle.users'
-
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -109,6 +107,7 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     'aquaricle/templates',
     'aquaricle/templates/aquariums',
+    'aquaricle/templates/users',
     'aquaricle/templates/waterprofiles',
     'aquaricle/templates/waterlogs',
     'aquaricle/templates/equipment',
@@ -122,9 +121,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'users'
-    'waterprofiles',
     'aquariums',
+    'users',
+    'waterprofiles',
 	'waterlogs',
 	'equipment',
 	'life',
@@ -170,3 +169,7 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
     'django.contrib.auth.hashers.CryptPasswordHasher',
 )
+
+AUTH_USER_MODEL = 'users.AquaricleUser'
+LOGIN_URL = '/users/login'
+LOGOUT_URL = '/usrs/logout'

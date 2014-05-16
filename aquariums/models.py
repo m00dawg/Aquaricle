@@ -2,7 +2,17 @@ from django.conf import settings
 from django.db import models
 from django.forms import ModelForm
 from waterprofiles.models import WaterProfile
+from users.models import AquaricleUser
 
+# Managers
+class AquariumManager(models.Manager):
+    def get_aquariums(self, user_id):
+        return self.raw("""SELECT aquariumID, name, location
+            FROM Aquariums
+            WHERE userID = %s""",
+            [user_id])
+
+# Objects
 class Aquarium(models.Model):
     aquariumID = models.AutoField(primary_key=True)
     waterProfileID = models.ForeignKey(WaterProfile,verbose_name='Water Profile',db_column='waterProfileID')
@@ -28,8 +38,10 @@ class Aquarium(models.Model):
         return self.name
     class Meta:
         db_table = 'Aquariums'
+    objects = AquariumManager()
         
 # Model Forms
 class AquariumForm(ModelForm):
     class Meta:
         model = Aquarium
+
