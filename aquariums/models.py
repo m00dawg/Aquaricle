@@ -11,11 +11,27 @@ class AquariumManager(models.Manager):
             FROM Aquariums
             WHERE userID = %s""",
             [user_id])
+#    def get_log_entries(self, aquarium_id):
+#        return self.raw("""SELECT """)
 
 # Objects
+class AquariumProfile(models.Model):
+    aquariumProfileID = models.AutoField(primary_key=True)
+    profileName = models.CharField(verbose_name='Profile Name',max_length=45,editable=True)
+    aquariumType = models.CharField(verbose_name='Type',max_length=10)
+    temperature = models.DecimalField(verbose_name='Temperature (C)',max_digits=4,decimal_places=2,null=True,blank=True)
+    pH = models.DecimalField(max_digits=3,decimal_places=1,null=True,blank=True)
+    KH = models.PositiveSmallIntegerField(verbose_name='KH (Degrees)',null=True,blank=True)
+    def __unicode__(self):
+        return self.name
+    class Meta:
+        db_table = 'AquariumProfiles'    
+        verbose_name = 'Aquarium Profile'
+        verbose_name_plural = 'Aquarium Profiles'
+
 class Aquarium(models.Model):
     aquariumID = models.AutoField(primary_key=True)
-    waterProfileID = models.ForeignKey(WaterProfile,verbose_name='Water Profile',db_column='waterProfileID')
+    aquariumProfileID = models.ForeignKey(AquariumProfile,verbose_name='Aquarium Profile',db_column='waterProfileID')
     userID = models.ForeignKey(settings.AUTH_USER_MODEL,db_column='userID')
     activeSince = models.DateTimeField(verbose_name='Active Since',editable=True,null=True,blank=True)
     measurementUnits = models.CharField(verbose_name='Measurement Units',
@@ -38,7 +54,23 @@ class Aquarium(models.Model):
         return self.name
     class Meta:
         db_table = 'Aquariums'
+        verbose_name = 'Aquarium'
+        verbose_name_plural = 'Aquariums'
+        
     objects = AquariumManager()
+    
+class AquariumLog(models.Model):
+    aquariumLogID = models.AutoField(primary_key=True)
+    aquariumID = models.ForeignKey(Aquarium,verbose_name='Aquarium')
+    logDate = models.DateTimeField(verbose_name='Log Date',editable=True,null=False,blank=False)
+    summary = models.TextField(blank=True)
+    comments = models.TextField(blank=True)
+    def __unicode__(self):
+        return self.name
+    class Meta:
+        db_table = 'AquariumLogs'
+        verbose_name = 'Aquarium Log'
+        verbose_name_plural = 'Aquarium Log Entries'
         
 # Model Forms
 class AquariumForm(ModelForm):
