@@ -12,9 +12,9 @@
 		{{ aquarium.height }} {{ distanceUnit }})</li>
 	<li><strong>Active Since:</strong> {{ aquarium.activeSince }}</li>
 	<li>
-		<strong>Water Profile:</strong>
-		<a href="/waterprofiles/{{ aquarium.waterProfileID.waterProfileID }}">
-			{{ aquarium.waterProfileID }}
+		<strong>Aquarium Profile:</strong>
+		<a href="/aquariums/profiles/{{ aquarium.aquariumProfileID.aquariumProfileID }}">
+			{{ aquarium.aquariumProfileID }}
 		</a>
 	</li>
 	{% for entry in last_water_change %}
@@ -146,6 +146,22 @@
 <div id="logs">
 	<h3>Latest Log Entries</h3>
 	
+	<table>
+			<tr>
+				<th>Date</th>
+				<th>Summary</th>
+			</tr>
+			{% for log in logs %}
+				<tr class="{% cycle 'odd' 'even' %}">
+					<td>{{ log.logDate }}</td>
+					<td>{{ log.summary }}</td>
+				</tr>
+			{% empty %}
+				<tr><td colspan="2">No Living Creatures</td></tr>
+			{% endfor %}
+	</table>
+	<br />
+	<a href="/aquariums/log/add">Add New Entry</a>
 </div>
 
 {% include "footer.html" %}

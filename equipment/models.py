@@ -34,7 +34,7 @@ class EquipmentLog(models.Model):
     maintenance = models.CharField(verbose_name='Maintenance',max_length='3',null=False,blank=False) 
     action = models.CharField(max_length=64,unique=False)
     class Meta:
-        db_table = 'EquipmentLog'
+        db_table = 'EquipmentLogs'
         verbose_name = 'Equipment Log'
         verbose_name_plural = 'Equipment Logs'
         

@@ -8,7 +8,7 @@ class EquipmentManager(models.Manager):
             MAX(logDate) AS lastMaint, 
             DATEDIFF(UTC_TIMESTAMP(), MAX(logDate)) AS daysSinceMaint 
             FROM Equipment 
-            LEFT OUTER JOIN EquipmentLog ON EquipmentLog.equipmentID = Equipment.equipmentID 
+            LEFT OUTER JOIN EquipmentLogs ON EquipmentLogs.equipmentID = Equipment.equipmentID 
             WHERE Equipment.aquariumID = %s
             AND Equipment.active = 'Yes'
             AND EquipmentLog.maintenance = 'Yes'

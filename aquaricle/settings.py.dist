@@ -107,8 +107,7 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     'aquaricle/templates',
     'aquaricle/templates/aquariums',
-    'aquaricle/templates/users',
-    'aquaricle/templates/waterprofiles',
+#    'aquaricle/templates/users',
     'aquaricle/templates/waterlogs',
     'aquaricle/templates/equipment',
     'aquaricle/templates/life'
@@ -122,8 +121,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'aquariums',
-    'users',
-    'waterprofiles',
+#    'users',
 	'waterlogs',
 	'equipment',
 	'life',

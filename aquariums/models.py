@@ -1,8 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.forms import ModelForm
-from waterprofiles.models import WaterProfile
-from users.models import AquaricleUser
+#from users.models import AquaricleUser
 
 # Managers
 class AquariumManager(models.Manager):
@@ -11,6 +10,12 @@ class AquariumManager(models.Manager):
             FROM Aquariums
             WHERE userID = %s""",
             [user_id])
+    def get_latest_logs(self, aquarium_id, days=30):
+        return self.raw("""SELECT aquariumLogID, aquariumID, logDate, summary
+            FROM AquariumLogs
+            WHERE aquariumID = %s
+            AND logDate > DATE_SUB(NOW(), INTERVAL %s DAY)""", [aquarium_id,days])
+    
 #    def get_log_entries(self, aquarium_id):
 #        return self.raw("""SELECT """)
 
@@ -23,7 +28,7 @@ class AquariumProfile(models.Model):
     pH = models.DecimalField(max_digits=3,decimal_places=1,null=True,blank=True)
     KH = models.PositiveSmallIntegerField(verbose_name='KH (Degrees)',null=True,blank=True)
     def __unicode__(self):
-        return self.name
+        return self.profileName
     class Meta:
         db_table = 'AquariumProfiles'    
         verbose_name = 'Aquarium Profile'
@@ -31,7 +36,7 @@ class AquariumProfile(models.Model):
 
 class Aquarium(models.Model):
     aquariumID = models.AutoField(primary_key=True)
-    aquariumProfileID = models.ForeignKey(AquariumProfile,verbose_name='Aquarium Profile',db_column='waterProfileID')
+    aquariumProfileID = models.ForeignKey(AquariumProfile,verbose_name='Aquarium Profile',db_column='aquariumProfileID')
     userID = models.ForeignKey(settings.AUTH_USER_MODEL,db_column='userID')
     activeSince = models.DateTimeField(verbose_name='Active Since',editable=True,null=True,blank=True)
     measurementUnits = models.CharField(verbose_name='Measurement Units',
@@ -61,12 +66,12 @@ class Aquarium(models.Model):
     
 class AquariumLog(models.Model):
     aquariumLogID = models.AutoField(primary_key=True)
-    aquariumID = models.ForeignKey(Aquarium,verbose_name='Aquarium')
+    aquariumID = models.ForeignKey(Aquarium,verbose_name='Aquarium',db_column='aquariumID')
     logDate = models.DateTimeField(verbose_name='Log Date',editable=True,null=False,blank=False)
     summary = models.TextField(blank=True)
     comments = models.TextField(blank=True)
     def __unicode__(self):
-        return self.name
+        return unicode(self.aquariumLogID)
     class Meta:
         db_table = 'AquariumLogs'
         verbose_name = 'Aquarium Log'

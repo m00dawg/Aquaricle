@@ -33,11 +33,12 @@ def add_aquarium(request):
 @login_required
 def aquarium_details(request, aquarium_id):
     aquarium = get_object_or_404(Aquarium, pk=aquarium_id, userID=request.user.id)
-    equipment = Equipment.objects.get_maintenance(aquarium_id)
+    logs = Aquarium.objects.get_latest_logs(aquarium_id)
 
-    life = Life.objects.filter(aquariumID = aquarium_id,dateRemoved=None) \
-            .order_by('lifeTypeID', 'dateAdded', 'nickname')
-    life_kind_summary = LifeTypes.objects.get_kind_summary(aquarium_id)
+#    equipment = Equipment.objects.get_maintenance(aquarium_id)
+#    life = Life.objects.filter(aquariumID = aquarium_id,dateRemoved=None) \
+#            .order_by('lifeTypeID', 'dateAdded', 'nickname')
+#    life_kind_summary = LifeTypes.objects.get_kind_summary(aquarium_id)
 #    latest_water_logs = \
 #        WaterLog.objects.filter(aquariumID = aquarium_id) \
 #            .order_by('-testedOn')[:15]  
@@ -52,9 +53,13 @@ def aquarium_details(request, aquarium_id):
     return render(request,
         'aquarium_details.html', 
         {'aquarium': aquarium,
-         'equipment' : equipment,
-         'life' : life,
-         'life_kind_summary' : life_kind_summary,})
+         'logs': logs})
+
+
+
+         #'equipment' : equipment,
+         #'life' : life,
+         #'life_kind_summary' : life_kind_summary,})
 
 #         'latest_water_logs': latest_water_logs,
 #         'last_water_change' : last_water_change,

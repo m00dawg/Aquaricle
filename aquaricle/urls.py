@@ -7,7 +7,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', 'aquaricle.views.index', name='index'),
     url(r'^users/', include('users.urls')),
-    url(r'^waterprofiles/', include('waterprofiles.urls')),
     url(r'^waterlogs/', include('waterlogs.urls')),
     url(r'^aquariums/', include('aquariums.urls')),
     url(r'^equipment/', include('equipment.urls')),
