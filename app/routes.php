@@ -13,7 +13,7 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	return View::make('index');
 });
 
 Route::get('users', function()
@@ -21,3 +21,19 @@ Route::get('users', function()
 	$users = User::all();
     return View::make('users')->with('users', $users);
 });
+
+Route::get('aquariums', function()
+{
+//	$aquariums = Aquarium::all();
+	$aquarium = Aquarium::find(1);
+    return View::make('aquariums')->with('aquarium', $aquarium);
+});
+
+Route::post('aquariums', function()
+{
+//	$aquariums = Aquarium::all();
+	$aquarium = Aquarium::find(1);
+    return View::make('aquariums')->with('aquarium', $aquarium);
+});
+
+?>
