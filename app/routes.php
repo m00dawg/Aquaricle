@@ -11,6 +11,8 @@
 |
 */
 
+Route::when('aquarium*', 'auth');
+
 Route::get('/', function()
 {
 	return View::make('index');
@@ -42,18 +44,19 @@ Route::get('users', function()
     return View::make('users')->with('users', $users);
 });
 
-/* Display a summary of a user's aquariums, water profiles, etc. */
-Route::get('aquariums', function()
-{
-	$aquariums = Aquarium::all();
-    return View::make('aquariums')->with('aquariums', $aquariums);
-});
+/* List a user's aquariums */
+//Route::get('aquariums', 'AquariumController@getAquariums');
+Route::controller('aquariums', 'AquariumController');
 
-Route::get('aquarium/{aquariumID?}', function($aquariumID)
+/*
+
+Route::get('aquarium/{aquariumID?}', function($aquariumID = null)
 {
-	//$aquariumID = Input::get('aquariumID');
+	if ($aquariumID == null)
+		return Redirect::intended('aquariums');
+
 	$aquarium = Aquarium::find($aquariumID);
-	
+
 	if($aquarium->measurementUnits = 'Metric')
 	{
 		$volumeUnits = 'L';
@@ -64,11 +67,11 @@ Route::get('aquarium/{aquariumID?}', function($aquariumID)
 		$volumeUnits = 'Gal';
 		$lengthUnits = 'inches';
 	}
-	
+
 	return View::make('aquarium')
 		->with('aquarium', $aquarium)
 		->with('volumeUnits', $volumeUnits)
 		->with('lengthUnits', $lengthUnits);
 });
-
+*/
 ?>
