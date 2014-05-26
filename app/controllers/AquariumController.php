@@ -20,6 +20,7 @@ class AquariumController extends BaseController
 			return Redirect::intended('aquariums');
 
 		$aquarium = Aquarium::find($aquariumID);
+		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)->get();
 
 		if($aquarium->measurementUnits = 'Metric')
 		{
@@ -34,6 +35,7 @@ class AquariumController extends BaseController
 
 		return View::make('aquarium')
 			->with('aquarium', $aquarium)
+			->with('logs', $logs)
 			->with('volumeUnits', $volumeUnits)
 			->with('lengthUnits', $lengthUnits);
 		

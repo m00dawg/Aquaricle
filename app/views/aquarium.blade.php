@@ -13,4 +13,12 @@
 	<li><strong>Active Since:</strong> {{ $aquarium->createdAt }}</li>
 </ul>
 	
+<h3>Latest Logs</h3>
+
+<ul>
+	@foreach($logs as $log)
+       	<li>{{ $log->aquariumLogID }}</li>s	
+	@endforeach
+</ul>
+	
 @stop

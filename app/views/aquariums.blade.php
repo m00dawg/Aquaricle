@@ -5,7 +5,7 @@
 <h2>Your Aquariums</h2>
 <ul>
 	@foreach($aquariums as $aquarium)
-       	<li>{{ link_to("aquarium/{$aquarium->aquairumID}", $aquarium->name) }}</li>
+       	<li>{{ link_to("aquariums/aquarium/{$aquarium->aquariumID}", $aquarium->name) }}</li>
 		
 		
 	@endforeach
