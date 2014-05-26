@@ -16,24 +16,59 @@ Route::get('/', function()
 	return View::make('index');
 });
 
+Route::get('login', function()
+{
+	return View::make('login');
+});
+
+Route::post('login', function()
+{
+	//true = Remember Me
+	//if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password')), true))
+	/*
+	if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password'))))
+		return Redirect::intended('aquariums');
+	return View::make('login')->with('status', 'Login Failed');
+	*/
+	
+	//Stub so I can handle authentication later
+	Auth::loginUsingId(1);
+	return Redirect::intended('aquariums');
+});
+
 Route::get('users', function()
 {
 	$users = User::all();
     return View::make('users')->with('users', $users);
 });
 
+/* Display a summary of a user's aquariums, water profiles, etc. */
 Route::get('aquariums', function()
 {
-//	$aquariums = Aquarium::all();
-	$aquarium = Aquarium::find(1);
-    return View::make('aquariums')->with('aquarium', $aquarium);
+	$aquariums = Aquarium::all();
+    return View::make('aquariums')->with('aquariums', $aquariums);
 });
 
-Route::post('aquariums', function()
+Route::get('aquarium/{aquariumID?}', function($aquariumID)
 {
-//	$aquariums = Aquarium::all();
-	$aquarium = Aquarium::find(1);
-    return View::make('aquariums')->with('aquarium', $aquarium);
+	//$aquariumID = Input::get('aquariumID');
+	$aquarium = Aquarium::find($aquariumID);
+	
+	if($aquarium->measurementUnits = 'Metric')
+	{
+		$volumeUnits = 'L';
+		$lengthUnits = 'cm';
+	}
+	else
+	{
+		$volumeUnits = 'Gal';
+		$lengthUnits = 'inches';
+	}
+	
+	return View::make('aquarium')
+		->with('aquarium', $aquarium)
+		->with('volumeUnits', $volumeUnits)
+		->with('lengthUnits', $lengthUnits);
 });
 
 ?>

@@ -2,9 +2,13 @@
 
 @section('content')
 
-	Forms:
-
-	{{ Form::model($aquarium, array('route' => 'aquariums', $aquarium->aquariumID)) }}
-	{{ Form::close() }}
-
+<h2>Your Aquariums</h2>
+<ul>
+	@foreach($aquariums as $aquarium)
+       	<li>{{ link_to("aquarium/{$aquarium->aquairumID}", $aquarium->name) }}</li>
+		
+		
+	@endforeach
+</ul>
+	
 @stop
