@@ -3,7 +3,7 @@
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends BaseModel implements UserInterface, RemindableInterface {
 
 	/**
 	 * The database table used by the model.
@@ -48,7 +48,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function getRememberToken()
 	{
-		return $this->remember_token;
+		//return $this->remember_token;
+		return $this->rememberToken;
 	}
 
 	/**
@@ -59,7 +60,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function setRememberToken($value)
 	{
-		$this->remember_token = $value;
+		//$this->remember_token = $value;
+		$this->rememberToken = $value;
 	}
 
 	/**

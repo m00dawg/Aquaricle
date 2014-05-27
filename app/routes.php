@@ -13,6 +13,16 @@
 
 Route::when('aquarium*', 'auth');
 
+Route::when('*', 'csrf', array('post'));
+
+//Route::when('*/edit', 'csrf');
+//Route::when('*/update', 'csrf');
+//Route::when('*/store', 'csrf');
+
+/* RESTful Resource Controllers */
+Route::resource('aquariums', 'AquariumController');
+Route::resource('aquariums.logs', 'AquariumLogsController');
+
 Route::get('/', function()
 {
 	return View::make('index');
@@ -21,6 +31,12 @@ Route::get('/', function()
 Route::get('login', function()
 {
 	return View::make('login');
+});
+
+Route::get('logout', function()
+{
+	Auth::logout();
+	return Redirect::to('login');
 });
 
 Route::post('login', function()
@@ -44,34 +60,4 @@ Route::get('users', function()
     return View::make('users')->with('users', $users);
 });
 
-/* List a user's aquariums */
-//Route::get('aquariums', 'AquariumController@getAquariums');
-Route::controller('aquariums', 'AquariumController');
-
-/*
-
-Route::get('aquarium/{aquariumID?}', function($aquariumID = null)
-{
-	if ($aquariumID == null)
-		return Redirect::intended('aquariums');
-
-	$aquarium = Aquarium::find($aquariumID);
-
-	if($aquarium->measurementUnits = 'Metric')
-	{
-		$volumeUnits = 'L';
-		$lengthUnits = 'cm';
-	}
-	else
-	{
-		$volumeUnits = 'Gal';
-		$lengthUnits = 'inches';
-	}
-
-	return View::make('aquarium')
-		->with('aquarium', $aquarium)
-		->with('volumeUnits', $volumeUnits)
-		->with('lengthUnits', $lengthUnits);
-});
-*/
 ?>

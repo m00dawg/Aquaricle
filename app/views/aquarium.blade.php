@@ -1,24 +1,30 @@
 @extends('layout')
-
 @section('content')
 
 <h2>{{ $aquarium->name }}</h2>
 
 <ul>
 	<li><strong>Location:</strong> {{ $aquarium->location }}</li>
-	<li><strong>Capacity:</strong> {{ $aquarium->capacity }} {{ $volumeUnits }}
-		({{ $aquarium->length }} {{ $lengthUnits }} x 
-		 {{ $aquarium->width }} {{ $lengthUnits }}  x 
-		 {{ $aquarium->height }} {{ $lengthUnits }})</li>
+	<li><strong>Capacity:</strong> {{ $aquarium->capacity }} {{ $measurementUnits['Volume'] }}
+		({{ $aquarium->length }} {{ $measurementUnits['Length'] }} x 
+		 {{ $aquarium->width }} {{ $measurementUnits['Length'] }}  x 
+		 {{ $aquarium->height }} {{ $measurementUnits['Length'] }})</li>
 	<li><strong>Active Since:</strong> {{ $aquarium->createdAt }}</li>
 </ul>
 	
 <h3>Latest Logs</h3>
 
-<ul>
+<table>
+	<tr><th>Date</th><th>Summary</th></tr>
 	@foreach($logs as $log)
-       	<li>{{ $log->aquariumLogID }}</li>s	
+		<tr><td>{{ $log->logDate }}</td><td>{{ $log->summary }}</td></tr>
+		@if (isset($log->waterTestLogs))
+			<tr><td>{{ $log->waterTestLogs->temperature}}</td></tr>
+		@endif
 	@endforeach
-</ul>
-	
+</table>
+
+<br />
+<li>{{ link_to("aquariums/$aquarium->aquariumID/logs/create", 'Add New Entry') }}</li>
+
 @stop
