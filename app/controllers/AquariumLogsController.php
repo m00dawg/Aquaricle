@@ -76,12 +76,27 @@ class AquariumLogsController extends BaseController {
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  int  $id
+	 * @param  int  $aquariumID
+	 * @param  int  $aquariumLogID
 	 * @return Response
 	 */
-	public function update($id)
-	{
-		echo "test";
+	public function update($aquariumID, $aquariumLogID)
+	{		
+		$log = AquariumLog::where('aquariumLogID', '=', $aquariumLogID)->first();
+		
+		if($log->aquariumID != $aquariumID)
+			return Redirect::to("aquariums");
+		
+		$log->comments = Input::get('comments');
+		
+		$logDate = Input::get('logDate');
+		if(isset($logDate))
+			if($logDate != '')
+				$log->logDate = Input::get('logDate');
+		
+		$log->save();
+		
+		return Redirect::to("aquariums/$aquariumID/logs/$aquariumLogID/edit");
 	}
 
 

@@ -11,13 +11,9 @@
 |
 */
 
+/* Some Magical Route Filters */
 Route::when('aquarium*', 'auth');
-
 Route::when('*', 'csrf', array('post'));
-
-//Route::when('*/edit', 'csrf');
-//Route::when('*/update', 'csrf');
-//Route::when('*/store', 'csrf');
 
 /* RESTful Resource Controllers */
 Route::resource('aquariums', 'AquariumController');
