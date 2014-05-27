@@ -1,15 +1,42 @@
 @extends('layout')
 @section('content')
 
-@if (isset($log))
-	<h2>Modify Log Entry</h2>
-@else
-	<h2>Add New Log Entry</h2>
-@endif
+<h2>Log Details</h2>
 
 @if (isset($status))
 <h4>{{ $status }}</h4>
 @endif
+
+@if (isset($log))
+	<table>
+		<tr><th>Date</th><td>{{ $log->logDate }}</td></tr>
+		<tr><th>Summary</th><td>{{ $log->summary }}</td></tr>
+		
+		@if (isset($waterTestLog))
+			<tr>
+				<th>Temperature</th>
+				<th>Ammonia</th>
+				<th>Nitrites</th>
+				<th>Nitrates</th>
+				<th>Phosphates</th>
+				<th>pH</th>
+				<th>KH</th>
+			</tr>	
+		@endif
+		
+		<tr><th colspan="2">Comments</th></tr>
+		<tr><td>{{ $log->comments }}</td></tr>
+	</table>
+	<br />
+	
+
+
+	<h3>Modify Log Entry</h3>
+@else
+	<h3>Add New Log Entry</h3>
+@endif
+
+
 
 <div class="formBox">
 	Aquarium: {{ $aquariumID }}

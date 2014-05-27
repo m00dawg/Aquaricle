@@ -12,7 +12,7 @@ class AquariumLog extends BaseModel {
 		return $this->belongsTo('Aquarium');
 	}
 
-	public function waterTestLogs()
+	public function waterTestLog()
 	{
 		return $this->hasOne('WaterTestLog', 'aquariumLogID');
 	}

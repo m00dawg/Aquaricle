@@ -67,6 +67,7 @@ class AquariumLogsController extends BaseController {
 	public function edit($aquariumID, $logID)
 	{
 		$log = AquariumLog::find($logID);
+		$waterTestLog = $log->waterTestLog();
 		return View::make('aquariumlogs/editlog')
 			->with('aquariumID', $aquariumID)
 			->with('log', $log);
