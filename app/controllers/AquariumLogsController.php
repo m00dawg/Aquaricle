@@ -7,7 +7,7 @@ class AquariumLogsController extends BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($aquariumID)
 	{
 		//
 	}
@@ -19,7 +19,7 @@ class AquariumLogsController extends BaseController {
 	 */
 	public function create($aquariumID)
 	{
-		return View::make('modifylog')
+		return View::make('aquariumlogs/editlog')
 			->with('aquariumID', $aquariumID);
 	}
 
@@ -67,7 +67,7 @@ class AquariumLogsController extends BaseController {
 	public function edit($aquariumID, $logID)
 	{
 		$log = AquariumLog::find($logID);
-		return View::make('modifylog')
+		return View::make('aquariumlogs/editlog')
 			->with('aquariumID', $aquariumID)
 			->with('log', $log);
 	}
