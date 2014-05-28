@@ -95,6 +95,24 @@ class AquariumLogsController extends BaseController {
 			if($logDate != '')
 				$log->logDate = Input::get('logDate');
 		
+		if(Input::get('temperature') != '' ||
+		   Input::get('ammonia') != '' ||
+		   Input::get('nitrites') != '' ||
+		   Input::get('nitrates') != '' ||
+		   Input::get('phosphates') != '' ||
+		   Input::get('pH') != '' ||
+		   Input::get('KH') != '' ||
+		   Input::get('ammountExchanged') != '')
+		{
+			$waterTestLog = new WaterTestLog();
+			$waterTestLog->aquariumLogID = $aquariumLogID;
+
+			if(Input::get('temperature') != '')
+				$waterTestLog->temperature = Input::get('temperature');
+			
+			$waterTestLog->save();
+		}
+		
 		$log->save();
 		
 		return Redirect::to("aquariums/$aquariumID/logs/$aquariumLogID/edit");

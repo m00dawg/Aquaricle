@@ -4,8 +4,8 @@ class AquariumLog extends BaseModel {
 
 	protected $table = 'AquariumLogs';
 	protected $guarded = array('aquariumLogID', 'aquariumID');
-	public $timestamps = false;
 	public $primaryKey = 'aquariumLogID';
+	public $timestamps = false;
 	
 	public function user()
 	{

@@ -32,7 +32,7 @@ class AquariumController extends BaseController
 		
 		$logs = $aquarium->aquariumLogs()
 			->where('logDate', '>=', $dateSub)
-			->with('waterTestLogs')
+			->with('waterTestLog')
 			->get();
 		
 		return View::make('aquarium')
