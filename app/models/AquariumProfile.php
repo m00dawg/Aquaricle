@@ -1,6 +1,6 @@
 <?php
 
-class AquariumProfiles extends BaseModel {
+class AquariumProfile extends BaseModel {
 
 	protected $table = 'AquariumProfiles';
 	protected $guarded = array('aquariumLogID', 'aquariumID');

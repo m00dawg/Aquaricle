@@ -17,7 +17,7 @@
 <table>
 	<tr><th>Date</th><th>Summary</th></tr>
 	@foreach($logs as $log)
-		<tr><td>{{ $log->logDate }}</td><td>{{ $log->summary }}</td></tr>
+		<tr><td>{{ link_to("aquariums/$aquarium->aquariumID/logs/$log->aquariumLogID/edit", $log->logDate) }}</td><td>{{ $log->summary }}</td></tr>
 		@if (isset($log->waterTestLogs))
 			<tr><td>{{ $log->waterTestLogs->temperature}}</td></tr>
 		@endif

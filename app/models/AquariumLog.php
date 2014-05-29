@@ -16,4 +16,9 @@ class AquariumLog extends BaseModel {
 	{
 		return $this->hasOne('WaterTestLog', 'aquariumLogID');
 	}
+	
+	public function waterAdditiveLog()
+	{
+		return $this->hasMany('WaterAdditiveLog', 'aquariumLogID');
+	}
 }

@@ -11,8 +11,21 @@
 	<table>
 		<tr><th>Date</th><td>{{ $log->logDate }}</td></tr>
 		<tr><th>Summary</th><td>{{ $log->summary }}</td></tr>
-		
-		@if (isset($waterTestLog))
+		<tr><th colspan="2">Comments</th></tr>
+		<tr><td>{{ $log->comments }}</td></tr>
+	</table>
+
+
+	@if (isset($log->temperature) || 
+		 isset($log->ammonia) ||
+		 isset($log->nitrites) ||
+		 isset($log->nitrates) ||
+		 isset($log->phosphates) ||
+		 isset($log->pH) ||
+		 isset($log->KH) ||
+		 isset($log->amountExchanged))
+		<br />
+		<table>	
 			<tr>
 				<th>Temperature</th>
 				<th>Ammonia</th>
@@ -21,13 +34,33 @@
 				<th>Phosphates</th>
 				<th>pH</th>
 				<th>KH</th>
-			</tr>	
-		@endif
-		
-		<tr><th colspan="2">Comments</th></tr>
-		<tr><td>{{ $log->comments }}</td></tr>
-	</table>
+				<th>Water Exchanged</th>
+			</tr>
+			<tr>
+				<td>{{ $log->temperature }}</td>
+				<td>{{ $log->ammonia }}</td>
+				<td>{{ $log->nitrites }}</td>
+				<td>{{ $log->nitrates }}</td>
+				<td>{{ $log->phosphates }}</td>
+				<td>{{ $log->pH }}</td>
+				<td>{{ $log->KH }}</td>
+				<td>{{ $log->amountExchanged }}</td>
+			</tr>
+		</table>
+	@endif
 	<br />
+	
+	@if (isset($waterAdditiveLogs))
+		<table>
+			<tr><th>Additive</th><th>Amount</th></tr>
+			@foreach($waterAdditiveLogs as $additiveLog)
+				<tr>
+					<td>{{ $additiveLog->name }}</td>
+					<td>{{ $additiveLog->amount }}</td>
+				</tr>	
+			@endforeach
+		</table>
+	@endif
 	
 
 
@@ -39,8 +72,9 @@
 
 
 <div class="formBox">
-	Aquarium: {{ $aquariumID }}
+	Aquarium: {{ $aquariumID }}<br />
 	
+	<table>
 	@if (isset($log))
 		{{ Form::model($log, array('route' => array("aquariums.logs.update", $aquariumID, $log->aquariumLogID), 'method' => 'PUT')) }}		
 	@else
@@ -50,14 +84,16 @@
 		{{ Form::label('logDate', 'Date') }}: {{ Form::text('logDate') }}<br />
 		{{ Form::label('comments', 'Comments') }}: {{ Form::textarea('comments') }}<br />
 			
-		</table>
+	</table>
+	<br />
 		
-		@if (isset($log))
-			{{ Form::submit('Update') }}
-		@else
-			{{ Form::submit('Add') }}
-		@endif	
-		
+	@if (isset($log))
+		{{ Form::submit('Update') }}
+	@else
+		{{ Form::submit('Add') }}
+	@endif	
+	<br />
+	<br />
 	<table>
 		<tr><th colspan="2">Water Logs</th></tr>
 		<tr><th>Temperature</th><td>{{ Form::text('temperature', null, array('size' => '8')) }}</td></tr>
@@ -83,13 +119,8 @@
 
 		<tr>
 			<th>Water Additive</th>
-			<td>
-			{{ Form::select('animal', array(
-			    'Cats' => array('leopard' => 'Leopard'),
-			    'Dogs' => array('spaniel' => 'Spaniel'),
-			)) }}	
-			</td>
-			<td>{{ Form::text('ammount', null, array('size' => '8')) }} mL </td>
+			<td>{{ Form::select('waterAdditive', $waterAdditives) }}</td>
+			<td>{{ Form::text('waterAdditiveAmount', null, array('size' => '8')) }} mL </td>
 		</tr>
 	
 		<tr>

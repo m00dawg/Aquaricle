@@ -2,6 +2,54 @@
 
 class AquariumLogsController extends BaseController {
 
+
+	private function addWaterLog($aquariumLogID)
+	{
+		if(Input::get('temperature') != '' ||
+		   Input::get('ammonia') != '' ||
+		   Input::get('nitrites') != '' ||
+		   Input::get('nitrates') != '' ||
+		   Input::get('phosphates') != '' ||
+		   Input::get('pH') != '' ||
+		   Input::get('KH') != '' ||
+		   Input::get('ammountExchanged') != '')
+		{
+			$waterTestLog = new WaterTestLog();
+			$waterTestLog->aquariumLogID = $aquariumLogID;
+
+			if(Input::get('temperature') != '')
+				$waterTestLog->temperature = Input::get('temperature');
+			if(Input::get('ammonia') != '')
+				$waterTestLog->ammonia = Input::get('ammonia');
+			if(Input::get('nitrites') != '')
+				$waterTestLog->nitrites = Input::get('nitrites');
+			if(Input::get('nitrates') != '')
+				$waterTestLog->nitrates = Input::get('nitrates');
+			if(Input::get('phosphates') != '')
+				$waterTestLog->phosphates = Input::get('phosphates');
+			if(Input::get('pH') != '')
+				$waterTestLog->pH = Input::get('pH');
+			if(Input::get('KH') != '')
+				$waterTestLog->KH = Input::get('KH');
+			if(Input::get('ammountExchanged') != '')
+				$waterTestLog->KH = Input::get('ammountExchanged');
+			
+			$waterTestLog->save();
+		}
+	}
+	
+	public function addWaterAdditive($aquariumLogID)
+	{
+		if(Input::get('waterAdditive') != '')
+		{
+			$additive = new WaterAdditiveLog();
+			$additive->aquariumLogID = $aquariumLogID;
+			$additive->waterAdditiveID = Input::get('waterAdditive');
+			$additive->amount = Input::get('waterAdditiveAmount');
+			$additive->save();
+		}
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -19,8 +67,10 @@ class AquariumLogsController extends BaseController {
 	 */
 	public function create($aquariumID)
 	{
+		$waterAdditives = WaterAdditive::lists('name', 'waterAdditiveID');
 		return View::make('aquariumlogs/editlog')
-			->with('aquariumID', $aquariumID);
+			->with('aquariumID', $aquariumID)
+			->with('waterAdditives', $waterAdditives);
 	}
 
 
@@ -40,8 +90,12 @@ class AquariumLogsController extends BaseController {
 			if($logDate != '')
 				$log->logDate = Input::get('logDate');
 		
+		DB::beginTransaction();
 		$log->save();
 		$aquariumLogID = $log->aquariumLogID;
+		$this->addWaterLog($aquariumLogID);
+		$this->addWaterAdditive($aquariumLogID);
+		DB::commit();
 		
 		return Redirect::to("aquariums/$aquariumID/logs/$aquariumLogID/edit");
 	}
@@ -66,11 +120,21 @@ class AquariumLogsController extends BaseController {
 	 */
 	public function edit($aquariumID, $logID)
 	{
-		$log = AquariumLog::find($logID);
-		$waterTestLog = $log->waterTestLog();
+		DB::beginTransaction();
+		$log = AquariumLog::where('AquariumLogs.aquariumLogID', '=', $logID)
+			->leftjoin('WaterTestLogs', 'waterTestLogs.aquariumLogID', '=', 'aquariumLogs.aquariumLogID')
+			->first();
+		$waterAdditives = WaterAdditive::lists('name', 'waterAdditiveID');
+		$waterAdditiveLogs = WaterAdditiveLog::where('aquariumLogID', '=', $logID)
+			->join('WaterAdditives', 'WaterAdditives.waterAdditiveID', '=', 'WaterAdditiveLogs.waterAdditiveID')
+			->get();
+		DB::commit();
+
 		return View::make('aquariumlogs/editlog')
 			->with('aquariumID', $aquariumID)
-			->with('log', $log);
+			->with('log', $log)
+			->with('waterAdditives', $waterAdditives)
+			->with('waterAdditiveLogs', $waterAdditiveLogs);
 	}
 
 
@@ -83,6 +147,8 @@ class AquariumLogsController extends BaseController {
 	 */
 	public function update($aquariumID, $aquariumLogID)
 	{		
+		DB::beginTransaction();
+		
 		$log = AquariumLog::where('aquariumLogID', '=', $aquariumLogID)->first();
 		
 		if($log->aquariumID != $aquariumID)
@@ -95,26 +161,11 @@ class AquariumLogsController extends BaseController {
 			if($logDate != '')
 				$log->logDate = Input::get('logDate');
 		
-		if(Input::get('temperature') != '' ||
-		   Input::get('ammonia') != '' ||
-		   Input::get('nitrites') != '' ||
-		   Input::get('nitrates') != '' ||
-		   Input::get('phosphates') != '' ||
-		   Input::get('pH') != '' ||
-		   Input::get('KH') != '' ||
-		   Input::get('ammountExchanged') != '')
-		{
-			$waterTestLog = new WaterTestLog();
-			$waterTestLog->aquariumLogID = $aquariumLogID;
-
-			if(Input::get('temperature') != '')
-				$waterTestLog->temperature = Input::get('temperature');
-			
-			$waterTestLog->save();
-		}
-		
 		$log->save();
-		
+		$this->addWaterLog($aquariumLogID);
+		$this->addWaterAdditive($aquariumLogID);
+		DB::commit();
+	
 		return Redirect::to("aquariums/$aquariumID/logs/$aquariumLogID/edit");
 	}
 
