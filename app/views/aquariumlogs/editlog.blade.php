@@ -11,10 +11,11 @@
 	<table>
 		<tr><th>Date</th><td>{{ $log->logDate }}</td></tr>
 		<tr><th>Summary</th><td>{{ $log->summary }}</td></tr>
-		<tr><th colspan="2">Comments</th></tr>
-		<tr><td>{{ $log->comments }}</td></tr>
+		@if (!empty($log->comments))
+			<tr><th colspan="2">Comments</th></tr>
+			<tr><td>{{ $log->comments }}</td></tr>
+		@endif
 	</table>
-
 
 	@if (isset($log->temperature) || 
 		 isset($log->ammonia) ||
@@ -50,7 +51,7 @@
 	@endif
 	<br />
 	
-	@if (isset($waterAdditiveLogs))
+	@if (count($waterAdditiveLogs) > 0)
 		<table>
 			<tr><th>Additive</th><th>Amount</th></tr>
 			@foreach($waterAdditiveLogs as $additiveLog)
@@ -60,9 +61,21 @@
 				</tr>	
 			@endforeach
 		</table>
+		<br />
 	@endif
 	
-
+	@if (count($equipmentLogs) > 0)
+		<table>
+			<tr><th>Equipment</th><th>Maintenance</th></tr>
+			@foreach($equipmentLogs as $equipmentItem)
+				<tr>
+					<td>{{ $equipmentItem->name }}</td>
+					<td>{{ $equipmentItem->maintenance }}</td>
+				</tr>
+			@endforeach
+		</table>
+		<br />
+	@endif
 
 	<h3>Modify Log Entry</h3>
 @else
@@ -70,30 +83,13 @@
 @endif
 
 
-
-<div class="formBox">
-	Aquarium: {{ $aquariumID }}<br />
-	
-	<table>
+<div class="formBox">	
 	@if (isset($log))
 		{{ Form::model($log, array('route' => array("aquariums.logs.update", $aquariumID, $log->aquariumLogID), 'method' => 'PUT')) }}		
 	@else
 		{{ Form::open(array('url' => "aquariums/$aquariumID/logs")) }}
 	@endif
 	
-		{{ Form::label('logDate', 'Date') }}: {{ Form::text('logDate') }}<br />
-		{{ Form::label('comments', 'Comments') }}: {{ Form::textarea('comments') }}<br />
-			
-	</table>
-	<br />
-		
-	@if (isset($log))
-		{{ Form::submit('Update') }}
-	@else
-		{{ Form::submit('Add') }}
-	@endif	
-	<br />
-	<br />
 	<table>
 		<tr><th colspan="2">Water Logs</th></tr>
 		<tr><th>Temperature</th><td>{{ Form::text('temperature', null, array('size' => '8')) }}</td></tr>
@@ -102,18 +98,17 @@
 		<tr><th>Nitrates</th><td>{{ Form::text('nitrates', null, array('size' => '8')) }}</td></tr>
 		<tr><th>Phosphates</th><td>{{ Form::text('phosphates', null, array('size' => '8')) }}</td></tr>
 		<tr><th>pH</th><td>{{ Form::text('pH', null, array('size' => '8')) }}</td></tr>
-		<tr><th>KH</th><td>{{ Form::text('kH', null, array('size' => '8')) }}</td></tr>
-		<tr><th>Water Exchanged</th><td>{{ Form::text('ammountExchanged', null, array('size' => '8')) }}</td></tr>
+		<tr><th>KH</th><td>{{ Form::text('KH', null, array('size' => '8')) }}</td></tr>
+		<tr><th>Water Exchanged</th><td>{{ Form::text('amountExchanged', null, array('size' => '8')) }}</td></tr>
 	</table>
 	<br />
 	<table>
 		<tr>
 			<th>Food</th>
 			<td colspan="2">
-				{{ Form::select('animal', array(
-				    'Cats' => array('leopard' => 'Leopard'),
-				    'Dogs' => array('spaniel' => 'Spaniel'),
-				)) }}	
+				@foreach($food as $item)
+					{{ Form::checkbox($item->name, $item->foodID) }} {{ $item->name }}<br />
+				@endforeach
 			</td>
 		</tr>
 
@@ -125,19 +120,24 @@
 	
 		<tr>
 			<th>Equipment</th>
-			<td colspan="2">
-				{{ Form::select('animal', array(
-				    'Cats' => array('leopard' => 'Leopard'),
-				    'Dogs' => array('spaniel' => 'Spaniel'),
-				)) }}	
-			</td>
+			<td>{{ Form::select('equipment', $equipment) }}</td>
+			<td>{{ Form::checkbox('equipmentMaintenance') }} Maintenance</td>
 		</tr>
 
 	</table>
 
 	<br />
-	{{ Form::submit('Add') }}
-
+	
+	{{ Form::label('logDate', 'Date') }}: {{ Form::text('logDate') }}<br />
+	{{ Form::label('comments', 'Comments') }}: {{ Form::textarea('comments') }}<br />
+			
+		
+	@if (isset($log))
+		{{ Form::submit('Update') }}
+	@else
+		{{ Form::submit('Add') }}
+	@endif	
+	
 	{{ Form::close() }}
 
 

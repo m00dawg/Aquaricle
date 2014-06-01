@@ -3,7 +3,7 @@
 class AquariumLogsController extends BaseController {
 
 
-	private function addWaterLog($aquariumLogID)
+	private function updateWaterTestLog($aquariumLogID)
 	{
 		if(Input::get('temperature') != '' ||
 		   Input::get('ammonia') != '' ||
@@ -12,11 +12,10 @@ class AquariumLogsController extends BaseController {
 		   Input::get('phosphates') != '' ||
 		   Input::get('pH') != '' ||
 		   Input::get('KH') != '' ||
-		   Input::get('ammountExchanged') != '')
+		   Input::get('amountExchanged') != '')
 		{
-			$waterTestLog = new WaterTestLog();
+			$waterTestLog = WaterTestLog::FirstOrNew(array('aquariumLogID' => $aquariumLogID));
 			$waterTestLog->aquariumLogID = $aquariumLogID;
-
 			if(Input::get('temperature') != '')
 				$waterTestLog->temperature = Input::get('temperature');
 			if(Input::get('ammonia') != '')
@@ -31,23 +30,107 @@ class AquariumLogsController extends BaseController {
 				$waterTestLog->pH = Input::get('pH');
 			if(Input::get('KH') != '')
 				$waterTestLog->KH = Input::get('KH');
-			if(Input::get('ammountExchanged') != '')
-				$waterTestLog->KH = Input::get('ammountExchanged');
-			
+			if(Input::get('amountExchanged') != '')
+				$waterTestLog->amountExchanged = Input::get('amountExchanged');	
 			$waterTestLog->save();
+			return 'Tested Water';
 		}
 	}
 	
-	public function addWaterAdditive($aquariumLogID)
+	// We had to use DB::table here over Eloquent because Eloquent does not support composite primary keys
+	private function updateWaterAdditive($aquariumLogID)
 	{
+		// First see if an additive was selected
 		if(Input::get('waterAdditive') != '')
-		{
-			$additive = new WaterAdditiveLog();
-			$additive->aquariumLogID = $aquariumLogID;
-			$additive->waterAdditiveID = Input::get('waterAdditive');
-			$additive->amount = Input::get('waterAdditiveAmount');
-			$additive->save();
-		}
+ 			if(Input::get('waterAdditive') != 0)
+			{
+				// See if it exists in the DB
+				$additiveLog = DB::table('WaterAdditiveLogs')
+					->where('aquariumLogID', '=', $aquariumLogID)
+					->where('waterAdditiveID', '=', Input::get('waterAdditive'))	
+					->first();
+				if(isset($additiveLog))
+				{
+					// Now see if we need to update the additive, or delete the entry
+					if(Input::get('waterAdditiveAmount') > 0)
+					{
+						// There is probably a better way to do this, but convert the standard DB object above into an array
+						// and include the amount
+						$additiveLog = array('aquariumLogID' => $additiveLog->aquariumLogID,
+							'waterAdditiveID' => $additiveLog->waterAdditiveID,
+							'amount' => Input::get('waterAdditiveAmount'));
+						DB::table('WaterAdditiveLogs')
+							->where('aquariumLogID', '=', $aquariumLogID)
+							->where('waterAdditiveID', '=', Input::get('waterAdditive'))
+							->update($additiveLog);
+					}
+					elseif(Input::get('waterAdditiveAmount') == 0)
+					{
+						DB::table('WaterAdditiveLogs')
+							->where('aquariumLogID', '=', $aquariumLogID)
+							->where('waterAdditiveID', '=', Input::get('waterAdditive'))
+							->delete();
+					}
+				}
+				// Otherwise, let's add a new entry
+				elseif(Input::get('waterAdditiveAmount') > 0)
+				{
+					DB::table('WaterAdditiveLogs')->insert(
+					    array('aquariumLogID' => $aquariumLogID, 
+							  'waterAdditiveID' => Input::get('waterAdditive'),
+							  'amount' => Input::get('waterAdditiveAmount')));
+				}
+				return 'Additive Added';
+			}
+	}
+	
+	// We had to use DB::table here over Eloquent because Eloquent does not support composite primary keys
+	private function updateEquipmentLog($aquariumLogID)
+	{
+		// First see if an equipment was selected
+		if(Input::get('equipment') != '')
+ 			if(Input::get('equipment') != 0)
+			{
+				// Now check whether it was a maintenance
+				if(Input::get('equipmentMaintenance'))
+					$maintenance = 'Yes';
+				else
+					$maintenance = 'No';
+				
+				// See if it exists in the DB
+				$equipmentLog = DB::table('EquipmentLogs')
+					->where('aquariumLogID', '=', $aquariumLogID)
+					->where('equipmentID', '=', Input::get('equipment'))	
+					->first();
+				// If so, we update the entry
+				if(isset($equipmentLog))
+				{	
+					// As with the WaterAdditiveLogs, this is not elegant and should be improved.
+					$equipmentLog = array('aquariumLogID' => $equipmentLog->aquariumLogID,
+						'maintenance' => $maintenance);
+					DB::table('EquipmentLogs')
+						->where('aquariumLogID', '=', $aquariumLogID)
+						->where('equipmentID', '=', Input::get('equipment'))
+						->update($equipmentLog);
+				}
+				// Otherwise, we add a new entry
+				else
+				{
+					DB::table('EquipmentLogs')->insert(
+					    array('aquariumLogID' => $aquariumLogID, 
+							  'equipmentID' => Input::get('equipment'),
+							  'maintenance' => $maintenance));
+				}
+				return 'Equipment Changes';
+			}
+	}
+	
+	/**
+	 * Generate a summary based on the child tables associated with the log entry
+	 */
+	private function generateLogSummary($aquariumLogID)
+	{
+		
 	}
 
 	/**
@@ -67,10 +150,15 @@ class AquariumLogsController extends BaseController {
 	 */
 	public function create($aquariumID)
 	{
-		$waterAdditives = WaterAdditive::lists('name', 'waterAdditiveID');
+		$food = Food::get();
+		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
+		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)->lists('name', 'equipmentID');
+
 		return View::make('aquariumlogs/editlog')
 			->with('aquariumID', $aquariumID)
-			->with('waterAdditives', $waterAdditives);
+			->with('food', $food)
+			->with('waterAdditives', $waterAdditives)
+			->with('equipment', $equipment);
 	}
 
 
@@ -89,12 +177,14 @@ class AquariumLogsController extends BaseController {
 		if(isset($logDate))
 			if($logDate != '')
 				$log->logDate = Input::get('logDate');
-		
+				
 		DB::beginTransaction();
 		$log->save();
 		$aquariumLogID = $log->aquariumLogID;
-		$this->addWaterLog($aquariumLogID);
-		$this->addWaterAdditive($aquariumLogID);
+		$summary = $this->updateWaterTestLog($aquariumLogID);
+		$summary .= ", " . $this->updateWaterAdditive($aquariumLogID);
+		$log->summary = $summary;
+		$log->save();
 		DB::commit();
 		
 		return Redirect::to("aquariums/$aquariumID/logs/$aquariumLogID/edit");
@@ -124,17 +214,28 @@ class AquariumLogsController extends BaseController {
 		$log = AquariumLog::where('AquariumLogs.aquariumLogID', '=', $logID)
 			->leftjoin('WaterTestLogs', 'waterTestLogs.aquariumLogID', '=', 'aquariumLogs.aquariumLogID')
 			->first();
-		$waterAdditives = WaterAdditive::lists('name', 'waterAdditiveID');
+		$food = Food::get();
+		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
+		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)->lists('name', 'equipmentID');
+		
 		$waterAdditiveLogs = WaterAdditiveLog::where('aquariumLogID', '=', $logID)
 			->join('WaterAdditives', 'WaterAdditives.waterAdditiveID', '=', 'WaterAdditiveLogs.waterAdditiveID')
 			->get();
+		
+		$equipmentLogs = EquipmentLog::where('aquariumLogID', '=', $logID)
+			->join('Equipment', 'Equipment.equipmentID', '=', 'EquipmentLogs.equipmentID')
+			->get();
+		
 		DB::commit();
 
 		return View::make('aquariumlogs/editlog')
 			->with('aquariumID', $aquariumID)
 			->with('log', $log)
+			->with('food', $food)
 			->with('waterAdditives', $waterAdditives)
-			->with('waterAdditiveLogs', $waterAdditiveLogs);
+			->with('waterAdditiveLogs', $waterAdditiveLogs)
+				->with('equipmentLogs', $equipmentLogs)
+			->with('equipment', $equipment);
 	}
 
 
@@ -152,18 +253,21 @@ class AquariumLogsController extends BaseController {
 		$log = AquariumLog::where('aquariumLogID', '=', $aquariumLogID)->first();
 		
 		if($log->aquariumID != $aquariumID)
+		{
+			DB::rollback();
 			return Redirect::to("aquariums");
-		
-		$log->comments = Input::get('comments');
-		
+		}
+	
+		$log->comments = Input::get('comments');		
 		$logDate = Input::get('logDate');
 		if(isset($logDate))
 			if($logDate != '')
 				$log->logDate = Input::get('logDate');
-		
+		$summary = $this->updateWaterTestLog($aquariumLogID);
+		$summary .= ", " . $this->updateWaterAdditive($aquariumLogID);
+		$summary .= ", " . $this->updateEquipmentLog($aquariumLogID);
+		$log->summary = $summary;
 		$log->save();
-		$this->addWaterLog($aquariumLogID);
-		$this->addWaterAdditive($aquariumLogID);
 		DB::commit();
 	
 		return Redirect::to("aquariums/$aquariumID/logs/$aquariumLogID/edit");
