@@ -1,6 +1,7 @@
 <?php
 
-class AquariumLogsController extends BaseController {
+class AquariumLogsController extends BaseController
+{
 
 
 	private function updateWaterTestLog($aquariumLogID)
@@ -234,7 +235,7 @@ class AquariumLogsController extends BaseController {
 			->with('food', $food)
 			->with('waterAdditives', $waterAdditives)
 			->with('waterAdditiveLogs', $waterAdditiveLogs)
-				->with('equipmentLogs', $equipmentLogs)
+			->with('equipmentLogs', $equipmentLogs)
 			->with('equipment', $equipment);
 	}
 
@@ -248,8 +249,10 @@ class AquariumLogsController extends BaseController {
 	 */
 	public function update($aquariumID, $aquariumLogID)
 	{		
+		if(Input::get('delete'))
+			return $this->destroy($aquariumID, $aquariumLogID);
+			
 		DB::beginTransaction();
-		
 		$log = AquariumLog::where('aquariumLogID', '=', $aquariumLogID)->first();
 		
 		if($log->aquariumID != $aquariumID)
@@ -280,9 +283,13 @@ class AquariumLogsController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($aquariumID, $aquariumLogID)
 	{
-		//
+		$log = AquariumLog::where('aquariumLogID', '=', $aquariumLogID)
+			->where('aquariumID', '=', $aquariumID)
+			->first();
+		$log->delete();
+		return Redirect::to("aquariums/$aquariumID/");
 	}
 	
 

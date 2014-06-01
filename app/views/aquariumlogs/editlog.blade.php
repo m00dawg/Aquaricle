@@ -87,7 +87,7 @@
 	@if (isset($log))
 		{{ Form::model($log, array('route' => array("aquariums.logs.update", $aquariumID, $log->aquariumLogID), 'method' => 'PUT')) }}		
 	@else
-		{{ Form::open(array('url' => "aquariums/$aquariumID/logs")) }}
+		{{ Form::open(array('url' => "aquariums/$aquariumID/logs", 'method' => 'PUT')) }}
 	@endif
 	
 	<table>
@@ -131,15 +131,15 @@
 	{{ Form::label('logDate', 'Date') }}: {{ Form::text('logDate') }}<br />
 	{{ Form::label('comments', 'Comments') }}: {{ Form::textarea('comments') }}<br />
 			
-		
 	@if (isset($log))
 		{{ Form::submit('Update') }}
 	@else
 		{{ Form::submit('Add') }}
 	@endif	
 	
+	<input type="submit" name="delete" value="Delete">
+	
 	{{ Form::close() }}
-
 
 </div>
 

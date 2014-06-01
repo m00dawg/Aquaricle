@@ -32,7 +32,6 @@ class AquariumController extends BaseController
 		
 		$logs = $aquarium->aquariumLogs()
 			->where('logDate', '>=', $dateSub)
-			->with('waterTestLog')
 			->get();
 		
 		return View::make('aquarium')
@@ -81,7 +80,7 @@ class AquariumController extends BaseController
 		return Redirect::to("aquariums/$aquariumID/edit");
 	}
 	
-	public function destory($aquariumID)
+	public function destroy($aquariumID)
 	{
 		//
 	}
