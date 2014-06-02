@@ -10,15 +10,26 @@
 		 {{ $aquarium->width }} {{ $measurementUnits['Length'] }}  x 
 		 {{ $aquarium->height }} {{ $measurementUnits['Length'] }})</li>
 	<li><strong>Active Since:</strong> {{ $aquarium->createdAt }}</li>
+	<li><strong>Last Water Change:</strong>
+		@if ($lastWaterChange->logDate)
+			{{ $lastWaterChange->changePct }}% {{ $lastWaterChange->daysSince }} Days Ago</li>
+		@else
+			Water Never Changed
+		@endif
 </ul>
 
 <h3>Equipment</h3>
 
 <table>
-	<tr><th>Equipment</th></tr>
+	<tr><th>Equipment</th><th>Last Maintenance</th><th>Days Since</th><th>Next Due</th></tr>
 	@if (count($equipment) > 0)
 		@foreach($equipment as $equip)
-			<tr><td>{{ link_to("aquariums/$aquarium->aquariumID/equipment/$equip->equipmentID/edit", $equip->name) }}</td></tr>
+			<tr>
+				<td>{{ link_to("aquariums/$aquarium->aquariumID/equipment/$equip->equipmentID/edit", $equip->name) }}</td>
+				<td>{{ $equip->lastMaint }}</td>
+				<td>{{ $equip->daysSinceMaint }}</td>
+				<td>{{ $equip->nextMaintDays }}</td>
+			</tr>
 		@endforeach
 	@else
 		<tr><td colspan="2">No Equipment Has Been Added Yet</td></tr>

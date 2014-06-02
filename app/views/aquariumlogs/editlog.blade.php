@@ -144,4 +144,7 @@
 
 </div>
 
+{{ link_to("aquariums/$aquariumID/", "Go Back") }}</td>
+
+
 @stop

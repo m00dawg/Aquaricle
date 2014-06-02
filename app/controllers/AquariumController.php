@@ -28,25 +28,42 @@ class AquariumController extends BaseController
 		$dateSub = new DateTime();
 		$dateSub->sub(new DateInterval('P10D'));
 
+		DB::beginTransaction();
+		
 		$aquarium = Aquarium::singleAquarium($aquariumID);
 		
 		$logs = $aquarium->aquariumLogs()
 			->where('logDate', '>=', $dateSub)
 			->get();
 		
-		/*
 		$equipment = $aquarium->equipment()
+			->select(DB::raw(
+				'Equipment.equipmentID, Equipment.name, 
+				MAX(AquariumLogs.logDate) AS lastMaint,
+				DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS daysSinceMaint,
+				Equipment.maintInterval - DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS nextMaintDays'))
 			->join('EquipmentLogs', 'EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
 			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
-			->select('DATEDIFF(UTC_TIMESTAMP(), AquariumLogs.logDate)')
+			->groupby('Equipment.equipmentID')
 			->get();
-		*/
+			
+		$lastWaterChange = DB::table('Aquariums')
+			->select(DB::raw('logDate, DATEDIFF(logDate, NOW()) AS daysSince,
+				ROUND((amountExchanged / capacity) * 100, 0) AS changePct'))
+			->join('AquariumLogs', 'AquariuMLogs.aquariumID', '=', 'Aquariums.aquariumID')
+			->join('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
+			->where('Aquariums.aquariumID', '=', $aquariumID)
+			->whereNotNull('amountExchanged')
+			->orderby('logDate', 'desc')
+			->first();
+
 		
-		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)->lists('name', 'equipmentID');
+		DB::commit();
 		
 		
 		return View::make('aquarium')
 			->with('aquarium', $aquarium)
+			->with('lastWaterChange', $lastWaterChange)
 			->with('logs', $logs)
 			->with('equipment', $equipment)
 			->with('measurementUnits', $aquarium->getMeasurementUnits());
