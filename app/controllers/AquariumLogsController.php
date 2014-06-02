@@ -184,6 +184,7 @@ class AquariumLogsController extends BaseController
 		$aquariumLogID = $log->aquariumLogID;
 		$summary = $this->updateWaterTestLog($aquariumLogID);
 		$summary .= ", " . $this->updateWaterAdditive($aquariumLogID);
+		$summary .= ", " . $this->updateEquipmentLog($aquariumLogID);
 		$log->summary = $summary;
 		$log->save();
 		DB::commit();

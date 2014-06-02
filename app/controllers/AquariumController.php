@@ -34,8 +34,16 @@ class AquariumController extends BaseController
 			->where('logDate', '>=', $dateSub)
 			->get();
 		
+		/*
 		$equipment = $aquarium->equipment()
+			->join('EquipmentLogs', 'EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
+			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
+			->select('DATEDIFF(UTC_TIMESTAMP(), AquariumLogs.logDate)')
 			->get();
+		*/
+		
+		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)->lists('name', 'equipmentID');
+		
 		
 		return View::make('aquarium')
 			->with('aquarium', $aquarium)
