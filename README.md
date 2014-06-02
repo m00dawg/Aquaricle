@@ -3,6 +3,11 @@ Aquaricle
 
 Django-powered web-project for managing an aquarium, and tracking stats from an Aquariduino.
 
+Dependencies
+------------
+ * Django 1.6
+ * bcrypt
+
 Features Include
 ----------------
 
