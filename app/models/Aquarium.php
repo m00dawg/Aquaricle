@@ -42,6 +42,11 @@ class Aquarium extends BaseModel {
 	{
 		return $this->hasMany('AquariumLog', 'aquariumID');
 	}
+	
+	public function equipment()
+	{
+		return $this->hasMany('Equipment', 'aquariumID');
+	}
 
 
 }

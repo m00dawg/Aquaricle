@@ -214,6 +214,9 @@ class AquariumLogsController extends BaseController
 		DB::beginTransaction();
 		$log = AquariumLog::where('AquariumLogs.aquariumLogID', '=', $logID)
 			->leftjoin('WaterTestLogs', 'waterTestLogs.aquariumLogID', '=', 'aquariumLogs.aquariumLogID')
+			->select('AquariumLogs.aquariumLogID', 'AquariumLogs.aquariumID', 'logDate', 
+				'summary', 'comments', 'temperature', 'ammonia', 'nitrites', 'nitrates',
+				'phosphates', 'pH', 'KH', 'amountExchanged')
 			->first();
 		$food = Food::get();
 		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
@@ -238,7 +241,6 @@ class AquariumLogsController extends BaseController
 			->with('equipmentLogs', $equipmentLogs)
 			->with('equipment', $equipment);
 	}
-
 
 	/**
 	 * Update the specified resource in storage.

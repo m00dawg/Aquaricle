@@ -34,9 +34,13 @@ class AquariumController extends BaseController
 			->where('logDate', '>=', $dateSub)
 			->get();
 		
+		$equipment = $aquarium->equipment()
+			->get();
+		
 		return View::make('aquarium')
 			->with('aquarium', $aquarium)
 			->with('logs', $logs)
+			->with('equipment', $equipment)
 			->with('measurementUnits', $aquarium->getMeasurementUnits());
 	}
 	

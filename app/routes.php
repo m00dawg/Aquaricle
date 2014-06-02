@@ -13,7 +13,7 @@
 
 /* Some Magical Route Filters */
 Route::when('aquarium*', 'auth');
-Route::when('*', 'csrf', array('post'));
+Route::when('*', 'csrf', array('post', 'put', 'patch'));
 
 /* RESTful Resource Controllers */
 Route::resource('aquariums', 'AquariumController');
@@ -21,7 +21,8 @@ Route::resource('aquariums.logs', 'AquariumLogsController');
 
 Route::get('/', function()
 {
-	return View::make('index');
+	//return View::make('index');
+	return Redirect::to('login');
 });
 
 Route::get('login', function()
