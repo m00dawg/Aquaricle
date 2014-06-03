@@ -126,6 +126,23 @@ class AquariumLogsController extends BaseController
 			}
 	}
 	
+	private function updateSubLogs($aquariumLogID)
+	{
+		$waterTestResults = $this->updateWaterTestLog($aquariumLogID);	
+		if(isset($waterTestResults))
+			$summary = $waterTestResults;
+
+		$waterAdditiveResults = $this->updateWaterAdditive($aquariumLogID);
+		if(isset($waterAdditiveResults))
+			$summary .= ", " . $waterAdditiveResults;
+
+		$equipmentResults = $this->updateEquipmentLog($aquariumLogID);
+		if(isset($equipmentResults))
+			$summary .= ", " . $equipmentResults;
+		
+		return $summary;
+	}
+	
 	/**
 	 * Generate a summary based on the child tables associated with the log entry
 	 */
@@ -182,10 +199,7 @@ class AquariumLogsController extends BaseController
 		DB::beginTransaction();
 		$log->save();
 		$aquariumLogID = $log->aquariumLogID;
-		$summary = $this->updateWaterTestLog($aquariumLogID);
-		$summary .= ", " . $this->updateWaterAdditive($aquariumLogID);
-		$summary .= ", " . $this->updateEquipmentLog($aquariumLogID);
-		$log->summary = $summary;
+		$log->summary = $this->updateSubLogs($aquariumLogID);
 		$log->save();
 		DB::commit();
 		
