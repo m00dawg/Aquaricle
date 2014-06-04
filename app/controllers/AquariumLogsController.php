@@ -249,7 +249,7 @@ class AquariumLogsController extends BaseController
 	{
 		DB::beginTransaction();
 		$log = AquariumLog::where('AquariumLogs.aquariumLogID', '=', $logID)
-			->leftjoin('WaterTestLogs', 'waterTestLogs.aquariumLogID', '=', 'aquariumLogs.aquariumLogID')
+			->leftjoin('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->select('AquariumLogs.aquariumLogID', 'AquariumLogs.aquariumID', 'logDate', 
 				'summary', 'comments', 'temperature', 'ammonia', 'nitrites', 'nitrates',
 				'phosphates', 'pH', 'KH', 'amountExchanged')
