@@ -11,7 +11,7 @@
 		 {{ $aquarium->height }} {{ $measurementUnits['Length'] }})</li>
 	<li><strong>Active Since:</strong> {{ $aquarium->createdAt }}</li>
 	<li><strong>Last Water Change:</strong>
-		@if ($lastWaterChange->logDate)
+		@if ($lastWaterChange)
 			{{ $lastWaterChange->changePct }}% ({{ $lastWaterChange->amountExchanged }} {{ $measurementUnits['Volume'] }}) - 
 			{{ $lastWaterChange->daysSince }} Day
 			@if ($lastWaterChange->daysSince > 1)
