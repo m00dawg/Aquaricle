@@ -125,6 +125,17 @@ class AquariumLogsController extends BaseController
 			}
 	}
 	
+	private function updateFoodLog($aquariumLogID)
+	{
+		//First delete what's there
+		DB::table('FoodLogs')->where('aquariumLogID', '=', $aquariumLogID)->delete();
+		//Then check to see if food is part of input
+		if(Input::get('food') != '')
+ 			if(Input::get('food') != 0)	
+				foreach(Input::get('food') as $foodID)
+					DB::table('FoodLogs')->insert(array('aquariumLogID' => $aquariumLogID, 'foodID' => $foodID));
+	}
+	
 	private function generateLogSummary($aquariumLogID)
 	{	
 		// Water Test Log
@@ -164,6 +175,15 @@ class AquariumLogsController extends BaseController
 			if($summary != '')
 				$summary .= ', ';
 			$summary .= 'Maintained Equipment';
+		}
+		
+		// Food
+		$foodLog = FoodLog::where('aquariumLogID', '=', $aquariumLogID)->get();
+		if(count($foodLog) > 0)
+		{
+			if($summary != '')
+				$summary .= ', ';
+			$summary .= 'Fed Fish';
 		}
 		
 		return $summary;
@@ -254,7 +274,10 @@ class AquariumLogsController extends BaseController
 				'summary', 'comments', 'temperature', 'ammonia', 'nitrites', 'nitrates',
 				'phosphates', 'pH', 'KH', 'amountExchanged')
 			->first();
-		$food = Food::get();
+		$food = Food::leftjoin('FoodLogs', 'FoodLogs.foodID', '=', 'Food.foodID')
+			->selectraw('Food.foodID AS foodID, name, IF(aquariumLogID, true, false) AS selected')
+			->get();
+		
 		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
 		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)
 			->lists('name', 'equipmentID');
@@ -267,6 +290,10 @@ class AquariumLogsController extends BaseController
 			->join('Equipment', 'Equipment.equipmentID', '=', 'EquipmentLogs.equipmentID')
 			->get();
 		
+		$foodLogs = FoodLog::where('aquariumLogID', '=', $logID)
+			->join('Food', 'Food.foodID', '=', 'FoodLogs.foodID')
+			->get();
+		
 		DB::commit();
 
 		return View::make('aquariumlogs/editlog')
@@ -276,7 +303,8 @@ class AquariumLogsController extends BaseController
 			->with('waterAdditives', $waterAdditives)
 			->with('waterAdditiveLogs', $waterAdditiveLogs)
 			->with('equipmentLogs', $equipmentLogs)
-			->with('equipment', $equipment);
+			->with('equipment', $equipment)
+			->with('foodLogs', $foodLogs);
 	}
 
 	/**
@@ -308,6 +336,7 @@ class AquariumLogsController extends BaseController
 		$this->updateWaterTestLog($aquariumLogID);
 		$this->updateWaterAdditive($aquariumLogID);
 		$this->updateEquipmentLog($aquariumLogID);
+		$this->updateFoodLog($aquariumLogID);
 		$log->summary = $this->generateLogSummary($aquariumLogID);
 		$log->save();
 		DB::commit();

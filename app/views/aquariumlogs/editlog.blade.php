@@ -76,6 +76,15 @@
 		</table>
 		<br />
 	@endif
+	
+	@if (count($foodLogs) > 0)
+		<table>
+			<tr><th>Food</th></tr>
+			@foreach($foodLogs as $foodItem)
+				<tr><td>{{ $foodItem->name }}</td></tr>
+			@endforeach
+		</table>
+	@endif
 
 	<h3>Modify Log Entry</h3>
 @else
@@ -108,7 +117,7 @@
 			<th>Food</th>
 			<td colspan="2">
 				@foreach($food as $item)
-					{{ Form::checkbox($item->name, $item->foodID) }} {{ $item->name }}<br />
+					{{ Form::checkbox('food[]', $item->foodID, $item->selected) }} {{ $item->name }}<br />
 				@endforeach
 			</td>
 		</tr>
