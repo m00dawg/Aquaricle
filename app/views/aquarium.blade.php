@@ -23,6 +23,13 @@
 		@endif
 </ul>
 
+<h3>Graphs</h3>
+<div id="graph">
+<a href="/static/graphs/{{ $aquarium->aquariumID }}-temps-full.png">
+    <img src="/static/graphs/{{ $aquarium->aquariumID }}-temps-thumb.png" />
+</a>
+</div>
+
 <h3>Scheduled Equipment Maintenance</h3>
 
 <table>

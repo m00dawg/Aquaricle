@@ -5,8 +5,7 @@ Django-powered web-project for managing an aquarium, and tracking stats from an 
 
 Dependencies
 ------------
- * Django 1.6
- * bcrypt
+ * Laravel
 
 Features Include
 ----------------
@@ -14,7 +13,7 @@ Features Include
  * Tracking Equipment Maintenance
  * Keeping Water Test Sample Logs
  * Track Aquarium Life (In Progress)
- * Integration with Aquariduino (TODO)
+ * Full Integration with Aquariduino (TODO)
 
 TODO
 ----
