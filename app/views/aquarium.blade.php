@@ -9,7 +9,7 @@
 		({{ $aquarium->length }} {{ $measurementUnits['Length'] }} x 
 		 {{ $aquarium->width }} {{ $measurementUnits['Length'] }}  x 
 		 {{ $aquarium->height }} {{ $measurementUnits['Length'] }})</li>
-	<li><strong>Active Since:</strong> {{ $aquarium->createdAt }}</li>
+	<li><strong>Active Since:</strong> {{ $aquarium->activeSince }}</li>
 	<li><strong>Last Water Change:</strong>
 		@if ($lastWaterChange)
 			{{ $lastWaterChange->changePct }}% ({{ $lastWaterChange->amountExchanged }} {{ $measurementUnits['Volume'] }}) - 
