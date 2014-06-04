@@ -67,13 +67,8 @@ table{
     background-color: #F0F0F0;
 }
 
-tr.odd{
-    background-color: #FFFFFF;
-}
-
-tr.even{
-    background-color: #EEEEEE;
-}
+tr:nth-child(even) {background: #EEEEEE}
+tr:nth-child(odd) {background: #FFFFFF}
 
 th{
     color: #FFFFFF;
@@ -105,10 +100,10 @@ a.aquariums:visited { color: #9999FF; }
 a.aquariums:active { color: #9999FF; }
 a.aquariums:hover { color: #FFFF00; }
 
-a.waterlogs:link { color: #000000; }
-a.waterlogs:visited { color: #000000; }
-a.waterlogs:active { color: #000000; }
-a.waterlogs:hover { color: #0000FF; }
+a.logs:link { color: #000000; }
+a.logs:visited { color: #000000; }
+a.logs:active { color: #000000; }
+a.logs:hover { color: #0000FF; }
 
 a.equipment:link { color: #000000; }
 a.equipment:visited { color: #000000; }

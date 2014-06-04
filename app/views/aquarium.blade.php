@@ -37,7 +37,7 @@
 	@if (count($equipment) > 0)
 		@foreach($equipment as $equip)
 			<tr>
-				<td>{{ link_to("aquariums/$aquarium->aquariumID/equipment/$equip->equipmentID/edit", $equip->name) }}</td>
+				<td>{{ link_to("aquariums/$aquarium->aquariumID/equipment/$equip->equipmentID/edit", $equip->name, array('class'=>'logs')) }}</td>
 				<td>{{ $equip->lastMaint }}</td>
 				<td>{{ $equip->daysSinceMaint }}</td>
 				<td>{{ $equip->nextMaintDays }}</td>
@@ -55,7 +55,7 @@
 	@if (count($logs) > 0)
 		@foreach($logs as $log)
 			<tr>
-				<td>{{ link_to("aquariums/$aquarium->aquariumID/logs/$log->aquariumLogID/edit", $log->logDate) }}</td>
+				<td>{{ link_to("aquariums/$aquarium->aquariumID/logs/$log->aquariumLogID/edit", $log->logDate, array('class'=>'logs')) }}</td>
 				<td>{{ $log->summary }}</td>
 			</tr>
 		@endforeach
