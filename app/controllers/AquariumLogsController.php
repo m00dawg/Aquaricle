@@ -126,27 +126,44 @@ class AquariumLogsController extends BaseController
 	}
 	
 	private function generateLogSummary($aquariumLogID)
-	{
-		$waterTestResults = $this->updateWaterTestLog($aquariumLogID);	
-		if(isset($waterTestResults))
-			$summary = $waterTestResults;
-
-		$waterAdditiveResults = $this->updateWaterAdditive($aquariumLogID);
-		if(isset($waterAdditiveResults))
+	{	
+		// Water Test Log
+		$summary = '';
+		$waterLog = WaterTestLog::where('aquariumLogID', '=', $aquariumLogID)->first();
+		if(isset($waterLog))
 		{
-			if(isset($summary))
-				$summary .= ", " . $waterAdditiveResults;
-			else
-				$summary = $waterAdditiveResults;
+			if($waterLog->temperature != '' ||
+			   $waterLog->ammonia != '' ||
+			   $waterLog->nitrites != '' ||
+			   $waterLog->nitrates != '' ||
+			   $waterLog->phosphates != '' ||
+			   $waterLog->pH != '' ||
+			   $waterLog->KH != '')
+				$summary = 'Tested Water';
+			if($waterLog->amountExchanged > 0)
+			{
+				if($summary != '')
+					$summary .= ', ';
+				$summary .= 'Exchanged Water';
+			}
 		}
 		
-		$equipmentResults = $this->updateEquipmentLog($aquariumLogID);
-		if(isset($equipmentResults))
+		// Water Additives Log
+		$waterAdditiveLog = WaterAdditiveLog::where('aquariumLogID', '=', $aquariumLogID)->get();
+		if(count($waterAdditiveLog) > 0)
 		{
-			if(isset($summary))
-				$summary .= ", " . $equipmentResults;
-			else
-				$summary = $equipmentResults;
+			if($summary != '')
+				$summary .= ', ';
+			$summary .= 'Added Additives';
+		}
+		
+		// Equipment Log
+		$equipmentLog = EquipmentLog::where('aquariumLogID', '=', $aquariumLogID)->get();
+		if(count($equipmentLog) > 0)
+		{
+			if($summary != '')
+				$summary .= ', ';
+			$summary .= 'Maintained Equipment';
 		}
 		
 		return $summary;
@@ -200,6 +217,9 @@ class AquariumLogsController extends BaseController
 		DB::beginTransaction();
 		$log->save();
 		$aquariumLogID = $log->aquariumLogID;
+		$this->updateWaterTestLog($aquariumLogID);
+		$this->updateWaterAdditive($aquariumLogID);
+		$this->updateEquipmentLog($aquariumLogID);
 		$log->summary = $this->generateLogSummary($aquariumLogID);
 		$log->save();
 		DB::commit();
@@ -285,6 +305,9 @@ class AquariumLogsController extends BaseController
 		if(isset($logDate))
 			if($logDate != '')
 				$log->logDate = Input::get('logDate');
+		$this->updateWaterTestLog($aquariumLogID);
+		$this->updateWaterAdditive($aquariumLogID);
+		$this->updateEquipmentLog($aquariumLogID);
 		$log->summary = $this->generateLogSummary($aquariumLogID);
 		$log->save();
 		DB::commit();
