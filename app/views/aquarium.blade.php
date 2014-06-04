@@ -12,13 +12,18 @@
 	<li><strong>Active Since:</strong> {{ $aquarium->createdAt }}</li>
 	<li><strong>Last Water Change:</strong>
 		@if ($lastWaterChange->logDate)
-			{{ $lastWaterChange->changePct }}% {{ $lastWaterChange->daysSince }} Days Ago</li>
+			{{ $lastWaterChange->changePct }}% ({{ $lastWaterChange->amountExchanged }} {{ $measurementUnits['Volume'] }}) - 
+			{{ $lastWaterChange->daysSince }} Day
+			@if ($lastWaterChange->daysSince > 1)
+				s
+			@endif
+			Ago</li>
 		@else
 			Water Never Changed
 		@endif
 </ul>
 
-<h3>Equipment Maintenance</h3>
+<h3>Scheduled Equipment Maintenance</h3>
 
 <table>
 	<tr><th>Equipment</th><th>Last Maintenance</th><th>Days Since</th><th>Next Due</th></tr>
