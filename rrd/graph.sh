@@ -31,7 +31,7 @@ GPRINT:minTemperature:"Min\: %2.2lfC" \
 GPRINT:maxTemperature:"Max\: %2.2lfC" \
 GPRINT:avgTemperature:" Average\: %2.2lfC\l"
 
-rrdtool graph ../static/graphs/$ID-relays-thumb.png \
+rrdtool graph ../public/static/graphs/$ID-relays-thumb.png \
 -t "Aquarium Relays" \
 -w 480 -h 120 \
 -E \
@@ -40,7 +40,7 @@ DEF:light=$ID.rrd:light:AVERAGE \
 AREA:light#AAAAFF:"Light\l":STACK \
 AREA:heater#FFFF00:"Heater\l":STACK 
 
-rrdtool graph ../static/graphs/$ID-relays-full.png \
+rrdtool graph ../public/static/graphs/$ID-relays-full.png \
 -t "Aquarium Temperature" \
 -w 1280 -h 640 \
 -E \

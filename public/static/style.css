@@ -67,8 +67,9 @@ table{
     background-color: #F0F0F0;
 }
 
-tr:nth-child(even) {background: #EEEEEE}
-tr:nth-child(odd) {background: #FFFFFF}
+tr:nth-child(even) {background: #EEEEEE; }
+tr:nth-child(odd) {background: #FFFFFF; }
+tr:hover { background: #CCCCFF; }
 
 th{
     color: #FFFFFF;

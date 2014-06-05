@@ -44,7 +44,7 @@
 			</tr>
 		@endforeach
 	@else
-		<tr><td colspan="2">No Equipment Has Been Added Yet</td></tr>
+		<tr><td colspan="4">No Equipment Has Been Added Yet</td></tr>
 	@endif
 </table>
 	
