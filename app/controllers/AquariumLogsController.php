@@ -198,11 +198,13 @@ class AquariumLogsController extends BaseController
 				$summary .= ', ';
 			$summary .= 'Fed Fish';
 			
-			for($count = 0; $count <= count($foodLogCount); ++$count)
+			$count = 0;
+			foreach($foodLog as $foodItem)
 			{
 				$summary .= ' '.$foodLog[$count]->name;
 				if($count + 1 < $foodLogCount)
 					$summary .= ' &amp; ';
+				++$count;
 			}
 		}
 		
@@ -294,7 +296,11 @@ class AquariumLogsController extends BaseController
 				'summary', 'comments', 'temperature', 'ammonia', 'nitrites', 'nitrates',
 				'phosphates', 'pH', 'KH', 'amountExchanged')
 			->first();
-		$food = Food::leftjoin('FoodLogs', 'FoodLogs.foodID', '=', 'Food.foodID')
+		$food = Food::leftjoin('FoodLogs', function ($join) use($logID)
+			{
+				$join->on('FoodLogs.foodID', '=', 'Food.foodID')
+					->where('FoodLogs.aquariumLogID', '=', $logID);
+			})
 			->selectraw('Food.foodID AS foodID, name, IF(aquariumLogID, true, false) AS selected')
 			->get();
 		
