@@ -108,6 +108,7 @@ class AquariumController extends BaseController
 		$aquarium->length = Input::get('length');
 		$aquarium->width = Input::get('width');
 		$aquarium->height = Input::get('height');
+		$aquarium->aquaridawgHostname = Input::get('aquaridawgHostname');
 		$aquarium->save();
 		return Redirect::to("aquariums/$aquariumID/edit");
 	}

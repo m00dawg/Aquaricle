@@ -8,5 +8,8 @@
 		<li>{{ link_to_route('aquariums.show', $aquarium->name, array($aquarium->aquariumID)) }}</li>
 	@endforeach
 </ul>
-	
+
+{{ link_to_route('aquariums.create', 'Add New Aquarium') }}
+
+
 @stop
