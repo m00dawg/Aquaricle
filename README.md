@@ -1,7 +1,7 @@
 Aquaricle
 =========
 
-Django-powered web-project for managing an aquarium, and tracking stats from an Aquariduino.
+Laravel-powered web-project for managing an aquarium, and tracking stats from an Aquariduino.
 
 Dependencies
 ------------
