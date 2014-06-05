@@ -42,10 +42,12 @@ class AquariumController extends BaseController
 				MAX(AquariumLogs.logDate) AS lastMaint,
 				DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS daysSinceMaint,
 				Equipment.maintInterval - DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS nextMaintDays'))
-			->join('EquipmentLogs', 'EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
-			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
+			->leftjoin('EquipmentLogs', 'EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
+			->leftjoin('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
 			->whereNotNull('maintInterval')
+			->whereNull('removedOn')
 			->groupby('Equipment.equipmentID')
+				->orderby('nextMaintDays', 'desc')
 			->get();
 			
 		$lastWaterChange = DB::table('Aquariums')

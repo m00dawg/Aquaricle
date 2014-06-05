@@ -18,6 +18,7 @@ Route::when('*', 'csrf', array('post', 'put', 'patch'));
 /* RESTful Resource Controllers */
 Route::resource('aquariums', 'AquariumController');
 Route::resource('aquariums.logs', 'AquariumLogsController');
+Route::resource('aquariums.equipment', 'EquipmentController');
 
 Route::get('/', function()
 {

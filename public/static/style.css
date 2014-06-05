@@ -78,12 +78,17 @@ th{
 
 td, th{
     border: 1px;
-    border-style: dotted;
+    border-style: solid;
     border-color: #000000; 
 }
 
 td{
-    border-color: #CCCCCC;
+    border-color: #DDDDDD;
+}
+
+td.blank{
+	background: #888888;
+	border-color: #888888;
 }
 
 a{ 

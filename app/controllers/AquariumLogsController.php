@@ -33,7 +33,6 @@ class AquariumLogsController extends BaseController
 			if(Input::get('amountExchanged') != '')
 				$waterTestLog->amountExchanged = Input::get('amountExchanged');	
 			$waterTestLog->save();
-			return 'Tested Water';
 		}
 	}
 	
@@ -54,8 +53,8 @@ class AquariumLogsController extends BaseController
 					// Now see if we need to update the additive, or delete the entry
 					if(Input::get('waterAdditiveAmount') > 0)
 					{
-						// There is probably a better way to do this, but convert the standard DB object above into an array
-						// and include the amount
+						// There is probably a better way to do this, but convert the standard 
+						// DB object above into an array and include the amount
 						$additiveLog = array('aquariumLogID' => $additiveLog->aquariumLogID,
 							'waterAdditiveID' => $additiveLog->waterAdditiveID,
 							'amount' => Input::get('waterAdditiveAmount'));
@@ -80,7 +79,6 @@ class AquariumLogsController extends BaseController
 							  'waterAdditiveID' => Input::get('waterAdditive'),
 							  'amount' => Input::get('waterAdditiveAmount')));
 				}
-				return 'Additive Added';
 			}
 	}
 	
@@ -121,7 +119,6 @@ class AquariumLogsController extends BaseController
 							  'equipmentID' => Input::get('equipment'),
 							  'maintenance' => $maintenance));
 				}
-				return 'Equipment Changes';
 			}
 	}
 	

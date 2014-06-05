@@ -7,9 +7,13 @@ class EquipmentController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($aquariumID)
 	{
-		//
+		$equipment = Equipment::where('aquariumID', '=', $aquariumID)->get();
+		
+	    return View::make('equipment/equipment')
+			->with('aquariumID', $aquariumID)
+			->with('equipment', $equipment);
 	}
 
 
@@ -18,9 +22,10 @@ class EquipmentController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create($aquariumID)
 	{
-		//
+	    return View::make('equipment/editequipment')
+			->with('aquariumID', $aquariumID);
 	}
 
 
@@ -29,9 +34,18 @@ class EquipmentController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store($aquariumID)
 	{
-		//
+		$equipment = new Equipment();
+		$equipment->aquariumID = $aquariumID;
+		$equipment->name = Input::get('name');
+		if(Input::get('installedOn') != '')
+			$equipment->installedOn = Input::get('installedOn');
+		$equipment->maintInterval = Input::get('maintInterval');
+		$equipment->comments = Input::get('comments');
+		$equipment->save();
+		$equipmentID = $equipment->equipmentID;
+		return Redirect::to("aquariums/$aquariumID/equipment/$equipmentID/edit");
 	}
 
 
@@ -53,9 +67,16 @@ class EquipmentController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($aquariumID, $equipmentID)
 	{
-		//
+		$equipment = Equipment::where('aquariumID', '=', $aquariumID)
+			->where('equipmentID', '=', $equipmentID)
+			->first();
+		if(!is_a($equipment, 'Equipment'))
+			return Redirect::to("aquariums/");		
+	    return View::make('equipment/editequipment')
+			->with('aquariumID', $aquariumID)
+			->with('equipment', $equipment);
 	}
 
 
@@ -65,9 +86,24 @@ class EquipmentController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($aquariumID, $equipmentID)
 	{
-		//
+		if(Input::get('delete'))
+			return $this->destroy($aquariumID, $equipmentID);
+		
+		$equipment = Equipment::where('aquariumID', '=', $aquariumID)
+			->where('equipmentID', '=', $equipmentID)
+			->first();
+		if(!is_a($equipment, 'Equipment'))
+			return Redirect::to("aquariums/");
+		$equipment->name = Input::get('name');
+		$equipment->installedOn = Input::get('installedOn');
+		$equipment->removedOn = Input::get('removedOn');
+		$equipment->maintInterval = Input::get('maintInterval');
+		$equipment->comments = Input::get('comments');
+		$equipment->save();
+		
+		return Redirect::to("aquariums/$aquariumID/equipment/$equipmentID/edit");
 	}
 
 
@@ -77,9 +113,13 @@ class EquipmentController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($aquariumID, $equipmentID)
 	{
-		//
+		$log = Equipment::where('aquariumID', '=', $aquariumID)
+			->where('equipmentID', '=', $equipmentID)
+			->first();
+		$log->delete();
+		return Redirect::to("aquariums/$aquariumID/equipment");
 	}
 
 

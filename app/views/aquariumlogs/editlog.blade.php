@@ -92,7 +92,7 @@
 @endif
 
 
-<div class="formBox">	
+<div class="formBox">
 	@if (isset($log))
 		{{ Form::model($log, 
 			array('route' => array("aquariums.logs.update", $aquariumID, $log->aquariumLogID), 'method' => 'put')) }}		
@@ -143,11 +143,11 @@
 			
 	@if (isset($log))
 		{{ Form::submit('Update') }}
+		<input type="submit" name="delete" value="Delete">
 	@else
 		{{ Form::submit('Add') }}
 	@endif	
 	
-	<input type="submit" name="delete" value="Delete">
 	
 	{{ Form::close() }}
 
