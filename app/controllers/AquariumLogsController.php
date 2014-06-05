@@ -160,30 +160,50 @@ class AquariumLogsController extends BaseController
 		}
 		
 		// Water Additives Log
-		$waterAdditiveLog = WaterAdditiveLog::where('aquariumLogID', '=', $aquariumLogID)->get();
+		$waterAdditiveLog = WaterAdditiveLog::where('aquariumLogID', '=', $aquariumLogID)
+			->join('WaterAdditives', 'WaterAdditives.waterAdditiveID', '=', 'WaterAdditiveLogs.waterAdditiveID')
+			->get();
 		if(count($waterAdditiveLog) > 0)
 		{
-			if($summary != '')
-				$summary .= ', ';
-			$summary .= 'Added Additives';
+			foreach ($waterAdditiveLog as $additive)
+			{
+				if($summary != '')
+					$summary .= ', ';
+				$summary .= 'Added '.$additive->name;
+			}
 		}
 		
 		// Equipment Log
-		$equipmentLog = EquipmentLog::where('aquariumLogID', '=', $aquariumLogID)->get();
+		$equipmentLog = EquipmentLog::where('aquariumLogID', '=', $aquariumLogID)
+			->join('Equipment', 'Equipment.equipmentID', '=', 'EquipmentLogs.equipmentID')
+			->get();
 		if(count($equipmentLog) > 0)
 		{
-			if($summary != '')
-				$summary .= ', ';
-			$summary .= 'Maintained Equipment';
+			foreach ($equipmentLog as $equipment)
+			{
+				if($summary != '')
+					$summary .= ', ';
+				$summary .= 'Maintained '.$equipment->name;
+			}
 		}
 		
 		// Food
-		$foodLog = FoodLog::where('aquariumLogID', '=', $aquariumLogID)->get();
-		if(count($foodLog) > 0)
+		$foodLog = FoodLog::where('aquariumLogID', '=', $aquariumLogID)
+			->join('Food', 'Food.foodID', '=', 'FoodLogs.foodID')
+			->get();
+		$foodLogCount = count($foodLog);
+		if($foodLogCount > 0)
 		{
 			if($summary != '')
 				$summary .= ', ';
 			$summary .= 'Fed Fish';
+			
+			for($count = 0; $count <= count($foodLogCount); ++$count)
+			{
+				$summary .= ' '.$foodLog[$count]->name;
+				if($count + 1 < $foodLogCount)
+					$summary .= ' &amp; ';
+			}
 		}
 		
 		return $summary;
