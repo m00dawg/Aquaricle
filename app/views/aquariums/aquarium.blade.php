@@ -24,7 +24,7 @@
 		@endif
 </ul>
 
-@if ($aquarium->aquaridunioHostname)
+@if ($aquarium->aquariduinoHostname)
 	<h3>Graphs</h3>
 	<div id="graph">
 	<a href="/static/graphs/{{ $aquarium->aquariumID }}-temps-full.png">
