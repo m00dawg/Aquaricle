@@ -25,6 +25,13 @@ Route::get('/', function()
 	return Redirect::to('login');
 });
 
+/*
+Route::get('password', function()
+{
+	return Hash::make('secret');
+});
+*/
+
 Route::get('login', function()
 {
 	return View::make('login');
@@ -39,16 +46,14 @@ Route::get('logout', function()
 Route::post('login', function()
 {
 	//true = Remember Me
-	//if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password')), true))
-	/*
-	if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password'))))
+	if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password')), true))
+//	if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password'))))
 		return Redirect::intended('aquariums');
 	return View::make('login')->with('status', 'Login Failed');
-	*/
 	
 	//Stub so I can handle authentication later
-	Auth::loginUsingId(1);
-	return Redirect::intended('aquariums');
+	//Auth::loginUsingId(1);
+	//return Redirect::intended('aquariums');
 });
 
 Route::get('users', function()
