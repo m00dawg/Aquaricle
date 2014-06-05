@@ -16,7 +16,7 @@ class AquariumController extends BaseController
 	public function getAquariums()
 	{
 		$aquariums = Aquarium::byAuthUser()->get();
-	    return View::make('aquariums')->with('aquariums', $aquariums);		
+	    return View::make('aquariums/aquariums')->with('aquariums', $aquariums);		
 	}
 	
 	public function getAquarium($aquariumID)
@@ -64,7 +64,7 @@ class AquariumController extends BaseController
 		DB::commit();
 		
 		
-		return View::make('aquarium')
+		return View::make('aquariums/aquarium')
 			->with('aquarium', $aquarium)
 			->with('lastWaterChange', $lastWaterChange)
 			->with('logs', $logs)
@@ -74,7 +74,7 @@ class AquariumController extends BaseController
 	
 	public function create()
 	{
-		return View::make('modifyaquarium');
+		return View::make('aquariums/modifyaquarium');
 	}
 	
 	public function store()
@@ -94,7 +94,7 @@ class AquariumController extends BaseController
 
 		$aquarium = Aquarium::singleAquarium($aquariumID);
 
-		return View::make('modifyaquarium')
+		return View::make('aquariums/modifyaquarium')
 			->with('aquarium', $aquarium);
 	}
 	

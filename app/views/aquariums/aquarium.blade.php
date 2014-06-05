@@ -30,7 +30,7 @@
 </a>
 </div>
 
-<h3>Equipment</h3>
+<h3>Active Equipment</h3>
 
 <table>
 	<tr><th>Equipment</th><th>Last Maintenance</th><th>Days Since</th><th>Next Due</th></tr>
