@@ -262,6 +262,7 @@ class AquariumLogsController extends BaseController
 		$this->updateWaterTestLog($aquariumLogID);
 		$this->updateWaterAdditive($aquariumLogID);
 		$this->updateEquipmentLog($aquariumLogID);
+		$this->updateFoodLog($aquariumLogID);
 		$log->summary = $this->generateLogSummary($aquariumLogID);
 		$log->save();
 		DB::commit();
