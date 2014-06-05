@@ -28,8 +28,8 @@
 		{{ Form::label('length', 'Length') }}: {{ Form::text('length') }}<br />
 		{{ Form::label('width', 'Width') }}: {{ Form::text('width') }}<br />
 		{{ Form::label('height', 'Height') }}: {{ Form::text('height') }}<br />
-		{{ FOrm::label('AquariDawg Hostname:') }} 
-			{{ Form::text('aquaridawgHostname', null, array('size' => '32')) }}<br />
+		{{ FOrm::label('Aquariduino Hostname:') }} 
+			{{ Form::text('aquariduinoHostname', null, array('size' => '32')) }}<br />
 
 		@if (isset($aquarium))
 			{{ Form::submit('Update') }}

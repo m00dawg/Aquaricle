@@ -1,7 +1,8 @@
 @extends('layout')
 @section('content')
 
-<h2>{{ $aquarium->name }}</h2>
+<h2>{{ $aquarium->name }} ({{ link_to_route('aquariums.edit', 'Edit', array($aquarium->aquariumID)) }})</h2>
+
 
 <ul>
 	<li><strong>Location:</strong> {{ $aquarium->location }}</li>
@@ -23,12 +24,14 @@
 		@endif
 </ul>
 
-<h3>Graphs</h3>
-<div id="graph">
-<a href="/static/graphs/{{ $aquarium->aquariumID }}-temps-full.png">
-    <img src="/static/graphs/{{ $aquarium->aquariumID }}-temps-thumb.png" />
-</a>
-</div>
+@if ($aquarium->aquaridunioHostname)
+	<h3>Graphs</h3>
+	<div id="graph">
+	<a href="/static/graphs/{{ $aquarium->aquariumID }}-temps-full.png">
+	    <img src="/static/graphs/{{ $aquarium->aquariumID }}-temps-thumb.png" />
+	</a>
+	</div>
+@endif
 
 <h3>Active Equipment</h3>
 
