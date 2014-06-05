@@ -30,6 +30,9 @@
 	<a href="/static/graphs/{{ $aquarium->aquariumID }}-temps-full.png">
 	    <img src="/static/graphs/{{ $aquarium->aquariumID }}-temps-thumb.png" />
 	</a>
+	<a href="/static/graphs/{{ $aquarium->aquariumID }}-relays-full.png">
+	    <img src="/static/graphs/{{ $aquarium->aquariumID }}-relays-thumb.png" />
+	</a>
 	</div>
 @endif
 
