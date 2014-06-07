@@ -59,7 +59,7 @@ class EquipmentController extends \BaseController {
 		$equipmentLog->save();
 		
 		DB::commit();
-		return Redirect::to("aquariums/$aquariumID/equipment/$equipmentID/edit");
+		return Redirect::to("aquariums/$aquariumID/equipment/$equipmentID");
 	}
 
 
@@ -146,7 +146,7 @@ class EquipmentController extends \BaseController {
 		$equipmentLog->save();	
 		DB::commit();
 		
-		return Redirect::to("aquariums/$aquariumID/equipment/$equipmentID/edit");
+		return Redirect::to("aquariums/$aquariumID/equipment/$equipmentID");
 	}
 
 

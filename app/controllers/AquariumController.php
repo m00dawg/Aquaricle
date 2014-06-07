@@ -47,7 +47,7 @@ class AquariumController extends BaseController
 			->whereNotNull('maintInterval')
 			->whereNull('removedOn')
 			->groupby('Equipment.equipmentID')
-				->orderby('nextMaintDays', 'desc')
+			->orderby('nextMaintDays', 'desc')
 			->get();
 			
 		$lastWaterChange = DB::table('Aquariums')

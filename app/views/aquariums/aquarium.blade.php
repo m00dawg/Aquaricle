@@ -46,7 +46,7 @@
 				<td>{{ link_to("aquariums/$aquarium->aquariumID/equipment/$equip->equipmentID/edit",
 					 $equip->name, array('class'=>'logs')) }}</td>
 				<td>{{ $equip->lastMaint }}</td>
-				@if ($equip->daysSinceMaint)
+				@if (isset($equip->daysSinceMaint))
 					<td>{{ $equip->daysSinceMaint }}</td>
 					<td>{{ $equip->nextMaintDays }}</td>
 				@else
