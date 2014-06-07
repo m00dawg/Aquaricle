@@ -14,9 +14,11 @@
 	<li><strong>Last Water Change:</strong>
 		@if ($lastWaterChange)
 			{{ $lastWaterChange->changePct }}% ({{ $lastWaterChange->amountExchanged }} {{ $measurementUnits['Volume'] }}) - 
-			{{ $lastWaterChange->daysSince }} Day
+			{{ $lastWaterChange->daysSince }} 
 			@if ($lastWaterChange->daysSince > 1)
-				s
+				Days
+			@else
+				Day
 			@endif
 			Ago</li>
 		@else
