@@ -11,7 +11,7 @@ class EquipmentController extends \BaseController {
 	{
 		$equipment = Equipment::where('aquariumID', '=', $aquariumID)->get();
 		
-	    return View::make('equipment/equipment')
+	    return View::make('equipment/equipmentindex')
 			->with('aquariumID', $aquariumID)
 			->with('equipment', $equipment);
 	}
@@ -69,9 +69,25 @@ class EquipmentController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($aquariumID, $equipmentID)
 	{
-		//
+		DB::beginTransaction();
+		$equipment = Equipment::where('aquariumID', '=', $aquariumID)
+			->where('equipmentID', '=', $equipmentID)
+			->first();
+		if(!is_a($equipment, 'Equipment'))
+		{
+			DB::rollback();
+			return Redirect::to("aquariums/");
+		}
+		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)
+			->join('EquipmentLogs', 'EquipmentLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
+			->where('equipmentID', '=', $equipmentID)
+			->get();
+	    return View::make('equipment/showequipment')
+			->with('aquariumID', $aquariumID)
+			->with('equipment', $equipment)
+			->with('logs', $logs);
 	}
 
 
