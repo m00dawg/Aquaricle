@@ -43,8 +43,22 @@ class EquipmentController extends \BaseController {
 			$equipment->installedOn = Input::get('installedOn');
 		$equipment->maintInterval = Input::get('maintInterval');
 		$equipment->comments = Input::get('comments');
+		
+		DB::beginTransaction();
 		$equipment->save();
 		$equipmentID = $equipment->equipmentID;
+		$log = new AquariumLog();
+		$log->aquariumID = $aquariumID;
+		$log->summary = 'Installed '.$equipment->name;
+		$log->save();
+	
+		$equipmentLog = new EquipmentLog();
+		$equipmentLog->aquariumLogID = $log->aquariumLogID;
+		$equipmentLog->equipmentID = $equipmentID;
+		$equipmentLog->maintenance = 'Yes';
+		$equipmentLog->save();
+		
+		DB::commit();
 		return Redirect::to("aquariums/$aquariumID/equipment/$equipmentID/edit");
 	}
 
@@ -101,7 +115,20 @@ class EquipmentController extends \BaseController {
 		$equipment->removedOn = Input::get('removedOn');
 		$equipment->maintInterval = Input::get('maintInterval');
 		$equipment->comments = Input::get('comments');
+
+		$log = new AquariumLog();
+		$log->aquariumID = $aquariumID;
+		$log->summary = 'Removed '.$equipment->name;
+		
+		DB::beginTransaction();
 		$equipment->save();
+		$log->save();
+		$equipmentLog = new EquipmentLog();
+		$equipmentLog->aquariumLogID = $log->aquariumLogID;
+		$equipmentLog->equipmentID = $equipment->equipmentID;
+		$equipmentLog->maintenance = 'Yes';
+		$equipmentLog->save();	
+		DB::commit();
 		
 		return Redirect::to("aquariums/$aquariumID/equipment/$equipmentID/edit");
 	}
@@ -115,10 +142,10 @@ class EquipmentController extends \BaseController {
 	 */
 	public function destroy($aquariumID, $equipmentID)
 	{
-		$log = Equipment::where('aquariumID', '=', $aquariumID)
+		$equipment = Equipment::where('aquariumID', '=', $aquariumID)
 			->where('equipmentID', '=', $equipmentID)
 			->first();
-		$log->delete();
+		$equipment->delete();
 		return Redirect::to("aquariums/$aquariumID/equipment");
 	}
 
