@@ -37,7 +37,7 @@ rrdtool graph ../public/static/graphs/$ID-relays-thumb.png \
 -E \
 DEF:heater=$ID.rrd:heater:AVERAGE \
 DEF:light=$ID.rrd:light:AVERAGE \
-AREA:light#AAAAFF:"Light\l":STACK \
+AREA:light#AAAAFF:"Light":STACK \
 AREA:heater#FFFF00:"Heater\l":STACK 
 
 rrdtool graph ../public/static/graphs/$ID-relays-full.png \
@@ -46,5 +46,5 @@ rrdtool graph ../public/static/graphs/$ID-relays-full.png \
 -E \
 DEF:heater=$ID.rrd:heater:AVERAGE \
 DEF:light=$ID.rrd:light:AVERAGE \
-AREA:light#AAAAFF:"Light\l":STACK \
+AREA:light#AAAAFF:"Light":STACK \
 AREA:heater#FFFF00:"Heater\l":STACK 
