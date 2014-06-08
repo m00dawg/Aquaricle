@@ -11,7 +11,8 @@ class DatabaseSeeder extends Seeder
 	public function run()
 	{
 		Eloquent::unguard();
-		DB::startTransaction();
+		DB::beginTransaction();
+		$this->call('UsersTableSeeder');
 		$this->call('FoodtableSeeder');
 		DB::commit();
 	}
@@ -19,11 +20,13 @@ class DatabaseSeeder extends Seeder
 
 class UsersTableSeeder extends Seeder
 {
-	public funciton run()
+	public function run()
 	{
-		$username = 'Admin'
+		$username = 'Admin';
 		$password = Hash::make('password');
-		Users::create(array('username' => $username, ))
+		User::create(array('username' => $username, 
+			'password' =>  Hash::make('secret'),
+			'email' => 'email@example.com'));
 		
 	}
 }
@@ -31,7 +34,7 @@ class UsersTableSeeder extends Seeder
 class FoodTableSeeder extends Seeder
 {
 	
-	publiuc function run()
+	public function run()
 	{
 		Food::create(array('name' => 'Colored Flakes'));
 		Food::create(array('name' => 'Brine Shrimp'));

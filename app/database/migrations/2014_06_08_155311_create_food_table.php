@@ -15,9 +15,11 @@ class CreateFoodTable extends Migration {
 		Schema::create('Food', function(Blueprint $table)
 		{
 			$table->engine = 'InnoDB';
-			$table->tinyInteger('foodID')->unsigned();
+			$table->tinyInteger('foodID')->unsigned()->autoIncrement();
 			$table->string('name', 48);
-			$table->primary('foodID');
+
+			
+
 		});
 	}
 
