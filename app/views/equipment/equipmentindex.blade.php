@@ -14,8 +14,12 @@
 
 	@if (count($equipment) > 0)
 		@foreach ($equipment as $equip)
-			<tr>
-				<td>{{ link_to_route('aquariums.equipment.show', $equip->name, array($aquariumID,$equip->equipmentID)) }}</td>
+			<tr>					
+				<td>{{ link_to_route('aquariums.equipment.show', 
+					$equip->name, 
+					array($aquariumID, $equip->equipmentID),
+					array('class'=>'logs')) }}</td>
+					
 				<td>{{ $equip->installedOn }}</td>
 				<td>{{ $equip->removedOn }}</td>
 				<td>{{ $equip->maintInterval }}</td>

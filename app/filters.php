@@ -44,6 +44,20 @@ Route::filter('auth.basic', function()
 	return Auth::basic();
 });
 
+// Check to make sure the user is accessing only their aquariums
+Route::filter('auth.aquarium', function()
+{
+	//Route::input
+//	Auth::id();
+	if(!(DB::table('Aquariums')
+		->where('aquariumID', '=', Route::input('aquariums'))
+		->where('userID', '=', Auth::id())
+		->first()))
+			return Redirect::to('aquariums');
+
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | Guest Filter
@@ -78,3 +92,6 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+
+

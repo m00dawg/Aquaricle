@@ -45,8 +45,11 @@
 	@if (count($equipment) > 0)
 		@foreach($equipment as $equip)
 			<tr>
-				<td>{{ link_to("aquariums/$aquarium->aquariumID/equipment/$equip->equipmentID/edit",
-					 $equip->name, array('class'=>'logs')) }}</td>
+				
+				<td>{{ link_to_route('aquariums.equipment.show', 
+					$equip->name, 
+					array($aquarium->aquariumID, $equip->equipmentID),
+					array('class'=>'logs')) }}</td>
 				<td>{{ $equip->lastMaint }}</td>
 				@if (isset($equip->daysSinceMaint))
 					<td>{{ $equip->daysSinceMaint }}</td>

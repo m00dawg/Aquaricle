@@ -13,6 +13,7 @@
 
 /* Some Magical Route Filters */
 Route::when('aquarium*', 'auth');
+Route::when('aquariums/*', 'auth.aquarium');
 Route::when('*', 'csrf', array('post', 'put', 'patch'));
 
 /* RESTful Resource Controllers */
@@ -57,10 +58,12 @@ Route::post('login', function()
 	//return Redirect::intended('aquariums');
 });
 
+/*
 Route::get('users', function()
 {
 	$users = User::all();
     return View::make('users')->with('users', $users);
 });
+*/
 
 ?>
