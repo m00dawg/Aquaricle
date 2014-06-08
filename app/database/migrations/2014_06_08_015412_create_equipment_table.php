@@ -14,6 +14,7 @@ class CreateEquipmentTable extends Migration {
 	{
 		Schema::create('Equipment', function(Blueprint $table)
 		{
+			$table->engine = 'InnoDB';
 			$table->increments('equipmentID')->unsigned();
 			$table->integer('aquariumID')->unsigned();
 			$table->string('name', 48);

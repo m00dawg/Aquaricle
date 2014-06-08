@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEquipmentlogsTable extends Migration {
+class CreateFoodlogsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,18 +12,16 @@ class CreateEquipmentlogsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('EquipmentLogs', function(Blueprint $table)
+		Schema::create('FoodLogs', function(Blueprint $table)
 		{
 			$table->engine = 'InnoDB';
 			$table->integer('aquariumLogID')->unsigned();
-			$table->integer('equipmentID')->unsigned();
-			$table->enum('Maintenance', array('Yes', 'No'));
-			$table->primary(array('aquariumLogID', 'equipmentID'));
-			
-			$table->index('equipmentID');
+			$table->tinyInteger('foodID')->unsigned();
+			$table->primary(array('aquariumLogID', 'foodID'));
+			$table->index('foodID');
 			$table->foreign('aquariumLogID')->references('aquariumLogID')->on('AquariumLogs')
 				->onDelete('cascade')->onUpdate('cascade');
-			$table->foreign('equipmentID')->references('equipmentID')->on('Equipment')
+			$table->foreign('foodID')->references('foodID')->on('Food')
 				->onDelete('cascade')->onUpdate('cascade');
 		});
 	}
@@ -35,7 +33,7 @@ class CreateEquipmentlogsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('EquipmentLogs');
+		Schema::drop('FoodLogs');
 	}
 
 }

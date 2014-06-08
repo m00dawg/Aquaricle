@@ -1,6 +1,7 @@
 <?php
 
-class DatabaseSeeder extends Seeder {
+class DatabaseSeeder extends Seeder
+{
 
 	/**
 	 * Run the database seeds.
@@ -10,8 +11,31 @@ class DatabaseSeeder extends Seeder {
 	public function run()
 	{
 		Eloquent::unguard();
-
-		// $this->call('UserTableSeeder');
+		DB::startTransaction();
+		$this->call('FoodtableSeeder');
+		DB::commit();
 	}
+}
 
+class UsersTableSeeder extends Seeder
+{
+	public funciton run()
+	{
+		$username = 'Admin'
+		$password = Hash::make('password');
+		Users::create(array('username' => $username, ))
+		
+	}
+}
+
+class FoodTableSeeder extends Seeder
+{
+	
+	publiuc function run()
+	{
+		Food::create(array('name' => 'Colored Flakes'));
+		Food::create(array('name' => 'Brine Shrimp'));
+		Food::create(array('name' => 'Bloodworms'));
+		Food::create(array('name' => 'Algae Wafers'));
+	}
 }

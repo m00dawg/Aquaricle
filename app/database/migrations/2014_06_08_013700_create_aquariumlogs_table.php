@@ -14,6 +14,7 @@ class CreateAquariumlogsTable extends Migration {
 	{
 		Schema::create('AquariumLogs', function(Blueprint $table)
 		{
+			$table->engine = 'InnoDB';
 			$table->increments('aquariumLogID')->unsigned();
 			$table->integer('aquariumID')->unsigned();
 			$table->timestamp('logDate')
