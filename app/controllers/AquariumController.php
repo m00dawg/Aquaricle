@@ -43,8 +43,9 @@ class AquariumController extends BaseController
 				Equipment.maintInterval - DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS nextMaintDays'))
 			->leftjoin('EquipmentLogs', 'EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
 			->leftjoin('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
+			->where('Equipment.aquariumID', '=', $aquariumID)
 			->whereNotNull('maintInterval')
-			->whereNull('deletedAt')
+			->whereNull('Equipment.deletedAt')
 			->groupby('Equipment.equipmentID')
 			->orderby('nextMaintDays', 'desc')
 			->get();
