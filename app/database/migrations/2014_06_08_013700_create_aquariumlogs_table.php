@@ -19,8 +19,8 @@ class CreateAquariumlogsTable extends Migration {
 			$table->integer('aquariumID')->unsigned();
 			$table->timestamp('logDate')
 				->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
-			$table->text('summary');
-			$table->text('comments');
+			$table->text('summary')->nullable();
+			$table->text('comments')->nullbable();
 			
 			$table->index('aquariumID');
 			$table->foreign('aquariumID')->references('aquariumID')->on('Aquariums')

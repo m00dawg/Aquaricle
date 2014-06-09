@@ -18,7 +18,7 @@ class CreateEquipmentTable extends Migration {
 			$table->increments('equipmentID')->unsigned();
 			$table->integer('aquariumID')->unsigned();
 			$table->string('name', 48);
-			$table->smallinteger('maintenanceInterval')->unsigned()->nullable();
+			$table->smallinteger('maintInterval')->unsigned()->nullable();
 			$table->timestamp('createdAt')
 				->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updatedAt')

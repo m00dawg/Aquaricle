@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
 		DB::beginTransaction();
 		$this->call('UsersTableSeeder');
 		$this->call('FoodtableSeeder');
+		$this->call('WaterAdditivesTableSeeder');
 		DB::commit();
 	}
 }
@@ -33,12 +34,23 @@ class UsersTableSeeder extends Seeder
 
 class FoodTableSeeder extends Seeder
 {
-	
 	public function run()
 	{
 		Food::create(array('name' => 'Colored Flakes'));
 		Food::create(array('name' => 'Brine Shrimp'));
 		Food::create(array('name' => 'Bloodworms'));
 		Food::create(array('name' => 'Algae Wafers'));
+	}
+}
+
+class WaterAdditivesTableSeeder extends Seeder
+{
+	public function run()
+	{
+		WaterAdditive::create(array('name' => 'Seachem Prime'));
+		WaterAdditive::create(array('name' => 'Seachem Stabilty'));
+		WaterAdditive::create(array('name' => 'Seachem Flourish Excel'));
+		WaterAdditive::create(array('name' => 'Seachem Flourish Comprehensive'));
+		WaterAdditive::create(array('name' => 'Nualgi'));
 	}
 }

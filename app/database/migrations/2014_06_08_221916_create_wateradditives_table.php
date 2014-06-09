@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFoodTable extends Migration {
+class CreateWateradditivesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,10 @@ class CreateFoodTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('Food', function(Blueprint $table)
+		Schema::create('WaterAdditives', function(Blueprint $table)
 		{
 			$table->engine = 'InnoDB';
-			$table->tinyInteger('foodID')->unsigned()->autoIncrement();
+			$table->tinyInteger('waterAdditiveID')->unsigned()->autoIncrement();
 			$table->string('name', 48);
 			$table->text('description')->nullable();
 		});
@@ -28,7 +28,7 @@ class CreateFoodTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('Food');
+		Schema::drop('WaterAdditives');
 	}
 
 }

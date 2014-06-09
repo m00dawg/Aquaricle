@@ -40,7 +40,7 @@ class EquipmentController extends \BaseController {
 		$equipment->aquariumID = $aquariumID;
 		$equipment->name = Input::get('name');
 		if(Input::get('installedOn') != '')
-			$equipment->installedOn = Input::get('installedOn');
+			$equipment->createdAt = Input::get('installedOn');
 		$equipment->maintInterval = Input::get('maintInterval');
 		$equipment->comments = Input::get('comments');
 		
@@ -127,14 +127,15 @@ class EquipmentController extends \BaseController {
 		if(!is_a($equipment, 'Equipment'))
 			return Redirect::to("aquariums/");
 		$equipment->name = Input::get('name');
-		$equipment->installedOn = Input::get('installedOn');
-		$equipment->removedOn = Input::get('removedOn');
+		$equipment->createdAt = Input::get('installedOn');
+		if(Input::get('removedOn') != '')
+			$equipment->removedOn = Input::get('removedOn');
 		$equipment->maintInterval = Input::get('maintInterval');
 		$equipment->comments = Input::get('comments');
 
 		$log = new AquariumLog();
 		$log->aquariumID = $aquariumID;
-		$log->summary = 'Removed '.$equipment->name;
+		$log->summary = 'Updated '.$equipment->name;
 		
 		DB::beginTransaction();
 		$equipment->save();

@@ -20,7 +20,12 @@
 	</tr>
 	<tr>
 		<th>Installed On</th>
-		<td>{{ Form::text('installedOn', null, array('size' => '32')) }}</td>
+		<td>
+			{{ Form::text('createdAt', null, array('size' => '32')) }}
+			@if (!isset($equipment))
+				(Leave Blank For Current Time)
+			@endif
+		</td>
 	</tr>
 	@if (isset($equipment))	
 		<tr>

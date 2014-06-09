@@ -30,6 +30,7 @@ class CreateAquariumsTable extends Migration {
 			$table->decimal('height', 5, 2)->unsigned();
 			$table->string('name', 48);
 			$table->string('location', 48)->nullable();
+			$table->string('aquariduinoHostname', 255)->nullable();
 			$table->unique(array('userID', 'name'));
 			$table->foreign('userID')->references('userID')->on('Users')
 				->onDelete('cascade')->onUpdate('cascade');

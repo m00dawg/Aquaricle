@@ -32,12 +32,11 @@ class AquariumController extends BaseController
 		
 		$aquarium = Aquarium::singleAquarium($aquariumID);
 		
-		$logs = $aquarium->aquariumLogs()
+		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)
 			->where('logDate', '>=', $dateSub)
 			->get();
 		
-		$equipment = $aquarium->equipment()
-			->select(DB::raw(
+		$equipment = Equipment::select(DB::raw(
 				'Equipment.equipmentID, Equipment.name, 
 				MAX(AquariumLogs.logDate) AS lastMaint,
 				DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS daysSinceMaint,
@@ -45,7 +44,7 @@ class AquariumController extends BaseController
 			->leftjoin('EquipmentLogs', 'EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
 			->leftjoin('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
 			->whereNotNull('maintInterval')
-			->whereNull('removedOn')
+			->whereNull('deletedAt')
 			->groupby('Equipment.equipmentID')
 			->orderby('nextMaintDays', 'desc')
 			->get();
@@ -59,10 +58,8 @@ class AquariumController extends BaseController
 			->whereNotNull('amountExchanged')
 			->orderby('logDate', 'desc')
 			->first();
-
 		
 		DB::commit();
-		
 		
 		return View::make('aquariums/aquarium')
 			->with('aquarium', $aquarium)
@@ -84,7 +81,7 @@ class AquariumController extends BaseController
 		$aquarium->save();
 		$aquariumID = $aquarium->aquariumID;
 		
-		return Redirect::to("aquariums/$aquariumID/edit");
+		return Redirect::to("aquariums/$aquariumID/");
 	}
 	
 	public function edit($aquariumID)
@@ -110,7 +107,7 @@ class AquariumController extends BaseController
 		$aquarium->height = Input::get('height');
 		$aquarium->aquariduinoHostname = Input::get('aquariduinoHostname');
 		$aquarium->save();
-		return Redirect::to("aquariums/$aquariumID/edit");
+		return Redirect::to("aquariums/$aquariumID/");
 	}
 	
 	public function destroy($aquariumID)

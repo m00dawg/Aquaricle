@@ -13,7 +13,7 @@
 
 /* Some Magical Route Filters */
 Route::when('aquarium*', 'auth');
-Route::when('aquariums/*', 'auth.aquarium');
+Route::when('aquariums/*/', 'auth.aquarium');
 Route::when('*', 'csrf', array('post', 'put', 'patch'));
 
 /* RESTful Resource Controllers */

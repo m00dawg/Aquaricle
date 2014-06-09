@@ -5,8 +5,8 @@
 
 <table>
 	<tr><th>Name</th><td>{{ $equipment->name }}</td></tr>
-	<tr><th>Installed On</th><td>{{ $equipment->installedOn }}</td></tr>
-	<tr><th>Date Removed</th><td>{{ $equipment->removedOn }}</td></tr>
+	<tr><th>Installed On</th><td>{{ $equipment->createdAt }}</td></tr>
+	<tr><th>Date Removed</th><td>{{ $equipment->deletedAt }}</td></tr>
 	<tr><th>Maintenance Interval</th><td>{{ $equipment->maintInterval }}</td></tr>
 	@if ($equipment->comments)
 		<tr><th colspan="2">Comments</th></tr>
