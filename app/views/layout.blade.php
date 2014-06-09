@@ -12,6 +12,12 @@
 		<h1>Aquaricle</h1>
 	</div>
 </div>
+<div id="navbar">
+	<ul>
+		<li>{{ link_to_route('aquariums.index', 'Aquariums') }}</li>
+		<li id="logout">Logged In As {{ Auth::user()->username }} {{ link_to('/logout', 'Logout') }}</li>
+	</ul>
+</div>
 
 <div id="content">
 @yield('content')

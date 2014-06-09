@@ -22,11 +22,71 @@ body{
     border-top: 0px;
     border-left: 0px;
     border-right: 0px;
-    border-bottom: 4px;
-    border-color: #000040;
+	border-bottom: 0px;
     border-style: solid;
     position: relative;
     border-radius: 32px 32px 0 0;
+}
+
+/* Navigation bar */
+
+#navBar{
+	background-color: #000040;
+	border-top: 1px;
+	border-bottom: 1px;
+	border-left: 0px;
+	border-right: 0px;
+	border-color: #000000;
+    border-style: solid;
+
+}
+
+#navBar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#navBar li {
+    float: left;
+    display: block;
+	font-size: 1em;
+	font-weight: bold;
+	text-align: center;
+    text-decoration: none;
+	padding: 0.25%;
+	border-top: 0px;
+	border-bottom: 0px;
+	border-left: 1px;
+	border-right: 1px;
+	border-color: #000000;
+    border-style: solid;
+}
+
+#logout li {
+    float: right;
+    display: block;
+	font-size: 1em;
+	font-weight: bold;
+	text-align: right;
+    text-decoration: none;
+	padding: 0.25%;
+	border-top: 0px;
+	border-bottom: 0px;
+	border-left: 1px;
+	border-right: 1px;
+	border-color: #000000;
+    border-style: solid;
+}
+
+#navBar a{
+
+
+}
+
+#navBar a:hover, a:active {
+    background-color: #002060;
 }
 
 #title{
