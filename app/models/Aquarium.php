@@ -10,7 +10,7 @@ class Aquarium extends BaseModel {
 
 	public function getMeasurementUnits()
 	{
-		if($this->measurementUnits = 'Metric')
+		if($this->measurementUnits == 'Metric')
 			return array('Volume' => 'L', 'Length' => 'cm');
 		else
 			return array('Volume' => 'Gal', 'Length' => 'in');		

@@ -22,7 +22,12 @@
 		{{ Form::label('location', 'Location') }}: {{ Form::text('location') }}<br />
 
 		{{ Form::label('measurementUnits', 'Measurement Units') }}:
-		{{ Form::select('measurementUnits', array('Metric' => 'Metric', 'Imperial' => 'Imperial'), 'Metric') }}<br />
+		
+		@if (isset($aquarium))
+			{{ Form::select('measurementUnits', array('Metric' => 'Metric', 'Imperial' => 'Imperial'), $aquarium->measurementUnits) }}<br />
+		@else
+			{{ Form::select('measurementUnits', array('Metric' => 'Metric', 'Imperial' => 'Imperial'), 'Metric') }}<br />
+		@endif
 
 		{{ Form::label('capacity', 'Capacity') }}: {{ Form::text('capacity') }}<br />
 		{{ Form::label('length', 'Length') }}: {{ Form::text('length') }}<br />
