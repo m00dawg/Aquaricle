@@ -13,7 +13,7 @@
 		<tr><th>Summary</th><td>{{ $log->summary }}</td></tr>
 		@if (!empty($log->comments))
 			<tr><th colspan="2">Comments</th></tr>
-			<tr><td>{{ $log->comments }}</td></tr>
+			<tr><td colspan="2">{{ $log->comments }}</td></tr>
 		@endif
 	</table>
 
