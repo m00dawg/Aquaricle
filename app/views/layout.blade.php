@@ -15,7 +15,9 @@
 <div id="navbar">
 	<ul>
 		<li>{{ link_to_route('aquariums.index', 'Aquariums') }}</li>
-		<li id="logout">Logged In As {{ Auth::user()->username }} {{ link_to('/logout', 'Logout') }}</li>
+		@if ( Auth::user())
+			<li id="logout">Logged In As {{ Auth::user()->username }} {{ link_to('/logout', 'Logout') }}</li>
+		@endif
 	</ul>
 </div>
 
