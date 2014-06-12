@@ -19,6 +19,16 @@
 		<td>{{ Form::text('name', null, array('size' => '32')) }}</td>
 	</tr>
 	<tr>
+		<th>Type</th>
+		<td>
+		@if (isset($equipment))
+			{{ Form::select('equipmentType', $equipmentTypes, $equipment->equipmentTypeID) }}
+		@else
+			{{ Form::select('equipmentType', $equipmentTypes) }}
+		@endif
+		</td>
+	</tr>
+	<tr>
 		<th>Installed On</th>
 		<td>
 			{{ Form::text('createdAt', null, array('size' => '32')) }}

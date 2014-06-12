@@ -6,6 +6,7 @@
 <table>
 	<tr>
 		<th>Equipment</th>
+		<th>Type</th>
 		<th>Installed On</th>
 		<th>Date Removed</th>
 		<th>Maintenance Interval</th>
@@ -19,7 +20,7 @@
 					$equip->name, 
 					array($aquariumID, $equip->equipmentID),
 					array('class'=>'logs')) }}</td>
-					
+				<td>{{ $equip->typeName }}</td>	
 				<td>{{ $equip->installedOn }}</td>
 				<td>{{ $equip->removedOn }}</td>
 				<td>{{ $equip->maintInterval }}</td>

@@ -5,6 +5,7 @@
 
 <table>
 	<tr><th>Name</th><td>{{ $equipment->name }}</td></tr>
+	<tr><th>Type</th><td>{{ $equipment->typeName }}</td></tr>
 	<tr><th>Installed On</th><td>{{ $equipment->createdAt }}</td></tr>
 	<tr><th>Date Removed</th><td>{{ $equipment->deletedAt }}</td></tr>
 	<tr><th>Maintenance Interval</th><td>{{ $equipment->maintInterval }}</td></tr>

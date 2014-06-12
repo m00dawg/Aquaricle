@@ -16,8 +16,11 @@ class CreateEquipmenttypesTable extends Migration {
 		{	
 			$table->engine = 'InnoDB';
 			$table->tinyInteger('equipmentTypeID')->unsigned()->autoIncrement();
-			$table->string('name', 48);
+			$table->string('typeName', 48);
 		});
+		
+		DB::table('EquipmentTypes')->insert(array('typeName' => 'Other'));
+		DB::commit();
 	}
 
 	/**

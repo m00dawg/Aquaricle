@@ -9,7 +9,12 @@ class EquipmentController extends \BaseController {
 	 */
 	public function index($aquariumID)
 	{
-		$equipment = Equipment::where('aquariumID', '=', $aquariumID)->get();
+		$equipment = Equipment::where('aquariumID', '=', $aquariumID)
+			->join('EquipmentTypes', 
+				'EquipmentTypes.equipmentTypeID', 
+				'=', 
+				'Equipment.equipmentTypeID')
+			->get();
 		
 	    return View::make('equipment/equipmentindex')
 			->with('aquariumID', $aquariumID)
@@ -24,10 +29,11 @@ class EquipmentController extends \BaseController {
 	 */
 	public function create($aquariumID)
 	{
+		$equipmentTypes = EquipmentType::lists('typeName', 'equipmentTypeID');
 	    return View::make('equipment/editequipment')
-			->with('aquariumID', $aquariumID);
+			->with('aquariumID', $aquariumID)
+			->with('equipmentTypes', $equipmentTypes);
 	}
-
 
 	/**
 	 * Store a newly created resource in storage.
@@ -38,6 +44,7 @@ class EquipmentController extends \BaseController {
 	{
 		$equipment = new Equipment();
 		$equipment->aquariumID = $aquariumID;
+		$equipment->equipmentTypeID = Input::get('equipmentType');
 		$equipment->name = Input::get('name');
 		if(Input::get('installedOn') != '')
 			$equipment->createdAt = Input::get('installedOn');
@@ -73,6 +80,10 @@ class EquipmentController extends \BaseController {
 	{
 		DB::beginTransaction();
 		$equipment = Equipment::where('aquariumID', '=', $aquariumID)
+			->join('EquipmentTypes', 
+				'EquipmentTypes.equipmentTypeID', 
+				'=', 
+				'Equipment.equipmentTypeID')
 			->where('equipmentID', '=', $equipmentID)
 			->first();
 		if(!is_a($equipment, 'Equipment'))
@@ -99,6 +110,7 @@ class EquipmentController extends \BaseController {
 	 */
 	public function edit($aquariumID, $equipmentID)
 	{
+		$equipmentTypes = EquipmentType::lists('typeName', 'equipmentTypeID');
 		$equipment = Equipment::where('aquariumID', '=', $aquariumID)
 			->where('equipmentID', '=', $equipmentID)
 			->first();
@@ -106,6 +118,7 @@ class EquipmentController extends \BaseController {
 			return Redirect::to("aquariums/");		
 	    return View::make('equipment/editequipment')
 			->with('aquariumID', $aquariumID)
+			->with('equipmentTypes', $equipmentTypes)
 			->with('equipment', $equipment);
 	}
 
@@ -126,6 +139,7 @@ class EquipmentController extends \BaseController {
 			->first();
 		if(!is_a($equipment, 'Equipment'))
 			return Redirect::to("aquariums/");
+		$equipment->equipmentTypeID = Input::get('equipmentType');
 		$equipment->name = Input::get('name');
 		$equipment->createdAt = Input::get('installedOn');
 		if(Input::get('removedOn') != '')

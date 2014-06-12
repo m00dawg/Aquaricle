@@ -60,7 +60,6 @@ class EquipmentTypesTableSeeder extends Seeder
 {
 	public function run()
 	{
-		EquipmentTypes::create(array('name' => 'Other'));
 		EquipmentTypes::create(array('name' => 'Filtration'));
 		EquipmentTypes::create(array('name' => 'Lighting'));
 		EquipmentTypes::create(array('name' => 'Climate Control'));

@@ -12,5 +12,9 @@ class Equipment extends BaseModel
 	public $primaryKey = 'equipmentID';
 	public $timestamps = true;
 
-
+	
+	public function equimpentType()
+	{
+		return $this->belongsTo('EquipmentType', 'equipmentTypeID');
+	}
 }
