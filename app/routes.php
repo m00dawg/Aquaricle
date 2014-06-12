@@ -24,6 +24,8 @@ Route::resource('aquariums.equipment', 'EquipmentController');
 Route::get('/', function()
 {
 	//return View::make('index');
+	if(Auth::user())
+		return Redirect::to('aquariums');
 	return Redirect::to('login');
 });
 
