@@ -5,7 +5,12 @@
 </head>
 <body>
 
-<div id="login">Logged In As {{ Auth::user()->username }} {{ link_to('/logout', 'Logout') }}</div>
+@if ( Auth::user())
+	<div id="login">Logged In As {{ Auth::user()->username }} {{ link_to('/logout', 'Logout') }}</div>
+@else
+	<div id="login">{{ link_to('/login', 'Login') }}</div>
+@endif
+
 
 <div id="frame">
 
