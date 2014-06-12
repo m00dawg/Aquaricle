@@ -67,7 +67,7 @@ body{
 #login{
 	text-align: right;
     display: block;
-	font-size: .85em;
+	font-size: .8em;
 	font-weight: bold;
 	text-align: right;
     text-decoration: none;
@@ -79,10 +79,6 @@ body{
 #navBar a{
 
 
-}
-
-#navBar a:hover, a:active {
-    background-color: #002060;
 }
 
 #title{

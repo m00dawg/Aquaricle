@@ -63,6 +63,7 @@ class AquariumController extends BaseController
 		DB::commit();
 		
 		return View::make('aquariums/aquarium')
+			->with('aquariumID', $aquariumID)
 			->with('aquarium', $aquarium)
 			->with('lastWaterChange', $lastWaterChange)
 			->with('logs', $logs)

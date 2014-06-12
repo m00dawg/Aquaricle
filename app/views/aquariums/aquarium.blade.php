@@ -64,8 +64,6 @@
 	@endif
 </table>
 <br />
-{{ link_to_route('aquariums.equipment.show', 'See All Equipment', array($aquarium->aquariumID)) }}
-
 	
 <h3>Latest Logs</h3>
 

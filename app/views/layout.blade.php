@@ -6,7 +6,7 @@
 <body>
 
 @if ( Auth::user())
-	<div id="login">Logged In As {{ Auth::user()->username }} {{ link_to('/logout', 'Logout') }}</div>
+	<div id="login">Logged In As {{ Auth::user()->username }} ({{ link_to('/logout', 'Logout') }} / User Perferences)</div>
 @else
 	<div id="login">{{ link_to('/login', 'Login') }}</div>
 @endif
@@ -21,7 +21,18 @@
 </div>
 <div id="navbar">
 	<ul>
-		<li>{{ link_to_route('aquariums.index', 'Aquariums') }}</li>
+		@if ( Auth::user())
+			<li>{{ link_to_route('aquariums.index', 'Aquariums') }}</li>
+			@if (isset($aquariumID))
+				<li>{{ link_to_route('aquariums.equipment.index', 'Equipment', array($aquariumID)) }}</li>
+				<li>Water Logs</li>
+				<li>Feedings</li>
+				<li>Life</li>
+			@endif
+		@else
+
+		@endif
+
 	</ul>
 </div>
 
