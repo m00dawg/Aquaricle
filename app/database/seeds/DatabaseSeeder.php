@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
 		$this->call('UsersTableSeeder');
 		$this->call('FoodtableSeeder');
 		$this->call('WaterAdditivesTableSeeder');
+		$this->call('EquipmentTypesTableSeeder');
 		DB::commit();
 	}
 }
@@ -52,5 +53,19 @@ class WaterAdditivesTableSeeder extends Seeder
 		WaterAdditive::create(array('name' => 'Seachem Flourish Excel'));
 		WaterAdditive::create(array('name' => 'Seachem Flourish Comprehensive'));
 		WaterAdditive::create(array('name' => 'Nualgi'));
+	}
+}
+
+class EquipmentTypesTableSeeder extends Seeder
+{
+	public function run()
+	{
+		EquipmentTypes::create(array('name' => 'Other'));
+		EquipmentTypes::create(array('name' => 'Filtration'));
+		EquipmentTypes::create(array('name' => 'Lighting'));
+		EquipmentTypes::create(array('name' => 'Climate Control'));
+		EquipmentTypes::create(array('name' => 'Planting'));
+		EquipmentTypes::create(array('name' => 'Aeration'));
+		EquipmentTypes::create(array('name' => 'Automation'));
 	}
 }
