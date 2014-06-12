@@ -5,6 +5,8 @@
 </head>
 <body>
 
+<div id="login">Logged In As {{ Auth::user()->username }} {{ link_to('/logout', 'Logout') }}</div>
+
 <div id="frame">
 
 <div id="banner">
@@ -15,7 +17,6 @@
 <div id="navbar">
 	<ul>
 		<li>{{ link_to_route('aquariums.index', 'Aquariums') }}</li>
-		<li id="logout">Logged In As {{ Auth::user()->username }} {{ link_to('/logout', 'Logout') }}</li>
 	</ul>
 </div>
 

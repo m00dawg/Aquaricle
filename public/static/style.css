@@ -64,20 +64,16 @@ body{
     border-style: solid;
 }
 
-#logout li {
-    float: right;
+#login{
+	text-align: right;
     display: block;
 	font-size: 1em;
 	font-weight: bold;
 	text-align: right;
     text-decoration: none;
 	padding: 0.25%;
-	border-top: 0px;
-	border-bottom: 0px;
-	border-left: 1px;
-	border-right: 1px;
-	border-color: #000000;
-    border-style: solid;
+	padding-right: 5%;
+
 }
 
 #navBar a{
