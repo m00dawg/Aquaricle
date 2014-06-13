@@ -51,7 +51,9 @@ class AquariumController extends BaseController
 			->get();
 			
 		$lastWaterChange = DB::table('Aquariums')
-			->select(DB::raw('logDate, DATEDIFF(NOW(), logDate) AS daysSince,
+			->select(DB::raw('logDate, 
+				DATEDIFF(NOW(), logDate) AS daysSince,
+				waterChangeInterval - DATEDIFF(NOW(), logDate) AS daysRemaining,
 				amountExchanged, ROUND((amountExchanged / capacity) * 100, 0) AS changePct'))
 			->join('AquariumLogs', 'AquariumLogs.aquariumID', '=', 'Aquariums.aquariumID')
 			->join('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
@@ -73,7 +75,7 @@ class AquariumController extends BaseController
 	
 	public function create()
 	{
-		return View::make('aquariums/modifyaquarium');
+		return View::make('aquariums/editaquarium');
 	}
 	
 	public function store()
@@ -93,7 +95,7 @@ class AquariumController extends BaseController
 
 		$aquarium = Aquarium::singleAquarium($aquariumID);
 
-		return View::make('aquariums/modifyaquarium')
+		return View::make('aquariums/editaquarium')
 			->with('aquarium', $aquarium);
 	}
 	
@@ -107,6 +109,7 @@ class AquariumController extends BaseController
 		$aquarium->length = Input::get('length');
 		$aquarium->width = Input::get('width');
 		$aquarium->height = Input::get('height');
+		$aquarium->waterChangeInterval = Input::get('waterChangeInterval');
 		$aquarium->aquariduinoHostname = Input::get('aquariduinoHostname');
 		$aquarium->save();
 		return Redirect::to("aquariums/$aquariumID/");

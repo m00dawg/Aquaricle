@@ -24,6 +24,19 @@
 		@else
 			Water Never Changed
 		@endif
+	<li>
+		<strong>Next Water Change:</strong>
+		@if ($lastWaterChange)
+			{{ $lastWaterChange->daysRemaining }}
+				@if ($lastWaterChange->daysRemaining > 1)
+					Days
+				@else
+					Day
+				@endif
+		@else
+			Water Never Changed
+		@endif
+	</li>
 </ul>
 
 @if ($aquarium->aquariduinoHostname)
