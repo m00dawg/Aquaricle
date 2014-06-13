@@ -13,6 +13,7 @@
 
 /* Some Magical Route Filters */
 Route::when('aquarium*', 'auth');
+Route::when('user*', 'auth');
 Route::when('aquariums/*/', 'auth.aquarium');
 Route::when('*', 'csrf', array('post', 'put', 'patch'));
 
@@ -20,6 +21,34 @@ Route::when('*', 'csrf', array('post', 'put', 'patch'));
 Route::resource('aquariums', 'AquariumController');
 Route::resource('aquariums.logs', 'AquariumLogsController');
 Route::resource('aquariums.equipment', 'EquipmentController');
+
+// User Interactions
+// Get Logged In User's Profile
+Route::get('/user/profile', [
+    'as'     => 'user.profile',
+    'uses'   => 'UserController@getProfile'
+]);
+	
+// Update Logged In User's Profile
+Route::get('/user/editprofile', [
+    'as'     => 'user.editprofile',
+    'uses'   => 'UserController@updateProfile'
+]);
+	
+Route::post('/user/editprofile', [
+    'as'     => 'user.editprofile',
+    'uses'   => 'UserController@storeProfile'
+]);
+
+// Update Logged In User's Password
+Route::get('/user/password', [
+    'as'     => 'user.password',
+    'uses'   => 'UserController@getChangePassword'
+]);
+Route::post('/user/password', [
+    'as'     => 'user.password',
+    'uses'   => 'UserController@postChangePassword'
+]);
 
 Route::get('/', function()
 {
