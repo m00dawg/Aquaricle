@@ -6,7 +6,9 @@
 <body>
 
 @if ( Auth::user())
-	<div id="login">Logged In As {{ Auth::user()->username }} ({{ link_to('/logout', 'Logout') }} / User Perferences)</div>
+	<div id="login">Logged In As {{ Auth::user()->username }} 
+		({{ link_to('/logout', 'Logout') }} / 
+		{{ link_to_route('user.profile', 'User Perferences') }})</div>
 @else
 	<div id="login">{{ link_to('/login', 'Login') }}</div>
 @endif
