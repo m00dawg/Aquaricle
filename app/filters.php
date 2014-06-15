@@ -43,7 +43,7 @@ Route::filter('auth', function()
 			'=', 'Users.timezoneID')
 		->where('userID', '=', Auth::id())
 		->first();
-	DB::raw("SET SESSION time_zone = '".$timezone->timezone."'");
+	DB::statement("SET SESSION time_zone = '".$timezone->timezone."'");
 
 });
 
