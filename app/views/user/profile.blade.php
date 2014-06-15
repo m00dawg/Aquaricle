@@ -11,7 +11,8 @@
 
 <table>
 	<tr><th>Username</th><td>{{ $user->username }}</td></tr>
-	<tr><th>E-Mail</th><td>{{ $user->email }} </td></tr>
+	<tr><th>E-Mail</th><td>{{ $user->email }}</td></tr>
+	<tr><th>Timezone</th><td>{{ $user->timezone }}</td></tr>
 	<tr><th>Active Since</th><td>{{ $user->createdAt}}</td></tr>
 	<tr><th>Last Changed</th><td>{{ $user->updatedAt}}</td></tr>
 </table>

@@ -10,23 +10,39 @@ class UserController extends BaseController
 	
     public function getProfile()
     {
-		$user = Auth::user();
-
+		$user = User::select(
+			DB::raw('username, email, createdAt, updatedAt, mysql.time_zone_name.Name AS timezone'))
+			->join('mysql.time_zone_name', 'mysql.time_zone_name.Time_zone_id',
+				'=', 'Users.timeZoneID')
+			->where('userID', '=', Auth::id())
+			->first();
         return View::make('user.profile', array('user' => $user));
     }
 
 	public function updateProfile()
 	{
 		$user = Auth::user();
+		$timezones = DB::table('mysql.time_zone_name')->lists('Name', 'Time_zone_id');
 
-        return View::make('user.editprofile', array('user' => $user));
+        return View::make('user.editprofile', array('user' => $user, 'timezones' => $timezones));
 	}
 
 	public function storeProfile()
 	{
+		DB::beginTransaction();
 		$user = Auth::user();
 		$user->email = Input::get('email');
+		$user->timezoneID = Input::get('timezone');
 		$user->save();
+
+		$user = User::select(
+			DB::raw('username, email, createdAt, updatedAt, mysql.time_zone_name.Name AS timezone'))
+			->join('mysql.time_zone_name', 'mysql.time_zone_name.Time_zone_id',
+				'=', 'Users.timeZoneID')
+			->where('userID', '=', Auth::id())
+			->first();
+				
+		DB::commit();
         return View::make('user.profile', array('user' => $user, 'status' => 'Profile Updated'));
 	}
 
