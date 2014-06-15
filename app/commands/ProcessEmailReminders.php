@@ -18,7 +18,7 @@ class ProcessEmailReminders extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Command description.';
+	protected $description = 'Process E-mail Reminders';
 
 	/**
 	 * Create a new command instance.

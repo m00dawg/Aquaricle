@@ -36,6 +36,15 @@ App::after(function($request, $response)
 Route::filter('auth', function()
 {
 	if (Auth::guest()) return Redirect::guest('login');
+	
+	$timezone = DB::table('Users')
+		->select(DB::raw('time_zone_name.Name AS timezone'))
+		->join('mysql.time_zone_name', 'mysql.time_zone_name.Time_zone_id',
+			'=', 'Users.timezoneID')
+		->where('userID', '=', Auth::id())
+		->first();
+	DB::raw("SET SESSION time_zone = '".$timezone->timezone."'");
+
 });
 
 
