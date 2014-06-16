@@ -12,7 +12,8 @@ class AddWaterchangereminderProcedure extends Migration {
 	 */
 	public function up()
 	{
-		$sql = "DROP PROCEDURE IF EXISTS WaterChangesDue;
+		$sql = "SET SQL_MODE='TRADITIONAL';
+			DROP PROCEDURE IF EXISTS WaterChangesDue;
 
 			CREATE PROCEDURE WaterChangesDue (IN inUserID INT UNSIGNED, IN inDueOffset TINYINT UNSIGNED)
 			BEGIN
