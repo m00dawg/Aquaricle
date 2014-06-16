@@ -83,5 +83,11 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	{
 		return $this->email;
 	}
-
+	
+	/** Query Scopes **/
+	
+	public function scopeActive($query)
+	{
+		return $query->whereNull('deletedAt');
+	}
 }

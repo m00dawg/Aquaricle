@@ -37,7 +37,34 @@ class ProcessEmailReminders extends Command {
 	 */
 	public function fire()
 	{
-		$this->info('Display this on the screen');
+		$subject = 'Aquaricle: Maintenance Reminder';
+		$body = '';
+		
+		$this->info('Processing Maintenance Reminders');
+		
+		// Get Active Users
+		$users = User::active()
+			->select(DB::raw('userID, username, email'))
+			->get();
+		
+		// Loop through active users
+		foreach ($users as $user)
+		{
+			$this->info("Processing User ".$user->userID."\n");
+			$aquariums = DB::select('CALL WaterChangesDue(?,?)',array($user->userID,2));
+			foreach ($aquariums as $aquarium)
+			{
+				$body = $aquarium->name." is due for a water change in 2 days!\n".
+					"Last Water Change was on ".$aquarium->logDate."\n\n";
+			}
+			if($body != '')
+			{
+				Mail::send('email.reminders', array('body' => $body), function($message) use ($user, $subject)
+				{
+				    $message->to($user->email, $user->username)->subject($subject);
+				});
+			}
+		}
 	}
 
 	/**
