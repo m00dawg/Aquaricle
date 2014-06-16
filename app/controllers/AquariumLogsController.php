@@ -273,9 +273,50 @@ class AquariumLogsController extends BaseController
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($aquariumID, $logID)
 	{
-		//
+		DB::beginTransaction();
+		$log = AquariumLog::where('AquariumLogs.aquariumLogID', '=', $logID)
+			->leftjoin('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
+			->select('AquariumLogs.aquariumLogID', 'AquariumLogs.aquariumID', 'logDate', 
+				'summary', 'comments', 'temperature', 'ammonia', 'nitrites', 'nitrates',
+				'phosphates', 'pH', 'KH', 'amountExchanged')
+			->first();
+		$food = Food::leftjoin('FoodLogs', function ($join) use($logID)
+			{
+				$join->on('FoodLogs.foodID', '=', 'Food.foodID')
+					->where('FoodLogs.aquariumLogID', '=', $logID);
+			})
+			->selectraw('Food.foodID AS foodID, name, IF(aquariumLogID, true, false) AS selected')
+			->get();
+		
+		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
+		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)
+			->lists('name', 'equipmentID');
+		
+		$waterAdditiveLogs = WaterAdditiveLog::where('aquariumLogID', '=', $logID)
+			->join('WaterAdditives', 'WaterAdditives.waterAdditiveID', '=', 'WaterAdditiveLogs.waterAdditiveID')
+			->get();
+		
+		$equipmentLogs = EquipmentLog::where('aquariumLogID', '=', $logID)
+			->join('Equipment', 'Equipment.equipmentID', '=', 'EquipmentLogs.equipmentID')
+			->get();
+		
+		$foodLogs = FoodLog::where('aquariumLogID', '=', $logID)
+			->join('Food', 'Food.foodID', '=', 'FoodLogs.foodID')
+			->get();
+		
+		DB::commit();
+
+		return View::make('aquariumlogs/log')
+			->with('aquariumID', $aquariumID)
+			->with('log', $log)
+			->with('food', $food)
+			->with('waterAdditives', $waterAdditives)
+			->with('waterAdditiveLogs', $waterAdditiveLogs)
+			->with('equipmentLogs', $equipmentLogs)
+			->with('equipment', $equipment)
+			->with('foodLogs', $foodLogs);
 	}
 
 
@@ -384,6 +425,19 @@ class AquariumLogsController extends BaseController
 		return Redirect::to("aquariums/$aquariumID/");
 	}
 	
-
-
+	/* Non Resource Functions */
+	public function getFavorites($aquariumID)
+	{
+		$favorites = AquariumLogFavorites::where('AquariumLogFavorites.aquariumID', 
+				'=', $aquariumID)
+			->join('AquariumLogs', 
+				'AquariumLogs.aquariumLogID', '=', 'AquariumLogFavorites.aquariumLogID')
+			->select('AquariumLogFavorites.aquariumLogID',
+					'AquariumLogFavorites.name',
+					'AquariumLogs.summary')
+			->get();
+		return View::make('aquariumlogs/favorites')
+			->with('aquariumID', $aquariumID)
+			->with('favorites', $favorites);
+	}
 }
