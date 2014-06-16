@@ -138,7 +138,13 @@
 
 	<br />
 	
-	{{ Form::label('logDate', 'Date') }}: {{ Form::text('logDate') }}<br />
+	{{ Form::label('logDate', 'Date') }}: {{ Form::text('logDate') }}
+	
+	@if(!isset($log))
+		(Leave Blank for Current Time)
+	@endif
+	
+	<br />
 	{{ Form::label('comments', 'Comments') }}: {{ Form::textarea('comments') }}<br />
 			
 	@if (isset($log))

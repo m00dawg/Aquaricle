@@ -28,6 +28,13 @@ class Aquarium extends BaseModel {
 			->where('aquariumID', '=', $aquariumID)
 			->first();
 	}
+	
+	/* Queries */
+	public function getAquariumWaterChangesIn($userID, $days)
+	{
+		
+		
+	}
 
 	/* Relationships */
 	public function user()
