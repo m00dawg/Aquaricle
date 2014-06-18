@@ -77,7 +77,16 @@
 	@endif
 </table>
 <br />
-	
+
+@if (isset($favorites))
+<h3>Favorite Actions</h3>
+<ul>
+	@foreach($favorites as $favorite)
+		<li>{{ $favorite->name }}</li>
+	@endforeach
+</ul>
+@endif	
+
 <h3>Latest Logs</h3>
 
 <table>
