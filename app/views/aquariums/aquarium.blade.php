@@ -80,11 +80,13 @@
 
 @if (isset($favorites))
 <h3>Favorite Actions</h3>
-<ul>
-	@foreach($favorites as $favorite)
-		<li>{{ $favorite->name }}</li>
-	@endforeach
-</ul>
+
+{{ Form::open(array('url' => "aquariums/$aquariumID/logs/favorites")) }}
+
+@foreach($favorites as $favorite)
+	{{ Form::submit($favorite->name, array('id' => 5)) }}<br />
+@endforeach
+
 @endif	
 
 <h3>Latest Logs</h3>
