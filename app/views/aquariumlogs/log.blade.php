@@ -85,55 +85,12 @@
 			@endforeach
 		</table>
 	@endif
-
-	<h3>Modify Log Entry</h3>
-@else
-	<h3>Add New Log Entry</h3>
 @endif
-
-
-<div class="formBox">
-	@if (isset($log))
-	<table>
-		<tr><th colspan="2">Water Logs</th></tr>
-		<tr><th>Temperature</th><td>{{ Form::text('temperature', null, array('size' => '8')) }}</td></tr>
-		<tr><th>Ammonia</th><td>{{ Form::text('ammonia', null, array('size' => '8')) }}</td></tr>
-		<tr><th>Nitrites</th><td>{{ Form::text('nitrites', null, array('size' => '8')) }}</td></tr>
-		<tr><th>Nitrates</th><td>{{ Form::text('nitrates', null, array('size' => '8')) }}</td></tr>
-		<tr><th>Phosphates</th><td>{{ Form::text('phosphates', null, array('size' => '8')) }}</td></tr>
-		<tr><th>pH</th><td>{{ Form::text('pH', null, array('size' => '8')) }}</td></tr>
-		<tr><th>KH</th><td>{{ Form::text('KH', null, array('size' => '8')) }}</td></tr>
-		<tr><th>Water Exchanged</th><td>{{ Form::text('amountExchanged', null, array('size' => '8')) }}</td></tr>
-	</table>
-	<br />
-	<table>
-		<tr>
-			<th>Food</th>
-			<td colspan="2">
-				@foreach($food as $item)
-					{{ Form::checkbox('food[]', $item->foodID, $item->selected) }} {{ $item->name }}<br />
-				@endforeach
-			</td>
-		</tr>
-
-		<tr>
-			<th>Water Additive</th>
-			<td>{{ Form::select('waterAdditive', $waterAdditives) }}</td>
-			<td>{{ Form::text('waterAdditiveAmount', null, array('size' => '8')) }} mL </td>
-		</tr>
-	
-		<tr>
-			<th>Equipment</th>
-			<td>{{ Form::select('equipment', $equipment) }}</td>
-			<td>{{ Form::checkbox('equipmentMaintenance') }} Maintenance</td>
-		</tr>
-
-	</table>
-	@endif
-
 </div>
 
-{{ link_to("aquariums/$aquariumID/", "Go Back") }}</td>
+{{ link_to_route('aquariums.show', 'Go Back', array($aquariumID)) }} : 
+{{ link_to("aquariums/$aquariumID/logs/$log->aquariumLogID/edit", 
+	'Edit Log') }}
 
 
 @stop

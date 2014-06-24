@@ -428,7 +428,7 @@ class AquariumLogsController extends BaseController
 	/* Non Resource Functions */
 	public function getFavorites($aquariumID)
 	{
-		$favorites = AquariumLogFavorites::where('AquariumLogFavorites.aquariumID', 
+		$favorites = AquariumLogFavorite::where('AquariumLogFavorites.aquariumID', 
 				'=', $aquariumID)
 			->join('AquariumLogs', 
 				'AquariumLogs.aquariumLogID', '=', 'AquariumLogFavorites.aquariumLogID')

@@ -77,7 +77,18 @@
 	@endif
 </table>
 <br />
-	
+
+@if (isset($favorites))
+<h3>Favorite Actions</h3>
+
+{{ Form::open(array('url' => "aquariums/$aquariumID/logs/favorites")) }}
+
+@foreach($favorites as $favorite)
+	{{ Form::submit($favorite->name, array('id' => 5)) }}<br />
+@endforeach
+
+@endif	
+
 <h3>Latest Logs</h3>
 
 <table>

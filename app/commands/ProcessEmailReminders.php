@@ -51,10 +51,11 @@ class ProcessEmailReminders extends Command {
 		foreach ($users as $user)
 		{
 			$this->info("Processing User ".$user->userID."\n");
+			// Check on Water Changes
 			$aquariums = DB::select('CALL WaterChangesDue(?,?)',array($user->userID,2));
 			foreach ($aquariums as $aquarium)
 			{
-				$body = $aquarium->name." is due for a water change in 2 days!\n".
+				$body = $aquarium->name." is due for a water change in 2 days or less!\n".
 					"Last Water Change was on ".$aquarium->logDate."\n\n";
 			}
 			if($body != '')

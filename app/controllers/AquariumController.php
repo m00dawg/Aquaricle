@@ -35,6 +35,8 @@ class AquariumController extends BaseController
 		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)
 			->where('logDate', '>=', $dateSub)
 			->get();
+		$favorites = AquariumLogFavorite::where('aquariumID', '=', $aquariumID)
+			->get();
 		
 		$equipment = Equipment::select(DB::raw(
 				'Equipment.equipmentID, Equipment.name, 
@@ -62,6 +64,7 @@ class AquariumController extends BaseController
 			->whereNotNull('amountExchanged')
 			->orderby('logDate', 'desc')
 			->first();
+			
 		
 		DB::commit();
 		
@@ -70,6 +73,7 @@ class AquariumController extends BaseController
 			->with('aquarium', $aquarium)
 			->with('lastWaterChange', $lastWaterChange)
 			->with('logs', $logs)
+			->with('favorites', $favorites)
 			->with('equipment', $equipment)
 			->with('measurementUnits', $aquarium->getMeasurementUnits());
 	}

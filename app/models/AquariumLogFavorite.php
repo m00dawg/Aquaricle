@@ -1,6 +1,6 @@
 <?php
 
-class AquariumLogFavorites extends BaseModel {
+class AquariumLogFavorite extends BaseModel {
 
 	protected $table = 'AquariumLogFavorites';
 	protected $guarded = array('aquariumLogID');
