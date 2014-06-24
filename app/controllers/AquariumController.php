@@ -40,7 +40,8 @@ class AquariumController extends BaseController
 				'Equipment.equipmentID, Equipment.name, 
 				MAX(AquariumLogs.logDate) AS lastMaint,
 				DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS daysSinceMaint,
-				Equipment.maintInterval - DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS nextMaintDays'))
+				CAST(Equipment.maintInterval AS signed) - DATEDIFF(UTC_TIMESTAMP(), 
+				MAX(AquariumLogs.logDate)) AS nextMaintDays'))
 			->leftjoin('EquipmentLogs', 'EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
 			->leftjoin('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
 			->where('Equipment.aquariumID', '=', $aquariumID)
@@ -53,7 +54,7 @@ class AquariumController extends BaseController
 		$lastWaterChange = DB::table('Aquariums')
 			->select(DB::raw('logDate, 
 				DATEDIFF(NOW(), logDate) AS daysSince,
-				waterChangeInterval - DATEDIFF(NOW(), logDate) AS daysRemaining,
+				CAST(waterChangeInterval AS signed) - DATEDIFF(NOW(), logDate) AS daysRemaining,
 				amountExchanged, ROUND((amountExchanged / capacity) * 100, 0) AS changePct'))
 			->join('AquariumLogs', 'AquariumLogs.aquariumID', '=', 'Aquariums.aquariumID')
 			->join('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
