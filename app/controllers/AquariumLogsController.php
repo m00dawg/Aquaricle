@@ -456,8 +456,12 @@ class AquariumLogsController extends BaseController
 		$waterLogs = AquariumLog::where('aquariumID', '=', $aquariumID)
 			->join('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->get();
+		$measurementUnits = Aquarium::where('aquariumID', '=', $aquariumID)
+			->select('measurementUnits')
+			->first();
 		return View::make('aquariumlogs/waterlogs')
 			->with('aquariumID', $aquariumID)
+			->with('measurementUnits', $measurementUnits)
 			->with('waterLogs', $waterLogs);
 	}
 }

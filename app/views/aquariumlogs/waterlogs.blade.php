@@ -6,14 +6,26 @@
 <table>	
 	<tr>
 		<th>Date</th>
-		<th>Temperature</th>
+		<th>Temperature 
+		@if ($measurementUnits == 'Metric')
+			(C)
+		@else
+			(F)
+		@endif
+		</th>
 		<th>Ammonia</th>
 		<th>Nitrites</th>
 		<th>Nitrates</th>
 		<th>Phosphates</th>
 		<th>pH</th>
 		<th>KH</th>
-		<th>Water Exchanged</th>
+		<th>Water Exchanged
+			@if ($measurementUnits == 'Metric')
+				(Liters)
+			@else
+				(Gallons)
+			@endif
+		</th>
 	</tr>
 	
 	@if (count($waterLogs) > 0)
