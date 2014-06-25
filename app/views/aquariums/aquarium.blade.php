@@ -81,7 +81,7 @@
 </table>
 <br />
 
-@if (isset($favorites))
+@if (count($favorites) > 0)
 <h3>Favorite Actions</h3>
 
 {{ Form::open(array('url' => "aquariums/$aquariumID/logs/favorites")) }}
