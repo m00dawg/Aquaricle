@@ -11,31 +11,34 @@
 		 {{ $aquarium->width }} {{ $measurementUnits['Length'] }}  x 
 		 {{ $aquarium->height }} {{ $measurementUnits['Length'] }})</li>
 	<li><strong>Active Since:</strong> {{ $aquarium->createdAt }}</li>
-	<li><strong>Last Water Change:</strong>
-		@if ($lastWaterChange)
-			{{ $lastWaterChange->changePct }}% ({{ $lastWaterChange->amountExchanged }} {{ $measurementUnits['Volume'] }}) - 
-			{{ $lastWaterChange->daysSince }} 
-			@if ($lastWaterChange->daysSince > 1)
-				Days
+	<li><strong>Water Changes:</strong>
+		<ul><li>
+			<strong>Next Due In:</strong>
+			@if ($lastWaterChange)
+				{{ $lastWaterChange->daysRemaining }}
+					@if ($lastWaterChange->daysRemaining > 1 || $lastWaterChange->daysRemaining < -1)
+						Days
+					@else
+						Day
+					@endif
 			@else
-				Day
+				Water Never Changed
 			@endif
-			Ago</li>
-		@else
-			Water Never Changed
-		@endif
-	<li>
-		<strong>Next Water Change:</strong>
-		@if ($lastWaterChange)
-			{{ $lastWaterChange->daysRemaining }}
-				@if ($lastWaterChange->daysRemaining > 1)
+		</li><li>
+			<strong>Last Change:</strong>
+			@if ($lastWaterChange)
+				{{ $lastWaterChange->daysSince }} 
+				@if ($lastWaterChange->daysSince > 1)
 					Days
 				@else
 					Day
 				@endif
-		@else
-			Water Never Changed
-		@endif
+				Ago
+				({{ $lastWaterChange->changePct }}% / {{ $lastWaterChange->amountExchanged }} {{ $measurementUnits['Volume'] }}) 
+			@else
+				Water Never Changed
+			@endif
+		</li></ul>
 	</li>
 </ul>
 
