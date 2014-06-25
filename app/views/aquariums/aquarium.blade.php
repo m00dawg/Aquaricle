@@ -15,26 +15,35 @@
 		<ul><li>
 			<strong>Next Due In:</strong>
 			@if ($lastWaterChange)
-				{{ $lastWaterChange->daysRemaining }}
+				@if ($lastWaterChange->daysRemaining == 0)
+					Today
+				@else
+					{{ $lastWaterChange->daysRemaining }}
 					@if ($lastWaterChange->daysRemaining > 1 || $lastWaterChange->daysRemaining < -1)
 						Days
 					@else
 						Day
 					@endif
+				@endif
 			@else
 				Water Never Changed
 			@endif
 		</li><li>
 			<strong>Last Change:</strong>
 			@if ($lastWaterChange)
-				{{ $lastWaterChange->daysSince }} 
-				@if ($lastWaterChange->daysSince > 1)
-					Days
+				@if ($lastWaterChange->daysRemaining == 0)
+					Today
 				@else
-					Day
+					{{ $lastWaterChange->daysSince }} 
+					@if ($lastWaterChange->daysSince > 1)
+						Days
+					@else
+						Day
+					@endif
+					Ago
+					({{ $lastWaterChange->changePct }}% / 
+					{{ $lastWaterChange->amountExchanged }} {{ $measurementUnits['Volume'] }}) 
 				@endif
-				Ago
-				({{ $lastWaterChange->changePct }}% / {{ $lastWaterChange->amountExchanged }} {{ $measurementUnits['Volume'] }}) 
 			@else
 				Water Never Changed
 			@endif
