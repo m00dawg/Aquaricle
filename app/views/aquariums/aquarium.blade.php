@@ -31,7 +31,7 @@
 		</li><li>
 			<strong>Last Change:</strong>
 			@if ($lastWaterChange)
-				@if ($lastWaterChange->daysRemaining == 0)
+				@if ($lastWaterChange->daysSince == 0)
 					Today
 				@else
 					{{ $lastWaterChange->daysSince }} 
