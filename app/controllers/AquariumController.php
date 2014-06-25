@@ -34,6 +34,7 @@ class AquariumController extends BaseController
 		
 		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)
 			->where('logDate', '>=', $dateSub)
+			->orderby('logDate')
 			->get();
 		$favorites = AquariumLogFavorite::where('aquariumID', '=', $aquariumID)
 			->get();
