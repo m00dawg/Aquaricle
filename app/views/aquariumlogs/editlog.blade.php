@@ -102,14 +102,32 @@
 	
 	<table>
 		<tr><th colspan="2">Water Logs</th></tr>
-		<tr><th>Temperature</th><td>{{ Form::text('temperature', null, array('size' => '8')) }}</td></tr>
-		<tr><th>Ammonia</th><td>{{ Form::text('ammonia', null, array('size' => '8')) }}</td></tr>
-		<tr><th>Nitrites</th><td>{{ Form::text('nitrites', null, array('size' => '8')) }}</td></tr>
-		<tr><th>Nitrates</th><td>{{ Form::text('nitrates', null, array('size' => '8')) }}</td></tr>
-		<tr><th>Phosphates</th><td>{{ Form::text('phosphates', null, array('size' => '8')) }}</td></tr>
+		<tr>
+			<th>Temperature</th>
+			<td>{{ Form::text('temperature', null, array('size' => '8')) }} &deg;
+				@if ($measurementUnits == 'Metric')
+					C
+				@else
+					F
+				@endif
+			</td>
+		</tr>
+		<tr><th>Ammonia</th><td>{{ Form::text('ammonia', null, array('size' => '8')) }} ppm</td></tr>
+		<tr><th>Nitrites</th><td>{{ Form::text('nitrites', null, array('size' => '8')) }} ppm</td></tr>
+		<tr><th>Nitrates</th><td>{{ Form::text('nitrates', null, array('size' => '8')) }} ppm</td></tr>
+		<tr><th>Phosphates</th><td>{{ Form::text('phosphates', null, array('size' => '8')) }} ppm</td></tr>
 		<tr><th>pH</th><td>{{ Form::text('pH', null, array('size' => '8')) }}</td></tr>
-		<tr><th>KH</th><td>{{ Form::text('KH', null, array('size' => '8')) }}</td></tr>
-		<tr><th>Water Exchanged</th><td>{{ Form::text('amountExchanged', null, array('size' => '8')) }}</td></tr>
+		<tr><th>KH</th><td>{{ Form::text('KH', null, array('size' => '8')) }} &deg;</td></tr>
+		<tr>
+			<th>Water Exchanged</th>
+			<td>{{ Form::text('amountExchanged', null, array('size' => '8')) }}
+				@if ($measurementUnits == 'Metric')
+					L
+				@else
+					Gal
+				@endif
+			</td>
+		</tr>
 	</table>
 	<br />
 	<table>

@@ -228,12 +228,17 @@ class AquariumLogsController extends BaseController
 		$food = Food::get();
 		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
 		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)->lists('name', 'equipmentID');
+		$measurementUnits = Aquarium::where('aquariumID', '=', $aquariumID)
+			->select('measurementUnits')
+			->first();
 
 		return View::make('aquariumlogs/editlog')
 			->with('aquariumID', $aquariumID)
 			->with('food', $food)
 			->with('waterAdditives', $waterAdditives)
-			->with('equipment', $equipment);
+			->with('equipment', $equipment)
+			->with('measurementUnits', $measurementUnits);
+
 	}
 
 
@@ -359,6 +364,10 @@ class AquariumLogsController extends BaseController
 			->join('Food', 'Food.foodID', '=', 'FoodLogs.foodID')
 			->get();
 		
+		$measurementUnits = Aquarium::where('aquariumID', '=', $aquariumID)
+			->select('measurementUnits')
+			->first();
+		
 		DB::commit();
 
 		return View::make('aquariumlogs/editlog')
@@ -369,7 +378,8 @@ class AquariumLogsController extends BaseController
 			->with('waterAdditiveLogs', $waterAdditiveLogs)
 			->with('equipmentLogs', $equipmentLogs)
 			->with('equipment', $equipment)
-			->with('foodLogs', $foodLogs);
+			->with('foodLogs', $foodLogs)
+			->with('measurementUnits', $measurementUnits);
 	}
 
 	/**
