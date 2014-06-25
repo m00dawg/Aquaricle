@@ -440,4 +440,14 @@ class AquariumLogsController extends BaseController
 			->with('aquariumID', $aquariumID)
 			->with('favorites', $favorites);
 	}
+	
+	public function getWaterLogs($aquariumID)
+	{
+		$waterLogs = AquariumLog::where('aquariumID', '=', $aquariumID)
+			->join('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
+			->get();
+		return View::make('aquariumlogs/waterlogs')
+			->with('aquariumID', $aquariumID)
+			->with('waterLogs', $waterLogs);
+	}
 }

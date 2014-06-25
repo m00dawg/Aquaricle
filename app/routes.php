@@ -26,6 +26,13 @@ Route::get('/aquariums/{aquariumID}/logs/favorites', [
     'uses'   => 'AquariumLogsController@getFavorites'
 ]);
 	
+// Water Logs
+Route::get('/aquariums/{aquariumID}/logs/waterlogs', [
+    'as'     => 'aquariums.logs.waterlogs',
+    'uses'   => 'AquariumLogsController@getWaterLogs'
+]);
+
+	
 Route::resource('aquariums.logs', 'AquariumLogsController');
 
 

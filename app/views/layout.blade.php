@@ -27,7 +27,7 @@
 			<li>{{ link_to_route('aquariums.index', 'Aquariums') }}</li>
 			@if (isset($aquariumID))
 				<li>{{ link_to_route('aquariums.equipment.index', 'Equipment', array($aquariumID)) }}</li>
-				<li>Water Logs</li>
+				<li>{{ link_to_route('aquariums.logs.waterlogs', 'Water Logs', array($aquariumID)) }}</li>
 				<li>Feedings</li>
 				<li>Life</li>
 			@endif
