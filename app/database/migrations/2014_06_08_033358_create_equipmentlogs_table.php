@@ -17,7 +17,7 @@ class CreateEquipmentlogsTable extends Migration {
 			$table->engine = 'InnoDB';
 			$table->integer('aquariumLogID')->unsigned();
 			$table->integer('equipmentID')->unsigned();
-			$table->enum('Maintenance', array('Yes', 'No'));
+			$table->enum('maintenance', array('Yes', 'No'));
 			$table->primary(array('aquariumLogID', 'equipmentID'));
 			
 			$table->index('equipmentID');
