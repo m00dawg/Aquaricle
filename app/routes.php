@@ -20,10 +20,16 @@ Route::when('*', 'csrf', array('post', 'put', 'patch'));
 /* RESTful Resource Controllers */
 Route::resource('aquariums', 'AquariumController');
 
-// Logs
+/// Logs
+
+// Favorites
 Route::get('/aquariums/{aquariumID}/logs/favorites', [
     'as'     => 'aquariums.logs.favorites',
     'uses'   => 'AquariumLogsController@getFavorites'
+]);
+Route::post('/aquariums/{aquariumID}/logs/favorites', [
+    'as'     => 'aquariums.logs.favorites',
+    'uses'   => 'AquariumLogsController@storeFavorite'
 ]);
 	
 // Water Logs

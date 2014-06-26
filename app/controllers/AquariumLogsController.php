@@ -451,11 +451,16 @@ class AquariumLogsController extends BaseController
 			->with('favorites', $favorites);
 	}
 	
-	public function storeFavorite($aquariumID, $aquariumLogID)
+	public function storeFavorite($aquariumID)
 	{
-		
-		DB::select('CALL ProcessFavoriteLog(?,?)',array($aquariumLogID, $aquariumID));
-		$this->generateLogSummary($aquariumLogID);
+		DB::beginTransaction();
+		$aquariumLogID = Input::get('favoriteLog');
+		$results = DB::select('CALL ProcessFavoriteLog(?,?)',array($aquariumLogID, $aquariumID));
+		$log = AquariumLog::where('aquariumLogID', '=', $results[0]->newAquariumLogID)->first();
+		$log->summary = $this->generateLogSummary($aquariumLogID);
+		$log->save();
+		DB::commit();
+		return Redirect::to("aquariums/$aquariumID");
 	}
 	
 	public function getWaterLogs($aquariumID)

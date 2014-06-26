@@ -20,8 +20,6 @@ class AddProcessfavoriteProcedure extends Migration {
 
 		DECLARE newAquariumLogID INT UNSIGNED;
 
-		SET AUTOCOMMIT=0;
-
 		INSERT INTO AquariumLogs (aquariumID, comments)
 		SELECT AquariumLogFavorites.aquariumID, comments
 		FROM AquariumLogFavorites
@@ -55,7 +53,7 @@ class AddProcessfavoriteProcedure extends Migration {
 		WHERE AquariumLogFavorites.aquariumLogID = inAquariumLogID
 		AND AquariumLogFavorites.aquariumID = inAquariumID;
 
-		COMMIT;
+		SELECT newAquariumLogID;
 
 		END ;";
 		

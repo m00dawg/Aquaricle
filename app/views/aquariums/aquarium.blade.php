@@ -70,7 +70,6 @@
 	@if (count($equipment) > 0)
 		@foreach($equipment as $equip)
 			<tr>
-				
 				<td>{{ link_to_route('aquariums.equipment.show', 
 					$equip->name, 
 					array($aquarium->aquariumID, $equip->equipmentID),
@@ -96,8 +95,13 @@
 {{ Form::open(array('url' => "aquariums/$aquariumID/logs/favorites")) }}
 
 @foreach($favorites as $favorite)
-	{{ Form::submit($favorite->name, array('id' => 5)) }}<br />
+	{{ Form::radio('favoriteLog', $favorite->aquariumLogID) }} {{ $favorite->name }} <br />
 @endforeach
+
+{{ Form::submit('Process') }}<br />
+
+
+{{ Form::close() }}
 
 @endif	
 

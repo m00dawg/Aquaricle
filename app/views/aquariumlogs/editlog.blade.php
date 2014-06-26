@@ -164,14 +164,16 @@
 	
 	<br />
 	{{ Form::label('comments', 'Comments') }}: {{ Form::textarea('comments') }}<br />
-			
+	
 	@if (isset($log))
+		<br />
+		{{ Form::label('setFavorite', 'Add As a Favorite') }}: {{ Form::text('favoriteName') }}<br />
+		<br />	
 		{{ Form::submit('Update') }}
 		<input type="submit" name="delete" value="Delete">
 	@else
 		{{ Form::submit('Add') }}
 	@endif	
-	
 	
 	{{ Form::close() }}
 
