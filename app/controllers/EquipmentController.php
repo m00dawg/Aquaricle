@@ -46,8 +46,8 @@ class EquipmentController extends \BaseController {
 		$equipment->aquariumID = $aquariumID;
 		$equipment->equipmentTypeID = Input::get('equipmentType');
 		$equipment->name = Input::get('name');
-		if(Input::get('installedOn') != '')
-			$equipment->createdAt = Input::get('installedOn');
+		if(Input::get('createdAt') != '')
+			$equipment->createdAt = Input::get('createdAt');
 		$equipment->maintInterval = Input::get('maintInterval');
 		$equipment->comments = Input::get('comments');
 		
@@ -141,7 +141,7 @@ class EquipmentController extends \BaseController {
 			return Redirect::to("aquariums/");
 		$equipment->equipmentTypeID = Input::get('equipmentType');
 		$equipment->name = Input::get('name');
-		$equipment->createdAt = Input::get('installedOn');
+		$equipment->createdAt = Input::get('createdAt');
 		if(Input::get('removedOn') != '')
 			$equipment->removedOn = Input::get('removedOn');
 		$equipment->maintInterval = Input::get('maintInterval');
