@@ -114,7 +114,12 @@
 			<tr>
 				<td>{{ link_to("aquariums/$aquarium->aquariumID/logs/$log->aquariumLogID/edit", 
 					$log->logDate, array('class'=>'logs')) }}</td>
-				<td>{{ $log->summary }}</td>
+				<td>
+					{{ $log->summary }}
+					@if ($log->comments)
+						<br /><b>Comments</b>: {{ $log->comments }}
+					@endif
+				</td>
 			</tr>
 		@endforeach
 	@else
