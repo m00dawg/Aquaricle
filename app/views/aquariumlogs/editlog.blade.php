@@ -167,7 +167,7 @@
 	
 	@if (isset($log))
 		<br />
-		{{ Form::label('setFavorite', 'Add As a Favorite') }}: {{ Form::text('favoriteName') }}<br />
+		{{ Form::label('setFavorite', 'Add As a Favorite') }}: {{ Form::text('name') }}<br />
 		<br />	
 		{{ Form::submit('Update') }}
 		<input type="submit" name="delete" value="Delete">

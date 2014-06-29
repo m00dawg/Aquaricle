@@ -336,9 +336,10 @@ class AquariumLogsController extends BaseController
 		DB::beginTransaction();
 		$log = AquariumLog::where('AquariumLogs.aquariumLogID', '=', $logID)
 			->leftjoin('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
+			->leftjoin('AquariumLogFavorites', 'AquariumLogFavorites.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->select('AquariumLogs.aquariumLogID', 'AquariumLogs.aquariumID', 'logDate', 
 				'summary', 'comments', 'temperature', 'ammonia', 'nitrites', 'nitrates',
-				'phosphates', 'pH', 'KH', 'amountExchanged')
+				'phosphates', 'pH', 'KH', 'amountExchanged', 'name')
 			->first();
 		$food = Food::leftjoin('FoodLogs', function ($join) use($logID)
 			{
@@ -367,6 +368,7 @@ class AquariumLogsController extends BaseController
 		$measurementUnits = Aquarium::where('aquariumID', '=', $aquariumID)
 			->select('measurementUnits')
 			->first();
+		
 		
 		DB::commit();
 
@@ -413,6 +415,33 @@ class AquariumLogsController extends BaseController
 		$this->updateEquipmentLog($aquariumLogID);
 		$this->updateFoodLog($aquariumLogID);
 		$log->summary = $this->generateLogSummary($aquariumLogID);
+		
+		// Add/Update Log as a favorite if it has been given a name
+		$name = Input::get('name');
+		if(isset($name))
+		{
+			if($name != '')
+			{
+				$favorite = AquariumLogFavorite::where('aquariumLogID', '=', $aquariumLogID)
+					->where('aquariumID', '=', $aquariumID)
+					->first();
+				if(!$favorite)
+				{
+					$favorite = new AquariumLogFavorite();
+					$favorite->aquariumLogID = $aquariumLogID;
+					$favorite->aquariumID = $aquariumID;
+				}
+				$favorite->name = $name;
+				$favorite->save();
+			}
+			else
+			{
+				$favorite = AquariumLogFavorite::where('aquariumLogID', '=', $aquariumLogID)
+					->where('aquariumID', '=', $aquariumID)
+					->delete();
+			}
+		}
+			
 		$log->save();
 		DB::commit();
 	
