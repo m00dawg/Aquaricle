@@ -57,13 +57,18 @@ class ProcessEmailReminders extends Command {
 			foreach ($aquariums as $aquarium)
 			{
 				if($aquarium->dueIn > 0)
-					$body = $aquarium->name." is due for a water change in ".$aquariums->dueIn." days or less!\n";
+					$body .= $aquarium->name." is due for a water change in ".$aquariums->dueIn." days or less!\n";
 				elseif($aquarium->dueIn == 0)
-					$body = $aquarium->name." is due for a water change NOW!\n";
+					$body .= $aquarium->name." is due for a water change NOW!\n";
 				else
-					$body = $aquarium->name." is OVERDUE for a water change!\n";
+					$body .= $aquarium->name." is OVERDUE for a water change!\n";
 				$body .= "Last water change was performend on ".$aquarium->logDate."\n\n";
 			}
+			
+			// Check on Equipment Maintenance
+			
+			
+			
 			if($body != '')
 			{
 				Mail::send('email.reminders', array('body' => $body), function($message) use ($user, $subject)
