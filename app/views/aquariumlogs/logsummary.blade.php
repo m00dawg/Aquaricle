@@ -1,5 +1,5 @@
 <table>
-	<tr><th>Date</th><th>Summary</th></tr>
+	<tr><th class="logDate">Date</th><th>Summary</th></tr>
 	@if (count($logs) > 0)
 		@foreach($logs as $log)
 			<tr>

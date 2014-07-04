@@ -183,6 +183,18 @@ a.life:hover { color: #0000FF; }
     padding-bottom: 1%;
 }
 
+.pager{
+    list-style-type: none;
+	text-align: center;
+}
+
+.pager li{
+    display: inline;
+	text-align: center;
+    text-decoration: none;
+	padding: 0.25%;
+}
+
 /* Equpiment */
 
 #equipment{
@@ -212,15 +224,17 @@ td.equipmentMaintOverdue{
     text-align: center;
 }
 
-/* Water Logs */
+/* Logs */
 
 #waterLogs, #logs{
     text-align: center;
 }
 
-th.testedOn{
-    width: 17%;
+th.logDate{
+    width: 15%;
 }
+
+/* Water Logs */
 
 th.temperature{
     width: 5%;
