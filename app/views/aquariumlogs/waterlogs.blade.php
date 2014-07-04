@@ -34,7 +34,7 @@
 				<td>{{ $log->logDate }}</td>
 				<td>{{ $log->temperature }}</td>
 				<td>{{ $log->ammonia }}</td>
-				<td>{{ $log->nitrites }}</td>
+				<td style="background-color: {{ $log->nitriteBackgroundColor() }}">{{ $log->nitrites }}</td>
 				<td style="background-color: {{ $log->nitrateBackgroundColor() }}">{{ $log->nitrates }}</td>
 				<td>{{ $log->phosphates }}</td>
 				<td>{{ $log->pH }}</td>

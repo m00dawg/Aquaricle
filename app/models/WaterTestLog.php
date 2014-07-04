@@ -12,6 +12,24 @@ class WaterTestLog extends BaseModel {
 		return $this->belongsTo('AquariumLog');
 	}
 
+	public function nitriteBackgroundColor()
+	{
+		$nitrites = $this->nitrites;
+		if(!isset($nitrites))
+			return 'clear';
+		if($this->nitrites >= 5.00)
+			return '#b958ab';
+		if($this->nitrites >= 2.00)
+			return '#e467e4';
+		if($this->nitrites >= 1.00)
+			return '#ca85ef';
+		if($this->nitrites >= 0.50)
+			return '#c0aaf3';
+		if($this->nitrites >= 0.25)
+			return '#c9acef';
+		return '#95dded';	
+	}
+
 	public function nitrateBackgroundColor()
 	{
 		$nitrates = $this->nitrates;
