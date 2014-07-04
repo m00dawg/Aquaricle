@@ -12,6 +12,28 @@ class WaterTestLog extends BaseModel {
 		return $this->belongsTo('AquariumLog');
 	}
 
+	/* Currently these are freshwater colors - should add salt */
+	
+	public function ammoniaBackgroundColor()
+	{
+		$ammonia = $this->ammonia;
+		if(!isset($ammonia))
+			return 'clear';
+		if($this->ammonia >= 8.00)
+			return '#17754a';
+		if($this->ammonia >= 4.00)
+			return '#2ac93a';
+		if($this->ammonia >= 2.00)
+			return '#50dc22';
+		if($this->ammonia >= 1.00)
+			return '#83fb03';
+		if($this->ammonia >= 0.50)
+			return '#e0ff0d';
+		if($this->ammonia >= 0.25)
+			return '#f5ff08';
+		return '#fcfe31';	
+	}
+	
 	public function nitriteBackgroundColor()
 	{
 		$nitrites = $this->nitrites;
