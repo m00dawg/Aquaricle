@@ -514,7 +514,11 @@ class AquariumLogsController extends BaseController
 	
 	public function getFeedings($aquariumID)
 	{
-		$days = 7;
+		$days = Input::get('days');
+		if(!isset($days))
+			$days = 7;
+			
+		
 		$food = DB::select(
 			"SELECT Food.name AS name, COUNT(Food.name) AS count
 			 FROM AquariumLogs
@@ -523,15 +527,6 @@ class AquariumLogsController extends BaseController
 			 WHERE AquariumLogs.aquariumID = ?
 			 AND logDate >= DATE_SUB(NOW(), INTERVAL ? Day)
 			 GROUP BY Food.name", array($aquariumID, $days));
-		/*
-		$food = AquariumLog::where('aquariumID', '=', $aquariumID)
-			->join('FoodLogs', 'FoodLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
-			->join('Food', 'Food.foodID', '=', 'FoodLogs.foodID')
-			->where('logdate', '>=', DB::raw("DATE_SUB(NOW(), INTERVAL ? Day)"), $days)
-			->groupby('Food.name')
-			->selectraw('Food.name AS name, COUNT(Food.name) AS feedingCount')
-			->get();		
-		*/
 
 		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)
 			->join('FoodLogs', 'FoodLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')

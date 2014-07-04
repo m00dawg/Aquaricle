@@ -16,7 +16,17 @@
 		<tr><td colspan="2">No Feedings Found</td</tr>
 	@endif
 </table>
+<br />
+
+<div id="feedingsDaysForm">
+{{ Form::open(array('url' => "aquariums/$aquariumID/logs/feedings", 'method' => 'get')) }}
+
+{{ Form::model($days, 
+	array('route' => array("aquariums.logs.feedings", $aquariumID), 'method' => 'get')) }}		
+	Days: {{ Form::text('days', $days, array('size' => '4')) }} {{ Form::submit('Update') }}
+{{ Form::close() }}	
 @endif
+</div>
 
 <h3>Food Logs</h3>
 @include('aquariumlogs.logsummary')

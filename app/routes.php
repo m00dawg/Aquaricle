@@ -44,7 +44,6 @@ Route::get('/aquariums/{aquariumID}/logs/feedings', [
     'uses'   => 'AquariumLogsController@getFeedings'
 ]);
 
-
 Route::resource('aquariums.logs', 'AquariumLogsController');
 
 

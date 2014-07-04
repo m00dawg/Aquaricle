@@ -234,6 +234,12 @@ th.logDate{
     width: 15%;
 }
 
+/* Feedings */
+
+#feedingsDaysForm{
+	text-align: center;
+}
+
 /* Water Logs */
 
 th.temperature{
