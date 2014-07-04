@@ -3,11 +3,7 @@
 
 <h2>Aquarium Logs</h2>
 
-@if (isset($logs))
-
 @include('aquariumlogs.logsummary')
-
-@endif
 
 {{ $logs->links() }}
 

@@ -31,14 +31,20 @@ Route::post('/aquariums/{aquariumID}/logs/favorites', [
     'as'     => 'aquariums.logs.favorites',
     'uses'   => 'AquariumLogsController@storeFavorite'
 ]);
-	
+
 // Water Logs
 Route::get('/aquariums/{aquariumID}/logs/waterlogs', [
     'as'     => 'aquariums.logs.waterlogs',
     'uses'   => 'AquariumLogsController@getWaterLogs'
 ]);
 
-	
+// Feedings
+Route::get('/aquariums/{aquariumID}/logs/feedings', [
+    'as'     => 'aquariums.logs.feedings',
+    'uses'   => 'AquariumLogsController@getFeedings'
+]);
+
+
 Route::resource('aquariums.logs', 'AquariumLogsController');
 
 
