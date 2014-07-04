@@ -341,6 +341,10 @@ class AquariumLogsController extends BaseController
 	public function edit($aquariumID, $logID)
 	{
 		DB::beginTransaction();
+		
+		$aquarium = Aquarium::where('aquariumID', '=', $aquariumID)
+			->first();
+		
 		$log = AquariumLog::where('AquariumLogs.aquariumLogID', '=', $logID)
 			->leftjoin('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->leftjoin('AquariumLogFavorites', 'AquariumLogFavorites.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
@@ -371,12 +375,7 @@ class AquariumLogsController extends BaseController
 		$foodLogs = FoodLog::where('aquariumLogID', '=', $logID)
 			->join('Food', 'Food.foodID', '=', 'FoodLogs.foodID')
 			->get();
-		
-		$measurementUnits = Aquarium::where('aquariumID', '=', $aquariumID)
-			->select('measurementUnits')
-			->first();
-		
-		
+			
 		DB::commit();
 
 		return View::make('aquariumlogs/editlog')
@@ -388,7 +387,7 @@ class AquariumLogsController extends BaseController
 			->with('equipmentLogs', $equipmentLogs)
 			->with('equipment', $equipment)
 			->with('foodLogs', $foodLogs)
-			->with('measurementUnits', $measurementUnits);
+			->with('measurementUnits', $aquarium->getMeasurementUnits());
 	}
 
 	/**
@@ -505,12 +504,11 @@ class AquariumLogsController extends BaseController
 			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'WaterTestLogs.aquariumLogID')
 			->orderBy('logDate')
 			->get();
-		$measurementUnits = Aquarium::where('aquariumID', '=', $aquariumID)
-			->select('measurementUnits')
+		$aquarium = Aquarium::where('aquariumID', '=', $aquariumID)
 			->first();
 		return View::make('aquariumlogs/waterlogs')
 			->with('aquariumID', $aquariumID)
-			->with('measurementUnits', $measurementUnits)
+			->with('measurementUnits', $aquarium->getMeasurementUnits())
 			->with('waterLogs', $waterLogs);
 	}
 	
@@ -518,8 +516,7 @@ class AquariumLogsController extends BaseController
 	{
 		$days = Input::get('days');
 		if(!isset($days))
-			$days = 7;
-			
+			$days = 7;		
 		
 		$food = DB::select(
 			"SELECT Food.name AS name, COUNT(Food.name) AS count

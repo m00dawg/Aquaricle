@@ -11,9 +11,9 @@ class Aquarium extends BaseModel {
 	public function getMeasurementUnits()
 	{
 		if($this->measurementUnits == 'Metric')
-			return array('Volume' => 'L', 'Length' => 'cm');
+			return array('Volume' => 'L', 'Length' => 'cm', 'Temperature' => 'C');
 		else
-			return array('Volume' => 'Gal', 'Length' => 'in');		
+			return array('Volume' => 'Gal', 'Length' => 'in', 'Temperature' => 'F');		
 	}
 	
 	/* Query Scopes */

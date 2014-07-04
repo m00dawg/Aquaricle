@@ -6,12 +6,7 @@
 <table>	
 	<tr>
 		<th>Date</th>
-		<th>Temperature 
-		@if ($measurementUnits == 'Metric')
-			(C)
-		@else
-			(F)
-		@endif
+		<th>Temperature ({{ $measurementUnits['Temperature'] }})
 		</th>
 		<th>Ammonia</th>
 		<th>Nitrites</th>
@@ -19,19 +14,14 @@
 		<th>Phosphates</th>
 		<th>pH</th>
 		<th>KH</th>
-		<th>Water Exchanged
-			@if ($measurementUnits == 'Metric')
-				(Liters)
-			@else
-				(Gallons)
-			@endif
-		</th>
+		<th>Water Exchanged ({{ $measurementUnits['Volume'] }})</th>
 	</tr>
 	
 	@if (count($waterLogs) > 0)
 		@foreach($waterLogs as $log)
 			<tr>
-				<td>{{ $log->logDate }}</td>
+				<td>{{ link_to("aquariums/$aquariumID/logs/$log->aquariumLogID/edit", 
+					$log->logDate, array('class'=>'logs')) }}</td>
 				<td>{{ $log->temperature }}</td>
 				<td style="background-color: {{ $log->ammoniaBackgroundColor() }}">{{ $log->ammonia }}</td>
 				<td style="background-color: {{ $log->nitriteBackgroundColor() }}">{{ $log->nitrites }}</td>

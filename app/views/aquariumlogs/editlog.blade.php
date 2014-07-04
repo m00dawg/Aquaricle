@@ -105,11 +105,7 @@
 		<tr>
 			<th>Temperature</th>
 			<td>{{ Form::text('temperature', null, array('size' => '8')) }} &deg;
-				@if ($measurementUnits == 'Metric')
-					C
-				@else
-					F
-				@endif
+				{{ $measurementUnits['Temperature'] }}
 			</td>
 		</tr>
 		<tr><th>Ammonia</th><td>{{ Form::text('ammonia', null, array('size' => '8')) }} ppm</td></tr>
@@ -121,11 +117,7 @@
 		<tr>
 			<th>Water Exchanged</th>
 			<td>{{ Form::text('amountExchanged', null, array('size' => '8')) }}
-				@if ($measurementUnits == 'Metric')
-					L
-				@else
-					Gal
-				@endif
+				{{ $measurementUnits['Volume'] }}
 			</td>
 		</tr>
 	</table>
