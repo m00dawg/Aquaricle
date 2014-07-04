@@ -8,7 +8,7 @@ class UserController extends BaseController
 		return Redirect::to('user/profile');
 	}
 	
-    public function getProfile()
+    public function getProfile($status = null)
     {
 		$user = User::select(
 			DB::raw('username, email, createdAt, updatedAt, mysql.time_zone_name.Name AS timezone'))
@@ -16,7 +16,7 @@ class UserController extends BaseController
 				'=', 'Users.timeZoneID')
 			->where('userID', '=', Auth::id())
 			->first();
-        return View::make('user.profile', array('user' => $user));
+        return View::make('user.profile', array('user' => $user, 'status' => $status));
     }
 
 	public function updateProfile()
@@ -61,8 +61,7 @@ class UserController extends BaseController
 			{
 				$user->password = Hash::make(Input::get('newPassword1'));
 				$user->save();
-				$status = 'Password Updated';
-		        return View::make('user.profile', array('user' => $user, 'status' => $status));
+				return $this->getProfile('Password Updated');
 			}
 			else
 			{
