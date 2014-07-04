@@ -534,6 +534,7 @@ class AquariumLogsController extends BaseController
 		*/
 
 		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)
+			->join('FoodLogs', 'FoodLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->paginate(20);
 		return View::make('aquariumlogs/feedings')
 			->with('aquariumID', $aquariumID)
