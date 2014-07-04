@@ -15,6 +15,8 @@ class WaterTestLog extends BaseModel {
 	public function nitrateBackgroundColor()
 	{
 		$nitrates = $this->nitrates;
+		if(!isset($nitrates))
+			return 'clear';
 		if($this->nitrates >= 160)
 			return '#9c0d2a';
 		if($this->nitrates >= 80)
