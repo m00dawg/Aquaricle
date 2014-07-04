@@ -215,7 +215,13 @@ class AquariumLogsController extends BaseController
 	 */
 	public function index($aquariumID)
 	{
-		//
+		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)
+			->orderBy('logDate', 'desc')
+			->limit(30)
+			->get();
+		return View::make('aquariumlogs/logs')
+			->with('aquariumID', $aquariumID)
+			->with('logs', $logs);
 	}
 
 	/**

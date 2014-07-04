@@ -21,4 +21,10 @@ class AquariumLog extends BaseModel {
 	{
 		return $this->hasMany('WaterAdditiveLog', 'aquariumLogID');
 	}
+	
+	public function getDates()
+	{
+	    return array('logDate');
+	}
+
 }
