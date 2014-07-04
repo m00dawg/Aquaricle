@@ -6,9 +6,14 @@
 				<td>{{ link_to("aquariums/$aquariumID/logs/$log->aquariumLogID/edit", 
 					$log->logDate, array('class'=>'logs')) }}</td>
 				<td>
-					{{ $log->summary }}
+					@if ($log->summary)
+						{{ $log->summary }}
+					@endif
 					@if ($log->comments)
-						<br /><b>Comments</b>: {{ $log->comments }}
+						@if($log->summary)
+							<br />
+						@endif
+						<b>Comments</b>: {{ $log->comments }}
 					@endif
 				</td>
 			</tr>

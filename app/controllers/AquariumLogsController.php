@@ -205,7 +205,9 @@ class AquariumLogsController extends BaseController
 			}
 		}
 		
-		return $summary;
+		if($summary != '')
+			return $summary;
+		return null;
 	}
 	
 	/**
