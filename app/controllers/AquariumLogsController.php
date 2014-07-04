@@ -501,8 +501,8 @@ class AquariumLogsController extends BaseController
 	
 	public function getWaterLogs($aquariumID)
 	{
-		$waterLogs = AquariumLog::where('aquariumID', '=', $aquariumID)
-			->join('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
+		$waterLogs = WaterTestLog::where('aquariumID', '=', $aquariumID)
+			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'WaterTestLogs.aquariumLogID')
 			->orderBy('logDate')
 			->get();
 		$measurementUnits = Aquarium::where('aquariumID', '=', $aquariumID)
