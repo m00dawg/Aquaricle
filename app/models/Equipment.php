@@ -22,11 +22,11 @@ class Equipment extends BaseModel
 	{
 		if(!isset($this->nextMaintDays))
 			return "";
-		if($this->nextMaintDays > 5)
-			return "";
 		if($this->nextMaintDays > 3)
+			return "";
+		if($this->nextMaintDays > 2)
 			return "equipmentMaintDueSoon";
-		if($this->nextMaintDays > 1)
+		if($this->nextMaintDays > 0)
 			return "equipmentMaintDue";
 		return "equipmentMaintOverdue";
 	}
