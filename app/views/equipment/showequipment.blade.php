@@ -26,10 +26,17 @@
 		</tr>
 	@foreach ($logs as $log)
 		<tr>
-			<td>{{ $log->logDate }}</td>
+			<td>{{ link_to("aquariums/$aquariumID/logs/$log->aquariumLogID/edit", 
+				$log->logDate, array('class'=>'logs')) }}</td>
 			<td>{{ $log->maintenance }}</td>
-			<td>{{ $log->summary }}</td>
-			<td>{{ $log->comments }}</td>
+			<td>{{ $log->summary }}
+				@if($log->comments)
+					@if($log->summary)
+						<br />
+					@endif
+					<strong>Comments:</strong> {{ $log->comments }}
+				@endif
+			</td>
 		</tr>
 	@endforeach
 	</table>

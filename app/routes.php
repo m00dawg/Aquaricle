@@ -50,7 +50,7 @@ Route::get('/aquariums/{aquariumID}/wateradditives', [
     'uses'   => 'WaterAdditivesController@index'
 ]);	
 	
-Route::get('/aquariums/{aquariumID}/wateradditives/{$waterAdditiveID}', [
+Route::get('/aquariums/{aquariumID}/wateradditives/{waterAdditiveID}', [
     'as'     => 'aquariums.wateradditives.show',
     'uses'   => 'WaterAdditivesController@getWaterAdditive'
 ]);	

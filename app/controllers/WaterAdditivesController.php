@@ -25,6 +25,16 @@ class WaterAdditivesController extends BaseController
 
 	public function getWaterAdditive($aquariumID, $waterAdditiveID)
 	{
-		echo "temp";
+		$waterAdditive = WaterAdditive::where('waterAdditiveID', '=', $waterAdditiveID)
+			->first();
+		$logs = WaterAdditiveLog::where('waterAdditiveID', '=', $waterAdditiveID)
+			->join('AquariumLogs', 
+				'AquariumLogs.aquariumLogID', '=', 'WaterAdditiveLogs.aquariumLogID')
+			->where('AquariumLogs.aquariumID', '=', $aquariumID)
+			->paginate(30);
+		return View::make('wateradditives/wateradditive')
+			->with('aquariumID', $aquariumID)
+			->with('waterAdditive', $waterAdditive)
+			->with('logs', $logs);
 	}
 }
