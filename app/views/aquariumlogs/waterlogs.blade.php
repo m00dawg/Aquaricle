@@ -32,6 +32,8 @@
 				<td>{{ $log->amountExchanged }}</td>
 			</tr>
 		@endforeach
+	@else
+		<tr><td colspan="9">No Water Tests Have Been Logged Yet.</td></tr>
 	@endif
 </table>
 

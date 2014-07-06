@@ -146,6 +146,9 @@ class AquariumController extends BaseController
 		$aquarium->width = Input::get('width');
 		$aquarium->height = Input::get('height');
 		$aquarium->waterChangeInterval = Input::get('waterChangeInterval');
+		$aquarium->targetTemperature = Input::get('targetTemperature');
+		$aquarium->targetPH = Input::get('targetPH');
+		$aquarium->targetKH = Input::get('targetKH');
 		$aquarium->aquariduinoHostname = Input::get('aquariduinoHostname');
 		$aquarium->save();
 		return Redirect::to("aquariums/$aquariumID/");

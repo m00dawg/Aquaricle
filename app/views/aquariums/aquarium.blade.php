@@ -14,8 +14,8 @@
 	<li><strong>Water Changes:</strong>
 		<ul><li>
 			<strong>Next Due In:</strong>
-			<span class="{{ $lastWaterChange->nextWaterChangeClass() }}">
 			@if ($lastWaterChange)
+				<span class="{{ $lastWaterChange->nextWaterChangeClass() }}">
 				@if ($lastWaterChange->daysRemaining == 0)
 					Today
 				@else
@@ -26,7 +26,7 @@
 						Day
 					@endif
 				@endif
-			</span>
+				</span>
 			@else
 				<span class="waterNeverChanged">Water Never Changed</span>
 			@endif

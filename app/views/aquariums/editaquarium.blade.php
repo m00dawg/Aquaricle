@@ -39,6 +39,19 @@
 			<th>{{ Form::label('waterchange', 'Water Change Interval (Days)') }}</th>
 			<td>{{ Form::text('waterChangeInterval') }}</td>
 		<tr>
+		<tr>
+			<th>{{ Form::label('temperature', 'Target Temperature') }}</th>
+			<td>{{ Form::text('targetTemperature') }}</td>
+		<tr>
+		<tr>
+			<th>{{ Form::label('pH', 'Target pH') }}</th>
+			<td>{{ Form::text('targetPH') }}</td>
+		<tr>
+		<tr>
+			<th>{{ Form::label('KH', 'Target KH') }}</th>
+			<td>{{ Form::text('targetKH') }}</td>
+		<tr>
+			
 			<th>{{ Form::label('Aquariduino Hostname') }}</th>
 			<td>{{ Form::text('aquariduinoHostname', null, array('size' => '32')) }}</td>
 		</tr>
