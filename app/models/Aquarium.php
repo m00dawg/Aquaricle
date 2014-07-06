@@ -29,6 +29,8 @@ class Aquarium extends BaseModel {
 			->first();
 	}
 	
+	
+	
 	/* Queries */
 	public function getAquariumWaterChangesIn($userID, $days)
 	{

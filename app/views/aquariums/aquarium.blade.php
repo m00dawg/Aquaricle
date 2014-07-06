@@ -14,6 +14,7 @@
 	<li><strong>Water Changes:</strong>
 		<ul><li>
 			<strong>Next Due In:</strong>
+			<span class="{{ $lastWaterChange->nextWaterChangeClass() }}">
 			@if ($lastWaterChange)
 				@if ($lastWaterChange->daysRemaining == 0)
 					Today
@@ -25,8 +26,9 @@
 						Day
 					@endif
 				@endif
+			</span>
 			@else
-				Water Never Changed
+				<span class="waterNeverChanged">Water Never Changed</span>
 			@endif
 		</li><li>
 			<strong>Last Change:</strong>
@@ -77,7 +79,7 @@
 				<td>{{ $equip->lastMaint }}</td>
 				@if (isset($equip->daysSinceMaint))
 					<td>{{ $equip->daysSinceMaint }}</td>
-					<td>{{ $equip->nextMaintDays }}</td>
+					<td class="{{ $equip->nextMaintClass() }}">{{ $equip->nextMaintDays }}</td>
 				@else
 					<td colspan="2" class="blank"></td>
 				@endif

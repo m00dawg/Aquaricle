@@ -55,7 +55,10 @@ body{
 	font-weight: bold;
 	text-align: center;
     text-decoration: none;
-	padding: 0.25%;
+	padding-top: 0.25%;
+	padding-bottom: 0.25%;
+	padding-left: 1%;
+	padding-right: 1%;
 	border-top: 0px;
 	border-bottom: 0px;
 	border-left: 1px;
@@ -173,7 +176,6 @@ a.life:visited { color: #000000; }
 a.life:active { color: #000000; }
 a.life:hover { color: #0000FF; }
 
-
 .formBox{
     background-color: #000055;
     margin-left: auto;
@@ -218,10 +220,21 @@ a.life:hover { color: #0000FF; }
     text-align: center;
 }
 
-td.equipmentMaintOverdue{
-    color: #990000;
+td.equipmentMaintDueSoon{
+    background-color: #ffff00;
     font-weight: bold;
-    text-align: center;
+}
+
+td.equipmentMaintDue{
+    background-color: #ff5500;
+	color: #ffffff;
+    font-weight: bold;
+}
+
+td.equipmentMaintOverdue{
+    background-color: #ff0000;
+	color: #ffffff;
+    font-weight: bold;
 }
 
 /* Logs */
@@ -242,6 +255,22 @@ th.logDate{
 
 /* Water Logs */
 
+span.waterNeverChanged{
+	color: #ffff00;	
+}
+
+span.waterChangeDueSoon{
+	color: #ffff00;
+}
+
+span.waterChangeDue{
+	color: #ff5500;
+}
+
+span.waterChangePastDue{
+	color: #ff0000;
+}
+
 th.temperature{
     width: 5%;
 }
@@ -258,182 +287,4 @@ th.comments{
     width: 15%;
 }
 
-/* Temperature Range Colors */
-
-td.highTemp{
-    background-color: #FF2300;
-    color: #FFFFFF;
-}
-
-/* Ammonia Colors */
-
-td.ammonia000{
-    background-color: #FFFF00;
-}
-
-td.ammonia025{
-    background-color: #C6FF00;
-}
-
-td.ammonia050{
-    background-color: #A2FF00;
-}
-
-td.ammonia100{
-    background-color: #66FF00;
-}
-
-td.ammonia200{
-    background-color: #49B700;
-    color: #FFFFFF;
-}
-
-td.ammonia400{
-    background-color: #3C9700;
-    color: #FFFFFF;
-}
-
-td.ammonia800{
-    background-color: #215400;
-    color: #FFFFFF;
-}
-
-/* Nitrite Colors */
-
-td.nitrite000{
-    background-color: #00FFE4;
-}
-
-td.nitrite025{
-    background-color: #8A9CFF;
-    color: #FFFFFF;
-}
-
-td.nitrite050{
-    background-color: #8A6BFF;
-    color: #FFFFFF;
-}
-
-td.nitrite100{
-    background-color: #8A47FF;
-    color: #FFFFFF;
-}
-
-td.nitrite200{
-    background-color: #B847FF;
-    color: #FFFFFF;
-}
-
-td.nitrite500{
-    background-color: #9147AB;
-    color: #FFFFFF;
-}
-
-/* Nitrate Colors */
-
-td.nitrate000{
-    background-color: #FFFF00;
-}
-
-td.nitrate005{
-    background-color: #FFC200;
-}
-
-td.nitrate010{
-    background-color: #FFAF00;
-}
-
-td.nitrate020{
-    background-color: #FF9D00;
-}
-
-td.nitrate040{
-    background-color: #FF5D00;
-    color: #FFFFFF;
-}
-
-td.nitrate080{
-    background-color: #FF2400;
-    color: #FFFFFF;
-}
-
-td.nitrate160{
-    background-color: #9A1500;
-    color: #FFFFFF;
-}
-
-/* Phosphate Colors */
-
-td.phosphate0000{
-    background-color: #F6FAB0;
-    color: #000000;
-}
-
-td.phosphate0025{
-    background-color: #F7FCAA;
-    color: #000000;
-}
-
-td.phosphate0050{
-    background-color: #DDEA94;
-    color: #000000;
-}
-
-td.phosphate0100{
-    background-color: #CAF6AA;
-    color: #000000;
-}
-
-td.phosphate0200{
-    background-color: #A6E6BC;
-    color: #000000;
-}
-
-td.phosphate0500{
-    background-color: #40595E;
-    color: #FFFFFF;
-}
-
-td.phosphate1000{
-    background-color: #183C52;
-    color: #FFFFFF;
-}
-
-/* Life */
-
-#aquariumLife{
-    text-align: center;
-}
-
-.lifeCommonName{
-    width: 25%;
-    text-align: center;
-}
-
-.lifeKind{
-    width: 25%;
-    text-align: center;
-}
-
-.lifeNickname{
-    width: 25%;
-    text-align: center;
-}
-
-.lifeDateAdded{
-    width: 25%;
-    text-align: center;
-}
-
-.lifeDateRemoved{
-    width: 25%;
-    text-align: center;
-}
-
-th.lifeLogDate{
-    width: 20%;
-}
-
-th.lifeLogEntry{
-    width: 80%;
-}
+\

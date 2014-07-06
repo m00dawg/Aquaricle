@@ -40,7 +40,7 @@
 	@if (isset($equipment))	
 		<tr>
 			<th>Date Removed</th>
-			<td>{{ Form::text('removedOn', null, array('size' => '32')) }}</td>
+			<td>{{ Form::text('deletedAt', null, array('size' => '32')) }}</td>
 		</tr>
 	@endif
 	<tr>

@@ -54,6 +54,27 @@ class AquariumController extends BaseController
 			->orderby('nextMaintDays', 'desc')
 			->get();
 			
+			
+			/*
+			$equipment = Equipment::select(DB::raw(
+					'Equipment.equipmentID, Equipment.name, 
+					Equipment.createdAt, Equipment.deletedAt,
+					Equipment.maintInterval,
+					Equipment.comments,
+					EquipmentTypes.typeName,
+					MAX(AquariumLogs.logDate) AS lastMaint,
+					DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS daysSinceMaint,
+					CAST(Equipment.maintInterval AS signed) - DATEDIFF(UTC_TIMESTAMP(), 
+					MAX(AquariumLogs.logDate)) AS nextMaintDays'))
+				->join('EquipmentTypes', 'EquipmentTypes.equipmentTypeID', '=', 'Equipment.equipmentTypeID')
+				->leftjoin('EquipmentLogs', 'EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
+				->leftjoin('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
+				->where('Equipment.aquariumID', '=', $aquariumID)
+				->groupby('Equipment.equipmentID')
+				->orderby('nextMaintDays', 'desc')
+				->get();
+			*/
+			/*
 		$lastWaterChange = DB::table('Aquariums')
 			->select(DB::raw('logDate, 
 				DATEDIFF(NOW(), logDate) AS daysSince,
@@ -65,8 +86,17 @@ class AquariumController extends BaseController
 			->whereNotNull('amountExchanged')
 			->orderby('logDate', 'desc')
 			->first();
-			
-		
+	*/
+		$lastWaterChange = WaterTestLog::select(DB::raw('logDate, 
+				DATEDIFF(NOW(), logDate) AS daysSince,
+				CAST(waterChangeInterval AS signed) - DATEDIFF(NOW(), logDate) AS daysRemaining,
+				amountExchanged, ROUND((amountExchanged / capacity) * 100, 0) AS changePct'))
+			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'WaterTestLogs.aquariumLogID')
+			->join('Aquariums', 'Aquariums.aquariumID', '=', 'AquariumLogs.aquariumID')
+			->where('Aquariums.aquariumID', '=', $aquariumID)
+			->whereNotNull('amountExchanged')
+			->orderby('logDate', 'desc')
+			->first();
 		DB::commit();
 		
 		return View::make('aquariums/aquarium')

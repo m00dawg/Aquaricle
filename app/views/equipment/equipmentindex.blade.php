@@ -21,8 +21,8 @@
 					array($aquariumID, $equip->equipmentID),
 					array('class'=>'logs')) }}</td>
 				<td>{{ $equip->typeName }}</td>	
-				<td>{{ $equip->installedOn }}</td>
-				<td>{{ $equip->removedOn }}</td>
+				<td>{{ $equip->createdAt }}</td>
+				<td>{{ $equip->deletedAt }}</td>
 				<td>{{ $equip->maintInterval }}</td>
 				<td>{{ $equip->comments }}</td>
 			</tr>

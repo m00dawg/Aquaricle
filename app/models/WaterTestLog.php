@@ -12,12 +12,23 @@ class WaterTestLog extends BaseModel {
 		return $this->belongsTo('AquariumLog');
 	}
 
+	public function nextWaterChangeClass()
+	{
+		if(!isset($this->daysRemaining))
+			return '';
+		if($this->daysRemaining > 3)
+			return '';
+		if($this->daysRemaining > 2)
+			return 'waterChangeDueSoon';
+		if($this->daysRemaining > 1)
+			return 'waterChangeDue';
+		return 'waterChangePastDue';
+	}
+
 	/* Currently these are freshwater colors - should add salt */
-	
 	public function ammoniaBackgroundColor()
 	{
-		$ammonia = $this->ammonia;
-		if(!isset($ammonia))
+		if(!isset($this->ammonia))
 			return 'clear';
 		if($this->ammonia >= 8.00)
 			return '#17754a';
@@ -36,8 +47,7 @@ class WaterTestLog extends BaseModel {
 	
 	public function nitriteBackgroundColor()
 	{
-		$nitrites = $this->nitrites;
-		if(!isset($nitrites))
+		if(!isset($this->nitrites))
 			return 'clear';
 		if($this->nitrites >= 5.00)
 			return '#b958ab';
@@ -54,8 +64,7 @@ class WaterTestLog extends BaseModel {
 
 	public function nitrateBackgroundColor()
 	{
-		$nitrates = $this->nitrates;
-		if(!isset($nitrates))
+		if(!isset($this->nitrates))
 			return 'clear';
 		if($this->nitrates >= 160)
 			return '#9c0d2a';
@@ -70,6 +79,25 @@ class WaterTestLog extends BaseModel {
 		if($this->nitrates >= 5)
 			return '#faf021';
 		return '#fbff0d';
+	}
+
+	public function phosphateBackgroundColor()
+	{
+		if(!isset($this->phosphates))
+			return 'clear';
+		if($this->phosphates >= 10.00)
+			return '#183c52';
+		if($this->phosphates >= 5.00)
+			return '#40595e';
+		if($this->phosphates >= 2.00)
+			return '#a4e6bb';
+		if($this->phosphates >= 1.00)
+			return '#c8f6a9';
+		if($this->phosphates >= 0.50)
+			return '#ddeb94';
+		if($this->phosphates >= 0.25)
+			return '#f7fca7';
+		return '#f7f9b0';
 	}
 
 }

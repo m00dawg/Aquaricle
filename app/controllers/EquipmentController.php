@@ -15,7 +15,25 @@ class EquipmentController extends \BaseController {
 				'=', 
 				'Equipment.equipmentTypeID')
 			->get();
-		
+		/*
+		$equipment = Equipment::select(DB::raw(
+				'Equipment.equipmentID, Equipment.name, 
+				Equipment.createdAt, Equipment.deletedAt,
+				Equipment.maintInterval,
+				Equipment.comments,
+				EquipmentTypes.typeName,
+				MAX(AquariumLogs.logDate) AS lastMaint,
+				DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS daysSinceMaint,
+				CAST(Equipment.maintInterval AS signed) - DATEDIFF(UTC_TIMESTAMP(), 
+				MAX(AquariumLogs.logDate)) AS nextMaintDays'))
+			->join('EquipmentTypes', 'EquipmentTypes.equipmentTypeID', '=', 'Equipment.equipmentTypeID')
+			->leftjoin('EquipmentLogs', 'EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
+			->leftjoin('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
+			->where('Equipment.aquariumID', '=', $aquariumID)
+			->groupby('Equipment.equipmentID')
+			->orderby('nextMaintDays', 'desc')
+			->get();
+		*/
 	    return View::make('equipment/equipmentindex')
 			->with('aquariumID', $aquariumID)
 			->with('equipment', $equipment);
