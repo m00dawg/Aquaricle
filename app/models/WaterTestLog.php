@@ -16,11 +16,11 @@ class WaterTestLog extends BaseModel {
 	{
 		if(!isset($this->daysRemaining))
 			return '';
-		if($this->daysRemaining > 3)
-			return '';
 		if($this->daysRemaining > 2)
-			return 'waterChangeDueSoon';
+			return '';
 		if($this->daysRemaining > 1)
+			return 'waterChangeDueSoon';
+		if($this->daysRemaining > 0)
 			return 'waterChangeDue';
 		return 'waterChangePastDue';
 	}
