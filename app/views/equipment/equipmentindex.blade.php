@@ -19,7 +19,7 @@
 				<td>{{ link_to_route('aquariums.equipment.show', 
 					$equip->name, 
 					array($aquariumID, $equip->equipmentID),
-					array('class'=>'logs')) }}</td>
+					array('class'=>'equipment')) }}</td>
 				<td>{{ $equip->typeName }}</td>	
 				<td>{{ $equip->createdAt }}</td>
 				<td>{{ $equip->deletedAt }}</td>

@@ -5,7 +5,8 @@ class WaterAdditivesController extends BaseController
 	public function index($aquariumID)
 	{
 		$waterAdditives = WaterAdditive::select(DB::raw(
-			'WaterAdditives.name AS name,
+			'WaterAdditives.waterAdditiveID AS waterAdditiveID,
+			WaterAdditives.name AS name,
 			MAX(AquariumLogs.logDate) AS lastAdded,
 			DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS daysSince,
 			amount'))
@@ -17,9 +18,13 @@ class WaterAdditivesController extends BaseController
 			->orderby('daysSince', 'desc')
 			->get();
 			
-		return View::make('aquariumlogs/wateradditives')
+		return View::make('wateradditives/index')
 			->with('aquariumID', $aquariumID)
 			->with('waterAdditives', $waterAdditives);
 	}	
 
+	public function getWaterAdditive($aquariumID, $waterAdditiveID)
+	{
+		echo "temp";
+	}
 }

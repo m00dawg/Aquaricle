@@ -9,7 +9,12 @@
 @if (count($waterAdditives) > 0)
 	@foreach($waterAdditives as $additive)
 		<tr>
-			<td>{{ $additive->name }}</td>
+			<td>
+				{{ link_to_route('aquariums.wateradditives.show', 
+					$additive->name, 
+					array($aquariumID, $additive->waterAdditiveID),
+					array('class' => 'waterAdditives')) }}
+			</td>
 			<td>{{ $additive->lastAdded }}</td>
 			<td>{{ $additive->daysSince }}</td>
 			<td>{{ $additive->amount }}</td>
