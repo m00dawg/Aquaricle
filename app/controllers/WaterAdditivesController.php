@@ -31,7 +31,8 @@ class WaterAdditivesController extends BaseController
 			->join('AquariumLogs', 
 				'AquariumLogs.aquariumLogID', '=', 'WaterAdditiveLogs.aquariumLogID')
 			->where('AquariumLogs.aquariumID', '=', $aquariumID)
-			->paginate(30);
+			->orderby('logdate', 'desc')
+			->paginate(20);
 		return View::make('wateradditives/wateradditive')
 			->with('aquariumID', $aquariumID)
 			->with('waterAdditive', $waterAdditive)

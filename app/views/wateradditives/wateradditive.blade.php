@@ -28,5 +28,11 @@
 	@endif
 </table>
 
+{{ $logs->links() }}
+
+
+<br />
+{{ link_to_route('aquariums.wateradditives', 'Go Back', array($aquariumID)) }}
+
 
 @stop

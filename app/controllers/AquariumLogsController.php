@@ -502,7 +502,7 @@ class AquariumLogsController extends BaseController
 	{
 		$waterLogs = WaterTestLog::where('aquariumID', '=', $aquariumID)
 			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'WaterTestLogs.aquariumLogID')
-			->orderBy('logDate')
+			->orderBy('logDate', 'desc')
 			->get();
 		$aquarium = Aquarium::where('aquariumID', '=', $aquariumID)
 			->first();
@@ -529,6 +529,7 @@ class AquariumLogsController extends BaseController
 
 		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)
 			->join('FoodLogs', 'FoodLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
+				->orderby('logDate', 'desc')
 			->paginate(20);
 		return View::make('aquariumlogs/feedings')
 			->with('aquariumID', $aquariumID)

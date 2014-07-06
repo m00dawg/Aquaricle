@@ -40,7 +40,11 @@
 		</tr>
 	@endforeach
 	</table>
+	
+	{{ $logs->links() }}
 @endif
+
+
 
 <br />
 {{ link_to_route('aquariums.equipment.show', 'Go Back', array($aquariumID)) }} :

@@ -112,7 +112,8 @@ class EquipmentController extends \BaseController {
 		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)
 			->join('EquipmentLogs', 'EquipmentLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->where('equipmentID', '=', $equipmentID)
-			->get();
+			->orderby('logDate', 'desc')
+			->paginate(20);
 	    return View::make('equipment/showequipment')
 			->with('aquariumID', $aquariumID)
 			->with('equipment', $equipment)
