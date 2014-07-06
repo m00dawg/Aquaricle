@@ -44,6 +44,13 @@ Route::get('/aquariums/{aquariumID}/logs/feedings', [
     'uses'   => 'AquariumLogsController@getFeedings'
 ]);
 
+// Water Additives
+Route::get('/aquariums/{aquariumID}/wateradditives', [
+    'as'     => 'aquariums.wateradditives',
+    'uses'   => 'WaterAdditivesController@index'
+]);	
+	
+
 Route::resource('aquariums.logs', 'AquariumLogsController');
 
 
