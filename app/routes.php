@@ -16,10 +16,17 @@ Route::when('aquarium*', 'auth');
 Route::when('user*', 'auth');
 Route::when('aquariums/*/', 'auth.aquarium');
 Route::when('*', 'csrf', array('post', 'put', 'patch'));
+Route::when('public/aquariums/*', 'aquarium.public');
 
 /* RESTful Resource Controllers */
 Route::resource('aquariums', 'AquariumController');
 
+/// Public Aquariums
+Route::get('/public/aquariums/{aquariumID}', [
+	'as'	=> 'public.aquariums',
+	'uses'	=> 'AquariumController@getAquarium'
+]);
+	
 /// Logs
 
 // Favorites

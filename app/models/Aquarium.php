@@ -19,7 +19,8 @@ class Aquarium extends BaseModel {
 	/* Query Scopes */
 	public function scopeByAuthUser($query)
 	{
-		return $query->where('userID', '=', Auth::user()->userID);
+		if($this->visibility == 'Private')
+			return $query->where('userID', '=', Auth::user()->userID);
 	}
 	
 	public function scopeSingleAquarium($query, $aquariumID)

@@ -16,7 +16,7 @@ class AddVisibilityToAquariums extends Migration {
 		{
 			$table->enum('visibility', array('Public', 'Private'))
 				->after('measurementUnits')
-				->default('Public');
+				->default('Private');
 		});
 	}
 

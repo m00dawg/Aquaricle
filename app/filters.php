@@ -56,16 +56,23 @@ Route::filter('auth.basic', function()
 // Check to make sure the user is accessing only their aquariums
 Route::filter('auth.aquarium', function()
 {
-	//Route::input
-//	Auth::id();
 	if(!(DB::table('Aquariums')
-		->where('aquariumID', '=', Route::input('aquariums'))
+		->where('aquariumID', '=', Route::input('aquariumID'))
 		->where('userID', '=', Auth::id())
 		->first()))
 			return Redirect::to('aquariums');
-
 });
 
+// Check to see if aquarium is public
+Route::filter('aquarium.public', function()
+{
+	$aquarium = Aquarium::where('aquariumID', '=', Route::input('aquariumID'))
+		->first();
+	if(!$aquarium)
+		return Redirect::to('login');
+	if($aquarium->visibility != 'Public')
+		return Redirect::to('login');
+});
 
 /*
 |--------------------------------------------------------------------------

@@ -1,8 +1,13 @@
 @extends('layout')
 @section('content')
 
-<h2>{{ $aquarium->name }} ({{ link_to_route('aquariums.edit', 'Edit', array($aquarium->aquariumID)) }})</h2>
+<h2>{{ $aquarium->name }} 
 
+@if (!Request::is('public/*'))
+	({{ link_to_route('aquariums.edit', 'Edit', array($aquarium->aquariumID)) }})</h2>
+@else
+	</h2>
+@endif
 
 <ul>
 	<li><strong>Location:</strong> {{ $aquarium->location }}</li>
@@ -94,26 +99,27 @@
 </table>
 <br />
 
-@if (count($favorites) > 0)
-<h3>Favorite Actions</h3>
+@if (!Request::is('public/*'))
+	@if (count($favorites) > 0)
+	<h3>Favorite Actions</h3>
 
-{{ Form::open(array('url' => "aquariums/$aquariumID/logs/favorites")) }}
+	{{ Form::open(array('url' => "aquariums/$aquariumID/logs/favorites")) }}
 
-@foreach($favorites as $favorite)
-	{{ Form::radio('favoriteLog', $favorite->aquariumLogID) }} {{ $favorite->name }} <br />
-@endforeach
+	@foreach($favorites as $favorite)
+		{{ Form::radio('favoriteLog', $favorite->aquariumLogID) }} {{ $favorite->name }} <br />
+	@endforeach
 
-{{ Form::submit('Process') }}<br />
-
-
-{{ Form::close() }}
-
-@endif	
+	{{ Form::submit('Process') }}<br />
+	{{ Form::close() }}
+	@endif	
+@endif
 
 <h3>Latest Logs</h3>
 @include('aquariumlogs.logsummary')
 
-<br />
-{{ link_to_route('aquariums.logs.create', 'Log New Entry', array($aquarium->aquariumID)) }}
+@if (!Request::is('public/*'))
+	<br />
+	{{ link_to_route('aquariums.logs.create', 'Log New Entry', array($aquarium->aquariumID)) }}
+@endif
 
 @stop
