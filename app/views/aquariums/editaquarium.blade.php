@@ -21,6 +21,17 @@
 		<tr><th>{{ Form::label('name', 'Name') }}</th><td>{{ Form::text('name') }}</td></tr>
 		<tr><th>{{ Form::label('location', 'Location') }}</th><td>{{ Form::text('location') }}</td></tr>
 		<tr>
+			<th>{{ Form::label('visibility', 'Visibility') }}</th>
+			<td>		
+			@if (isset($aquarium))
+				{{ Form::select('visibility', array('Public' => 'Public', 'Private' => 'Private'), 					$aquarium->visibility) }}
+			@else
+				{{ Form::select('visibility', array('Public' => 'Public', 'Private' => 'Private'), 'Public') }}
+			@endif
+			</td>
+		</tr>	
+	
+		<tr>
 			<th>{{ Form::label('measurementUnits', 'Measurement Units') }}</th>
 			<td>		
 			@if (isset($aquarium))
