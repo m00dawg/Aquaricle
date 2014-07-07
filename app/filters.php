@@ -35,7 +35,11 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	if (Auth::guest())
+	{
+		DB::statement("SET SESSION time_zone = 'America/Chicago'");
+		return Redirect::guest('login');
+	 }
 	
 	$timezone = DB::table('Users')
 		->select(DB::raw('time_zone_name.Name AS timezone'))
