@@ -264,11 +264,13 @@ span.waterChangeDueSoon{
 }
 
 span.waterChangeDue{
-	color: #ff5500;
+	color: #ff9900;
+	font-weight: bold;
 }
 
 span.waterChangePastDue{
 	color: #ff0000;
+	font-weight: bold;
 }
 
 th.temperature{
