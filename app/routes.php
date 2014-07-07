@@ -23,11 +23,15 @@ Route::resource('aquariums', 'AquariumController');
 
 /// Public Aquariums
 Route::get('/public/aquariums/{aquariumID}', [
+	'before' => 'cache',
+	'after' => 'cache',
 	'as'	=> 'public.aquariums',
 	'uses'	=> 'AquariumController@getPublicAquarium'
 ]);
 	
 Route::get('/public/aquariums/{aquariumID}/logs/waterlogs', [
+	'before' => 'cache',
+	'after' => 'cache',
     'as'     => 'public.aquariums.logs.waterlogs',
     'uses'   => 'AquariumLogsController@getPublicWaterLogs'
 ]);

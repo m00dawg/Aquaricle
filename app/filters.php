@@ -75,6 +75,18 @@ Route::filter('aquarium.public', function()
 		return Redirect::to('login');
 });
 
+// Cache Routes
+
+Route::filter('cache', function($route, $request, $response = null)
+{
+    $key = 'Route:'.Str::slug(Request::url());
+    if($response === NULL && Cache::has($key))
+        return Cache::get($key);
+    elseif($response != NULL && !Cache::has($key))
+        Cache::put($key, $response->getContent(), 30);
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | Guest Filter

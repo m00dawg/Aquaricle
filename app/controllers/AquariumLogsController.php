@@ -500,12 +500,16 @@ class AquariumLogsController extends BaseController
 	
 	public function getWaterLogs($aquariumID)
 	{
+		DB::beginTransaction();
+		$aquarium = Aquarium::where('aquariumID', '=', $aquariumID)
+			->first();
+		if(!$aquarium)
+			return;
 		$waterLogs = WaterTestLog::where('aquariumID', '=', $aquariumID)
 			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'WaterTestLogs.aquariumLogID')
 			->orderBy('logDate', 'desc')
-			->get();
-		$aquarium = Aquarium::where('aquariumID', '=', $aquariumID)
-			->first();
+			->paginate(20);
+		DB::commit();
 		return View::make('aquariumlogs/waterlogs')
 			->with('aquariumID', $aquariumID)
 			->with('measurementUnits', $aquarium->getMeasurementUnits())
@@ -542,13 +546,29 @@ class AquariumLogsController extends BaseController
 	/* Public Interface Functions */
 	public function getPublicWaterLogs($aquariumID)
 	{
-
-		$aquarium = Aquarium::where('aquariumID', '=', $aquariumID)
-			->first();		
-		$waterLogs = WaterTestLog::where('aquariumID', '=', $aquariumID)
-			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'WaterTestLogs.aquariumLogID')
-			->orderBy('logDate', 'desc')
-			->get();
+		if(Cache::has("Public:$aquariumID"))
+			$aquarium = Cache::get("Public:$aquariumID");
+		else
+		{
+			$aquarium = Aquarium::where('aquariumID', '=', $aquariumID)
+				->first();
+			if(!$aquarium)
+				return;
+			Cache::add("Aquaricle:Public:$aquariumID", $aquarium, Config::get('cache.ttl'));
+		}	
+		
+		if(Cache::has("Public:$aquariumID::WaterTestLogs"))
+			$waterLogs = Cache::get("Public:$aquariumID::WaterTestLogs");
+		else
+		{
+			$waterLogs = WaterTestLog::where('aquariumID', '=', $aquariumID)
+				->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'WaterTestLogs.aquariumLogID')
+				->orderBy('logDate', 'desc')
+				->get();
+			if(!$waterLogs)
+				return;
+			Cache::add("Aquaricle:Public:$aquariumID::WaterTestLogs", $waterLogs, Config::get('cache.ttl'));
+		}
 
 		return View::make('public/waterlogs')
 			->with('aquariumID', $aquariumID)

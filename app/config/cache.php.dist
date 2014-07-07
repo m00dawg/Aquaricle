@@ -86,4 +86,7 @@ return array(
 
 	'prefix' => 'aquaricle',
 
+    // Default Expiration
+    'ttl' => 30,
+
 );
