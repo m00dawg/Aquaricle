@@ -1,13 +1,19 @@
 @extends('layout')
 @section('content')
 
-<h2>{{ $aquarium->name }} 
+<h2>{{ $aquarium->name }}
 
 @if (!Request::is('public/*'))
-	({{ link_to_route('aquariums.edit', 'Edit', array($aquarium->aquariumID)) }})</h2>
-@else
-	</h2>
+	@if (!Request::is('public/*') && $aquarium->visibility == 'Public')
+		({{ link_to_route('aquariums.edit', 'Edit', array($aquarium->aquariumID)) }} /
+		{{ link_to_route('public.aquariums', 'Public Link', array($aquarium->aquariumID)) }})
+	@elseif (!Request::is('public/*'))
+		({{ link_to_route('aquariums.edit', 'Edit', array($aquarium->aquariumID)) }})
+	@endif
+
 @endif
+
+</h2>
 
 <ul>
 	<li><strong>Location:</strong> {{ $aquarium->location }}</li>
