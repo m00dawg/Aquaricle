@@ -137,7 +137,66 @@ class AquariumController extends BaseController
 	 	echo "Missing, goddamnit";
 	}
 	
-	
+	/* Public Functions */
+	public function getPublicAquarium($aquariumID)
+	{
+		if ($aquariumID == null)
+			return Redirect::to("login");
+
+		// Only look at last 30 days for the Aquarium Logs
+		$dateSub = new DateTime();
+		$dateSub->sub(new DateInterval('P10D'));
+
+		DB::beginTransaction();
+		
+		$aquarium = Aquarium::singleAquarium($aquariumID);
+		
+		if($aquarium->visibility != 'Public')
+		{
+			DB::rollback();
+			return Redirect::to("login");
+		}
+		
+		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)
+			->where('logDate', '>=', $dateSub)
+			->orderby('logDate', 'desc')
+			->get();
+		
+		$equipment = Equipment::select(DB::raw(
+				'Equipment.equipmentID, Equipment.name, 
+				MAX(AquariumLogs.logDate) AS lastMaint,
+				DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS daysSinceMaint,
+				CAST(Equipment.maintInterval AS signed) - DATEDIFF(UTC_TIMESTAMP(), 
+				MAX(AquariumLogs.logDate)) AS nextMaintDays'))
+			->leftjoin('EquipmentLogs', 'EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
+			->leftjoin('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
+			->where('Equipment.aquariumID', '=', $aquariumID)
+			->whereNotNull('maintInterval')
+			->whereNull('Equipment.deletedAt')
+			->groupby('Equipment.equipmentID')
+			->orderby('nextMaintDays', 'desc')
+			->get();
+
+		$lastWaterChange = WaterTestLog::select(DB::raw('logDate, 
+				DATEDIFF(NOW(), logDate) AS daysSince,
+				CAST(waterChangeInterval AS signed) - DATEDIFF(NOW(), logDate) AS daysRemaining,
+				amountExchanged, ROUND((amountExchanged / capacity) * 100, 0) AS changePct'))
+			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'WaterTestLogs.aquariumLogID')
+			->join('Aquariums', 'Aquariums.aquariumID', '=', 'AquariumLogs.aquariumID')
+			->where('Aquariums.aquariumID', '=', $aquariumID)
+			->whereNotNull('amountExchanged')
+			->orderby('logDate', 'desc')
+			->first();
+		DB::commit();
+		
+		return View::make('public/aquarium')
+			->with('aquariumID', $aquariumID)
+			->with('aquarium', $aquarium)
+			->with('lastWaterChange', $lastWaterChange)
+			->with('logs', $logs)
+			->with('equipment', $equipment)
+			->with('measurementUnits', $aquarium->getMeasurementUnits());
+	}
 }
 	
 ?>

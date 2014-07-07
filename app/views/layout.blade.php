@@ -21,6 +21,7 @@
 		<h1>Aquaricle</h1>
 	</div>
 </div>
+
 <div id="navbar">
 	<ul>
 		@if ( Auth::user())
@@ -34,9 +35,11 @@
 				<li>{{ link_to_route('aquariums.logs.feedings', 'Feedings', array($aquariumID)) }}</li>
 			@endif
 		@else
-
+			@if (isset($aquariumID))
+				<li>{{ link_to_route('public.aquariums', 'Aquarium', array($aquariumID)) }}</li>
+				<li>{{ link_to_route('public.aquariums.logs.waterlogs', 'Water Tests', array($aquariumID)) }}</li>
+			@endif
 		@endif
-
 	</ul>
 </div>
 

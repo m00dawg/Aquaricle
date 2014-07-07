@@ -3,11 +3,10 @@
 class Aquarium extends BaseModel {
 
 	protected $table = 'Aquariums';
-	protected $guarded = array('aquariumID', 'userID', 'updatedAt', 'deletedAt');
+	protected $guarded = array('aquariumID', 'userID', 'visibility', 'updatedAt', 'deletedAt');
 	public $primaryKey = 'aquariumID';
 	public $timestamps = true;
 	
-
 	public function getMeasurementUnits()
 	{
 		if($this->measurementUnits == 'Metric')
@@ -35,15 +34,6 @@ class Aquarium extends BaseModel {
 		}		
 	}
 	
-	
-	
-	/* Queries */
-	public function getAquariumWaterChangesIn($userID, $days)
-	{
-		
-		
-	}
-
 	/* Relationships */
 	public function user()
 	{

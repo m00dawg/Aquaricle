@@ -24,8 +24,14 @@ Route::resource('aquariums', 'AquariumController');
 /// Public Aquariums
 Route::get('/public/aquariums/{aquariumID}', [
 	'as'	=> 'public.aquariums',
-	'uses'	=> 'AquariumController@getAquarium'
+	'uses'	=> 'AquariumController@getPublicAquarium'
 ]);
+	
+Route::get('/public/aquariums/{aquariumID}/logs/waterlogs', [
+    'as'     => 'public.aquariums.logs.waterlogs',
+    'uses'   => 'AquariumLogsController@getPublicWaterLogs'
+]);
+
 	
 /// Logs
 

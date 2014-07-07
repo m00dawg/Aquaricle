@@ -1,17 +1,9 @@
 @extends('layout')
+
+
+
 @section('content')
-
-<h2>{{ $aquarium->name }}
-
-@if (!Request::is('public/*') && $aquarium->visibility == 'Public')
-	({{ link_to_route('aquariums.edit', 'Edit', array($aquarium->aquariumID)) }} /
-	{{ link_to_route('public.aquariums', 'Public Link', array($aquarium->aquariumID)) }})
-@elseif (!Request::is('public/*'))
-	({{ link_to_route('aquariums.edit', 'Edit', array($aquarium->aquariumID)) }})
-@endif
-
-
-</h2>
+<h2>{{ $aquarium->name }}</h2>
 
 <ul>
 	<li><strong>Location:</strong> {{ $aquarium->location }}</li>
@@ -84,10 +76,7 @@
 	@if (count($equipment) > 0)
 		@foreach($equipment as $equip)
 			<tr>
-				<td>{{ link_to_route('aquariums.equipment.show', 
-					$equip->name, 
-					array($aquarium->aquariumID, $equip->equipmentID),
-					array('class'=>'logs')) }}</td>
+				<td>{{ $equip->name }}</td>
 				<td>{{ $equip->lastMaint }}</td>
 				@if (isset($equip->daysSinceMaint))
 					<td>{{ $equip->daysSinceMaint }}</td>
@@ -103,21 +92,28 @@
 </table>
 <br />
 
-@if (count($favorites) > 0)
-	<h3>Favorite Actions</h3>
-	{{ Form::open(array('url' => "aquariums/$aquariumID/logs/favorites")) }}
-	@foreach($favorites as $favorite)
-		{{ Form::radio('favoriteLog', $favorite->aquariumLogID) }} {{ $favorite->name }} <br />
-	@endforeach
-	{{ Form::submit('Process') }}<br />
-	{{ Form::close() }}
-@endif	
-
-
 <h3>Latest Logs</h3>
-@include('aquariumlogs.logsummary')
-
-<br />
-{{ link_to_route('aquariums.logs.create', 'Log New Entry', array($aquarium->aquariumID)) }}
-
+<table>
+	<tr><th class="logDate">Date</th><th>Summary</th></tr>
+	@if (count($logs) > 0)
+		@foreach($logs as $log)
+			<tr>
+				<td>{{ $log->logDate }}</td>
+				<td>
+					@if ($log->summary)
+						{{ $log->summary }}
+					@endif
+					@if ($log->comments)
+						@if($log->summary)
+							<br />
+						@endif
+						<b>Comments</b>: {{ $log->comments }}
+					@endif
+				</td>
+			</tr>
+		@endforeach
+	@else
+		<tr><td colspan="2">No Logs Have Been Added Yet</td></tr>
+	@endif
+</table>
 @stop
