@@ -76,7 +76,6 @@ Route::filter('aquarium.public', function()
 });
 
 // Cache Routes
-
 Route::filter('cache', function($route, $request, $response = null)
 {
     $key = 'Route:'.Str::slug(Request::url());

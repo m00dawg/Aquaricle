@@ -9,10 +9,9 @@
 	<div id="login">Logged In As {{ Auth::user()->username }} 
 		({{ link_to('/logout', 'Logout') }} / 
 		{{ link_to_route('user.profile', 'User Perferences') }})</div>
-@else
+@elseif (!Request::is('public/*'))
 	<div id="login">{{ link_to('/login', 'Login') }}</div>
 @endif
-
 
 <div id="frame">
 
