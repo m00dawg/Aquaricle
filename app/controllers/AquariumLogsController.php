@@ -546,14 +546,14 @@ class AquariumLogsController extends BaseController
 	/* Public Interface Functions */
 	public function getPublicWaterLogs($aquariumID)
 	{
-		DB::startTransction();
+		DB::beginTransaction();
 		$aquarium = Aquarium::where('aquariumID', '=', $aquariumID)
 			->first();
 		$waterLogs = WaterTestLog::where('aquariumID', '=', $aquariumID)
 			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'WaterTestLogs.aquariumLogID')
 			->orderBy('logDate', 'desc')
 			->get();
-
+		DB::commit();
 		return View::make('public/waterlogs')
 			->with('aquariumID', $aquariumID)
 			->with('measurementUnits', $aquarium->getMeasurementUnits())
