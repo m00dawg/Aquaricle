@@ -27,9 +27,12 @@ class AddWaterparamsToAquariumsTable extends Migration {
 	 */
 	public function down()
 	{
+		Schema::table('Aquariums', function(Blueprint $table)
+		{
 			$table->dropColumn('targetTemperature');
 			$table->dropColumn('targetPH');
 			$table->dropColumn('targetKH');
+		});
 	}
 
 }

@@ -9,34 +9,28 @@ class EquipmentController extends \BaseController {
 	 */
 	public function index($aquariumID)
 	{
-		$equipment = Equipment::where('aquariumID', '=', $aquariumID)
+		$activeEquipment = Equipment::where('aquariumID', '=', $aquariumID)
 			->join('EquipmentTypes', 
 				'EquipmentTypes.equipmentTypeID', 
 				'=', 
 				'Equipment.equipmentTypeID')
+			->whereNull('deletedAt')
+			->select('equipmentID', 'name', 'typeName', 'createdAt', 'maintInterval')
 			->get();
-		/*
-		$equipment = Equipment::select(DB::raw(
-				'Equipment.equipmentID, Equipment.name, 
-				Equipment.createdAt, Equipment.deletedAt,
-				Equipment.maintInterval,
-				Equipment.comments,
-				EquipmentTypes.typeName,
-				MAX(AquariumLogs.logDate) AS lastMaint,
-				DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS daysSinceMaint,
-				CAST(Equipment.maintInterval AS signed) - DATEDIFF(UTC_TIMESTAMP(), 
-				MAX(AquariumLogs.logDate)) AS nextMaintDays'))
-			->join('EquipmentTypes', 'EquipmentTypes.equipmentTypeID', '=', 'Equipment.equipmentTypeID')
-			->leftjoin('EquipmentLogs', 'EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
-			->leftjoin('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
-			->where('Equipment.aquariumID', '=', $aquariumID)
-			->groupby('Equipment.equipmentID')
-			->orderby('nextMaintDays', 'desc')
+				
+		$inactiveEquipment = Equipment::where('aquariumID', '=', $aquariumID)
+			->join('EquipmentTypes', 
+				'EquipmentTypes.equipmentTypeID', 
+				'=', 
+				'Equipment.equipmentTypeID')
+			->whereNotNull('deletedAt')
+			->select('equipmentID', 'name', 'typeName', 'createdAt', 'deletedAt', 'maintInterval')
 			->get();
-		*/
+
 	    return View::make('equipment/equipmentindex')
 			->with('aquariumID', $aquariumID)
-			->with('equipment', $equipment);
+			->with('activeEquipment', $activeEquipment)
+			->with('inactiveEquipment', $inactiveEquipment);
 	}
 
 
@@ -161,8 +155,8 @@ class EquipmentController extends \BaseController {
 		$equipment->equipmentTypeID = Input::get('equipmentType');
 		$equipment->name = Input::get('name');
 		$equipment->createdAt = Input::get('createdAt');
-		if(Input::get('removedOn') != '')
-			$equipment->removedOn = Input::get('removedOn');
+		if(Input::get('deletedAt') != '')
+			$equipment->deletedAt = Input::get('deletedAt');
 		$equipment->maintInterval = Input::get('maintInterval');
 		$equipment->comments = Input::get('comments');
 
