@@ -23,7 +23,7 @@
 
 <div id="navbar">
 	<ul>
-		@if ( Auth::user() && !Request::is('public/*')))
+		@if ( Auth::user() && !Request::is('public/*'))
 			<li>{{ link_to_route('aquariums.index', 'Aquariums') }}</li>
 			@if (isset($aquariumID))
 				<li>{{ link_to_route('aquariums.equipment.index', 'Equipment', array($aquariumID)) }}</li>
