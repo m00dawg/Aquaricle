@@ -22,7 +22,6 @@
 			<th>Date</th>
 			<th>Maintenance</th>
 			<th>Summary</th>
-			<th>Comments</th>
 		</tr>
 	@foreach ($logs as $log)
 		<tr>
