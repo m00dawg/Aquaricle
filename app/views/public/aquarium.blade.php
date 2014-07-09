@@ -1,7 +1,5 @@
 @extends('layout')
 
-
-
 @section('content')
 <h2>{{ $aquarium->name }}</h2>
 
