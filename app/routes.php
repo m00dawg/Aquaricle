@@ -115,12 +115,6 @@ Route::get('/', function()
 	return Redirect::to('login');
 });
 
-/*
-Route::get('password', function()
-{
-	return Hash::make('secret');
-});
-*/
 
 Route::get('login', function()
 {
@@ -144,6 +138,11 @@ Route::post('login', function()
 	//Stub so I can handle authentication later
 	//Auth::loginUsingId(1);
 	//return Redirect::intended('aquariums');
+});
+
+Route::get('signup', function()
+{
+	return View::make('signup');
 });
 
 /*
