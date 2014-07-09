@@ -35,9 +35,9 @@
 							Day
 						@endif
 						Ago
-						({{ $lastWaterChange->changePct }}% / 
-						{{ $lastWaterChange->amountExchanged }} {{ $measurementUnits['Volume'] }}) 
 					@endif
+					({{ $lastWaterChange->changePct }}% / 
+					{{ $lastWaterChange->amountExchanged }} {{ $measurementUnits['Volume'] }}) 
 				@else
 					Water Never Changed
 				@endif
