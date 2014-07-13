@@ -140,10 +140,16 @@ Route::post('login', function()
 	//return Redirect::intended('aquariums');
 });
 
-Route::get('signup', function()
-{
-	return View::make('signup');
-});
+Route::get('/signup', [
+    'as'     => 'signup',
+    'uses'   => 'SignupController@getSignup'
+]);
+	
+Route::post('/signup', [
+    'as'     => 'signup',
+    'uses'   => 'SignupController@postSignup'
+]);
+	
 
 /*
 Route::get('users', function()

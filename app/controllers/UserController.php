@@ -73,17 +73,6 @@ class UserController extends BaseController
 			
 		return View::make('user.changepassword', array('status' => $status));
 
-			
-		//$user = Auth::user();
-		/*
-		if (Hash::check('secret', $hashedPassword))
-		{
-		    // The passwords match...
-		}
-		
-		return Hash::make('secret');
-		*/
-		
 	}
 
 }
