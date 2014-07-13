@@ -66,9 +66,8 @@ class ProcessEmailReminders extends Command {
 			}
 			
 			// Check on Equipment Maintenance
-			
-			
-			
+
+
 			if($body != '')
 			{
 				Mail::send('email.reminders', array('body' => $body), function($message) use ($user, $subject)

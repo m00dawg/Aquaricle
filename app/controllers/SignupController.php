@@ -24,8 +24,25 @@ class SignupController extends BaseController
 			return Redirect::to('signup')
 				->withInput(Input::except('password', 'password_confirmation'))
 				->withErrors($validator);
+
+		$signup = new Signup();
+		$signup->username = Input::get('username');
+		$signup->password = Hash::make(Input::get('password'));
+		$signup->email = Input::get('email');
+		$signup->timezoneID = Input::get('timezone');
+		$signup->token = str_random(32);
+		$signup->save();
 		
+		$subject = 'Aquaricle New User Registration';
+		$signupURL = Config::get('app.url').
+			'/signup?username='.$signup->username.'&amp;token='.$signup->token;
 		
+		Mail::send('email.signup', array('signupURL' => $signupURL),
+			function($message) use ($signup, $subject)
+			{
+		    	$message->to($signup->email, $signup->username)->subject($subject);
+			}
+		);
 	}
 }
 

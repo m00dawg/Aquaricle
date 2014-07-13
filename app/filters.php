@@ -82,7 +82,7 @@ Route::filter('cache', function($route, $request, $response = null)
     if($response === NULL && Cache::has($key))
         return Cache::get($key);
     elseif($response != NULL && !Cache::has($key))
-        Cache::put($key, $response->getContent(), 30);
+        Cache::put($key, $response->getContent(), Config::get('cache.ttl'));
 });
 
 

@@ -19,11 +19,13 @@ class CreateSignupsTable extends Migration {
 			$table->string('password', 128);
 			$table->string('email', 255);
 			$table->string('token', 32);
+			$table->smallInteger('timezoneID')->unsigned()->default(94);
 			$table->timestamp('createdAt')
 				->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updatedAt')
 				->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 			$table->primary('username');
+			
 		});
 	}
 
