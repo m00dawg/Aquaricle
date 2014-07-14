@@ -72,9 +72,7 @@ class SignupController extends BaseController
 		{
 			DB::rollback();
 			return Redirect::to('/');
-		}
-		
-		//return View::make('signup/validate');
+		}		
 	}
 }
 

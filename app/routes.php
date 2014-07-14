@@ -124,20 +124,15 @@ Route::get('login', function()
 Route::get('logout', function()
 {
 	Auth::logout();
-	return Redirect::to('login');
+	return Redirect::to('/');
 });
 
 Route::post('login', function()
 {
 	//true = Remember Me
 	if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password')), true))
-//	if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password'))))
 		return Redirect::intended('aquariums');
 	return View::make('login')->with('status', 'Login Failed');
-	
-	//Stub so I can handle authentication later
-	//Auth::loginUsingId(1);
-	//return Redirect::intended('aquariums');
 });
 
 Route::get('/signup', [

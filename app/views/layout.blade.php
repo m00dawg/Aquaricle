@@ -26,6 +26,7 @@
 		@if ( Auth::user() && !Request::is('public/*'))
 			<li>{{ link_to_route('aquariums.index', 'Aquariums') }}</li>
 			@if (isset($aquariumID))
+				<li>{{ link_to_route('aquariums.show', 'Current Aquarium', array($aquariumID)) }}</li>			
 				<li>{{ link_to_route('aquariums.equipment.index', 'Equipment', array($aquariumID)) }}</li>
 				<li>{{ link_to_route('aquariums.logs.favorites', 'Favorite Actions', array($aquariumID)) }}</li>
 				<li>{{ link_to_route('aquariums.logs.index', 'Logs', array($aquariumID)) }}</li>
