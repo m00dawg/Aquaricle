@@ -12,7 +12,6 @@ class Equipment extends BaseModel
 	public $primaryKey = 'equipmentID';
 	public $timestamps = true;
 
-	
 	public function equimpentType()
 	{
 		return $this->belongsTo('EquipmentType', 'equipmentTypeID');
@@ -30,4 +29,27 @@ class Equipment extends BaseModel
 			return "equipmentMaintDue";
 		return "equipmentMaintOverdue";
 	}
+		
+	public function scopeByLastMaintenance($query, $aquariumID)
+	{
+		return $query->select(DB::raw(
+				'Equipment.equipmentID, Equipment.name, 
+				MAX(AquariumLogs.logDate) AS lastMaint,
+				DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS daysSinceMaint,
+				CAST(Equipment.maintInterval AS signed) - DATEDIFF(UTC_TIMESTAMP(), 
+				MAX(AquariumLogs.logDate)) AS nextMaintDays'))
+			->leftjoin('EquipmentLogs', function($join)
+			{
+				$join->on('EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
+					->where('EquipmentLogs.maintenance', '=', 'Yes');
+			})	
+			->leftjoin('AquariumLogs', 
+				'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
+			->where('Equipment.aquariumID', '=', $aquariumID)
+			->whereNotNull('maintInterval')
+			->whereNull('Equipment.deletedAt')
+			->groupby('Equipment.equipmentID')
+			->orderby('nextMaintDays', 'desc')
+			->get();
+	}	
 }

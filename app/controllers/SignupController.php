@@ -7,7 +7,7 @@ class SignupController extends BaseController
 	public function getSignup()
 	{
 		$timezones = DB::table('mysql.time_zone_name')->lists('Name', 'Time_zone_id');
-		return View::make('signup')->with('timezones', $timezones);
+		return View::make('signup/index')->with('timezones', $timezones);
 	}
 	
 	public function postSignup()
@@ -35,7 +35,7 @@ class SignupController extends BaseController
 		
 		$subject = 'Aquaricle New User Registration';
 		$signupURL = Config::get('app.url').
-			'/signup?username='.$signup->username.'&amp;token='.$signup->token;
+			'/signup/validate?username='.$signup->username.'&amp;token='.$signup->token;
 		
 		Mail::send('email.signup', array('signupURL' => $signupURL),
 			function($message) use ($signup, $subject)
@@ -43,6 +43,38 @@ class SignupController extends BaseController
 		    	$message->to($signup->email, $signup->username)->subject($subject);
 			}
 		);
+		
+		return View::make('signup/instructions');
+	}
+	
+	public function getValidate()
+	{
+		echo Input::get('username')."<br />";
+		echo Input::get('token')."<br />";
+		
+		DB::beginTransaction();
+		$signup = Signup::where('username', '=', Input::get('username'))
+			->where('token', '=', Input::get('token'))
+			->first();
+		if($signup)
+		{
+			$user = new User();
+			$user->username = $signup->username;
+			$user->password = $signup->password;
+			$user->timezoneID = $signup->timezoneID;
+			$user->email = $signup->email;
+			$user->save();
+			$signup->delete();
+			DB::commit();
+			return Redirect::to('/login');
+		}
+		else
+		{
+			DB::rollback();
+			return Redirect::to('/');
+		}
+		
+		//return View::make('signup/validate');
 	}
 }
 

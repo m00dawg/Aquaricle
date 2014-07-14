@@ -112,7 +112,7 @@ Route::get('/', function()
 	//return View::make('index');
 	if(Auth::user())
 		return Redirect::to('aquariums');
-	return Redirect::to('login');
+	return View::make('index');
 });
 
 
@@ -148,6 +148,11 @@ Route::get('/signup', [
 Route::post('/signup', [
     'as'     => 'signup',
     'uses'   => 'SignupController@postSignup'
+]);
+	
+Route::get('/signup/validate', [
+    'as'     => 'signup.validate',
+    'uses'   => 'SignupController@getValidate'
 ]);
 	
 

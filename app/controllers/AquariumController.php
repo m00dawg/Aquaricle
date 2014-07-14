@@ -39,20 +39,7 @@ class AquariumController extends BaseController
 		$favorites = AquariumLogFavorite::where('aquariumID', '=', $aquariumID)
 			->get();
 		
-		$equipment = Equipment::select(DB::raw(
-				'Equipment.equipmentID, Equipment.name, 
-				MAX(AquariumLogs.logDate) AS lastMaint,
-				DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS daysSinceMaint,
-				CAST(Equipment.maintInterval AS signed) - DATEDIFF(UTC_TIMESTAMP(), 
-				MAX(AquariumLogs.logDate)) AS nextMaintDays'))
-			->leftjoin('EquipmentLogs', 'EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
-			->leftjoin('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
-			->where('Equipment.aquariumID', '=', $aquariumID)
-			->whereNotNull('maintInterval')
-			->whereNull('Equipment.deletedAt')
-			->groupby('Equipment.equipmentID')
-			->orderby('nextMaintDays', 'desc')
-			->get();
+		$equipment = Equipment::byLastMaintenance($aquariumID);
 
 		$lastWaterChange = WaterTestLog::select(DB::raw('logDate, 
 				DATEDIFF(NOW(), logDate) AS daysSince,
@@ -162,20 +149,7 @@ class AquariumController extends BaseController
 			->orderby('logDate', 'desc')
 			->get();
 		
-		$equipment = Equipment::select(DB::raw(
-				'Equipment.equipmentID, Equipment.name, 
-				MAX(AquariumLogs.logDate) AS lastMaint,
-				DATEDIFF(UTC_TIMESTAMP(), MAX(AquariumLogs.logDate)) AS daysSinceMaint,
-				CAST(Equipment.maintInterval AS signed) - DATEDIFF(UTC_TIMESTAMP(), 
-				MAX(AquariumLogs.logDate)) AS nextMaintDays'))
-			->leftjoin('EquipmentLogs', 'EquipmentLogs.equipmentID', '=', 'Equipment.equipmentID')
-			->leftjoin('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'EquipmentLogs.aquariumLogID')
-			->where('Equipment.aquariumID', '=', $aquariumID)
-			->whereNotNull('maintInterval')
-			->whereNull('Equipment.deletedAt')
-			->groupby('Equipment.equipmentID')
-			->orderby('nextMaintDays', 'desc')
-			->get();
+		$equipment = Equipment::byLastMaintenance($aquariumID);
 
 		$lastWaterChange = WaterTestLog::select(DB::raw('logDate, 
 				DATEDIFF(NOW(), logDate) AS daysSince,
