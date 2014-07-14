@@ -39,7 +39,7 @@ class SignupController extends BaseController
 		Mail::send('email.signup', array('signupURL' => $signupURL),
 			function($message) use ($signup, $subject)
 			{
-		    	$message->to($signup->email, $signup->username)->subject($subject);
+		    	$message->to($signup->email, Input::get('username'))->subject($subject);
 			}
 		);
 		
