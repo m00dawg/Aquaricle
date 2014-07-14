@@ -36,9 +36,9 @@ class SignupController extends BaseController
 		$subject = 'Aquaricle New User Registration';
 		$signupURL = Config::get('app.url').
 			'/signup/validate?username='.Input::get('username').'&amp;token='.$signup->token;
-		Mail::send('email.signup', array('signupURL' => $signupURL),
+		Mail::send(array('text' => 'email.signup'), array('signupURL' => $signupURL),
 			function($message) use ($signup, $subject)
-			{
+			{			
 		    	$message->to($signup->email, Input::get('username'))->subject($subject);
 			}
 		);
