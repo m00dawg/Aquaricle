@@ -10,5 +10,6 @@ for you to try.</p>
 	<li>Wanna give it a go? <a href="/signup">Signup</a> for an account!</li>
 	<li>Not sure about it? Try out the <a href="http://demo.aquaricle.com">Demo</a> site!</li>
 	<li>Already have an account? <a href="/login">Login</a>!</li>
+	<li>Find a bug? Go <a href="https://github.com/m00dawg/Aquaricle/issues">here</a></li>
 </ul>
 @stop
