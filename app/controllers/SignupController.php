@@ -14,8 +14,8 @@ class SignupController extends BaseController
 	{
 		$validator = Validator::make(
 			Input::all(),
-			array('username' => 'required|unique:users|unique:signups',
-					'email' => 'required|email|unique:Users',
+			array('username' => 'required|unique:Users|unique:Signups',
+					'email' => 'required|email|unique:Users|unique:Signups',
 					'password' => 'required|min:8|confirmed',
 					'timezone' => 'required')
 		);

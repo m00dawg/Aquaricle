@@ -75,8 +75,6 @@ Route::get('/aquariums/{aquariumID}/wateradditives/{waterAdditiveID}', [
 
 Route::resource('aquariums.logs', 'AquariumLogsController');
 
-
-
 Route::resource('aquariums.equipment', 'EquipmentController');
 
 // User Interactions
