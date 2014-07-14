@@ -64,7 +64,9 @@
 		<tr>
 			
 			<th>{{ Form::label('Aquariduino Hostname') }}</th>
-			<td>{{ Form::text('aquariduinoHostname', null, array('size' => '32')) }}</td>
+			<td>{{ Form::text('aquariduinoHostname', null, array('size' => '32')) }}
+				Leave blank if not using the hardware device
+			</td>
 		</tr>
 </table>
 <br />
