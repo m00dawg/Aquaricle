@@ -6,7 +6,7 @@ Aquaricle is currently being fairly aggressively developed (hence this kinda lam
 not the only aquarium manager out there, but has a number of features that might make it compelling
 for you to try.</p>
 
-<p>Wanna give it a go? Signup for an <a href="/signup">account</a>!</p>
+<p>Wanna give it a go? <a href="/signup">Signup</a> for an account!</p>
 
 <p>Already have an account? <a href="/login">Login</a>!</p>
 

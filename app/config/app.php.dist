@@ -2,6 +2,16 @@
 
 return array(
 
+    /*
+    |--------------------------------------------------------------------------
+    | Site Type 
+    |--------------------------------------------------------------------------
+    |
+    | Sets whether or not the site is development, staging, demo, or production
+    */
+
+    'siteType' => 'development',
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Debug Mode

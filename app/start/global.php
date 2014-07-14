@@ -48,7 +48,26 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 
 App::error(function(Exception $exception, $code)
 {
-	Log::error($exception);
+	switch(Config::get('app.siteType'))
+	{
+		case 'Production':
+		{
+			return Response::view('errors');
+			break;
+		}
+		case 'Demo':
+		{
+			return Response::view('errors');
+			break;
+		}
+		case 'Staging':
+		{
+			return Response::view('errors');
+			break;
+		}
+		default:
+			Log::error($exception);
+	}
 });
 
 /*
