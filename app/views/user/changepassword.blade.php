@@ -13,8 +13,14 @@
 	
 <table>
 	<tr><th>Current Password</th><td>{{ Form::password('currentPassword', null, array('size' => '32')) }}</td></tr>
-	<tr><th>New Password</th><td>{{ Form::password('newPassword1', null, array('size' => '32')) }}</td></tr>
-	<tr><th>Re-type New Password</th><td>{{ Form::password('newPassword2', null, array('size' => '32')) }}</td></tr>
+	<tr>
+		<th>New Password</th>
+		<td>{{ Form::password('newPassword', null, array('size' => '32')) }}</td>
+	</tr>	
+	<tr>
+		<th>New Password Confirmation</th>
+		<td>{{ Form::password('newPassword_confirmation', null, array('size' => '32')) }}</td>
+	</tr>
 </table>
 <br />
 {{ Form::submit('Update') }}

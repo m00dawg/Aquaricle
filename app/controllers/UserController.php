@@ -54,19 +54,21 @@ class UserController extends BaseController
 	public function postChangePassword()
 	{
 		$user = Auth::user();
-		$status = '';
-		if(Hash::check(Input::get('currentPassword'), $user->password))
+		
+		$validator = Validator::make(
+			Input::all(),
+			array('newPassword' => 'required|min:8|confirmed')
+		);
+		if ($validator->fails())
 		{
-			if(Input::get('newPassword1') == Input::get('newPassword2'))
-			{
-				$user->password = Hash::make(Input::get('newPassword1'));
-				$user->save();
-				return $this->getProfile('Password Updated');
-			}
-			else
-			{
-				$status = 'New Passwords Do Not Match';
-			}
+			$messages = $validator->messages();
+			$status = $messages->first('newPassword');
+		}
+		elseif(Hash::check(Input::get('currentPassword'), $user->password))
+		{
+			$user->password = Hash::make(Input::get('newPassword'));
+			$user->save();
+			return $this->getProfile('Password Updated');
 		}
 		else
 			$status = 'Current Password Does Not Match';
