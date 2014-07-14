@@ -10,16 +10,16 @@ Dependencies
 Features Include
 ----------------
 
- * Tracking Equipment Maintenance
- * Keeping Water Test Sample Logs
- * Track Aquarium Life (In Progress)
- * Full Integration with Aquariduino (TODO)
+ * Log/Event based approach
+ * Track feedings, water additives, water changes, equipment maintenance
+ * Water changes offer colored feedback similar to test strips
+ * Water change reminders
+ * Make your aquariums public so others can see your hard work
 
 TODO
 ----
 
-* E-mail Reminders
-* Integrate Aquariduino Stats / Monitoring
-* Visual feedback when water test is outside water profile parameters
-* Admin Interface
-* User Management (Maybe?)
+ * Life management
+ * Water types (for test param colors mostly)
+ * More E-mail reminders
+ * Integrate Aquariduino stats and monitoring
