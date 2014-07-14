@@ -160,7 +160,7 @@
 	{{ Form::label('logDate', 'Date') }}: {{ Form::text('logDate') }}
 	
 	@if(!isset($log))
-		(Leave Blank for Current Time)
+		YYYY-MM-DD HH:MM:SS Format<br /> (Leave Blank for Current Time)
 	@endif
 	
 	<br />
