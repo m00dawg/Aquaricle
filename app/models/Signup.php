@@ -7,6 +7,6 @@ class Signup extends BaseModel
 {
 	protected $table = 'Signups';
 	protected $primaryKey = 'username';
-	protected $guarded = array('username, email, token');
+	protected $guarded = array('username', 'email', 'token');
 	public $timestamps = true;
 }
