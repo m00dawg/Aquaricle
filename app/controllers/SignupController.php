@@ -36,8 +36,6 @@ class SignupController extends BaseController
 		$subject = 'Aquaricle New User Registration';
 		$signupURL = Config::get('app.url').
 			'/signup/validate?username='.Input::get('username').'&amp;token='.$signup->token;
-		echo $signupURL;
-		/*
 		Mail::send('email.signup', array('signupURL' => $signupURL),
 			function($message) use ($signup, $subject)
 			{
@@ -46,14 +44,10 @@ class SignupController extends BaseController
 		);
 		
 		return View::make('signup/instructions');
-		*/
 	}
 	
 	public function getValidate()
 	{
-		echo Input::get('username')."<br />";
-		echo Input::get('token')."<br />";
-		
 		DB::beginTransaction();
 		$signup = Signup::where('username', '=', Input::get('username'))
 			->where('token', '=', Input::get('token'))
@@ -68,7 +62,8 @@ class SignupController extends BaseController
 			$user->save();
 			$signup->delete();
 			DB::commit();
-			return Redirect::to('/login');
+			return View::make('login')
+				->with('status', 'Registration Successful! You May Now Login!');;
 		}
 		else
 		{
