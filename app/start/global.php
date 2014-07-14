@@ -50,17 +50,17 @@ App::error(function(Exception $exception, $code)
 {
 	switch(Config::get('app.siteType'))
 	{
-		case 'Production':
+		case 'production':
 		{
 			return Response::view('errors');
 			break;
 		}
-		case 'Demo':
+		case 'demo':
 		{
 			return Response::view('errors');
 			break;
 		}
-		case 'Staging':
+		case 'staging':
 		{
 			return Response::view('errors');
 			break;
