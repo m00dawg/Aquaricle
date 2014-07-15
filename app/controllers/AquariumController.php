@@ -70,8 +70,33 @@ class AquariumController extends BaseController
 	
 	public function store()
 	{
+		$userID = Auth::user()->userID;
+
+		$validator = Validator::make(
+			Input::all(),
+			array('name' => "required|unique:Aquariums,name,NULL,id,userID,$userID",
+					'location' => 'max:48',
+					'visibility' => 'in:Public,Private',
+					'measurementUnits' => 'in:Metric,Imperial',
+					'capacity' => 'required|numeric|min:0|max:999.99',
+					'length' => 'required|numeric|min:0|max:999.99',
+					'width' => 'required|numeric|min:0|max:999.99',
+					'height' => 'required|numeric|min:0|max:999.99',
+					'waterChangeInterval' => 'required|integer|min:0|max:255',
+					'targetTemperature' => 'required|numeric|min:0|max:999.9',
+					'targetPH' => 'required|numeric|min:0|max:99.9',
+					'targetKH' => 'required|integer|min:0|max:255',
+					'aquariduinoHostname' => 'max:255'
+					)
+		);
+		if ($validator->fails())
+			return Redirect::to('aquariums/create')
+				->withInput(Input::all())
+				->withErrors($validator);
+
+
 		$aquarium = new Aquarium(Input::all());
-		$aquarium->userID = Auth::user()->userID;
+		$aquarium->userID = $userID;
 		$aquarium->save();
 		$aquariumID = $aquarium->aquariumID;
 		
@@ -91,7 +116,33 @@ class AquariumController extends BaseController
 	
 	public function update($aquariumID)
 	{
+		$userID = Auth::user()->userID;
 		$aquarium = Aquarium::singleAquarium($aquariumID);
+		$name = $aquarium->name;
+				
+		$validator = Validator::make(
+			Input::all(),
+			array('name' => "required|unique:Aquariums,name,$name,name,userID,$userID",
+					'location' => 'max:48',
+					'visibility' => 'in:Public,Private',
+					'measurementUnits' => 'in:Metric,Imperial',
+					'capacity' => 'required|numeric|min:0|max:999.99',
+					'length' => 'required|numeric|min:0|max:999.99',
+					'width' => 'required|numeric|min:0|max:999.99',
+					'height' => 'required|numeric|min:0|max:999.99',
+					'waterChangeInterval' => 'required|integer|min:0|max:255',
+					'targetTemperature' => 'required|numeric|min:0|max:999.9',
+					'targetPH' => 'required|numeric|min:0|max:99.9',
+					'targetKH' => 'required|integer|min:0|max:255',
+					'aquariduinoHostname' => 'max:255'
+					)
+		);
+		if ($validator->fails())
+			return Redirect::to("aquariums/$aquariumID/edit")
+				->withInput(Input::all())
+				->withErrors($validator);
+		
+		
 		$aquarium->name = Input::get('name');
 		$aquarium->location = Input::get('location');
 		$aquarium->measurementUnits = Input::get('measurementUnits');
