@@ -214,7 +214,7 @@ class AquariumLogsController extends BaseController
 	{
 		$validator = Validator::make(
 			Input::all(),
-			array('logDate' => 'date_format:Y-m-d H:i:s',			
+			array('logDate' => 'date',
 				'temperature' => 'numeric|min:0|max:100',
 				'ammonia' => 'numeric|min:0|max:999',
 				'nitrites' => 'numeric|min:0|max:999',
@@ -291,7 +291,7 @@ class AquariumLogsController extends BaseController
 		$logDate = Input::get('logDate');
 		if(isset($logDate))
 			if($logDate != '')
-				$log->logDate = Input::get('logDate');
+				$log->logDate = strtotime(Input::get('logDate'));
 
 		DB::beginTransaction();
 		$log->save();
@@ -449,7 +449,7 @@ class AquariumLogsController extends BaseController
 		$logDate = Input::get('logDate');
 		if(isset($logDate))
 			if($logDate != '')
-				$log->logDate = Input::get('logDate');
+				$log->logDate = strtotime(Input::get('logDate'));
 		$this->updateWaterTestLog($aquariumLogID);
 		$this->updateWaterAdditive($aquariumLogID);
 		$this->updateEquipmentLog($aquariumLogID);

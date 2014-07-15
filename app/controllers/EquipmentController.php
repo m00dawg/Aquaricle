@@ -57,7 +57,7 @@ class EquipmentController extends \BaseController {
 		$validator = Validator::make(
 			Input::all(),
 			array('name' => "required|unique:Equipment,name,NULL,id,aquariumID,$aquariumID",
-				  'createdAt' => 'date_format:Y-m-d H:i:s',
+				  'createdAt' => 'date',
    		  		  'maintInterval' => 'integer|min:0|max:65535')
 		);
 		if ($validator->fails())
@@ -70,7 +70,7 @@ class EquipmentController extends \BaseController {
 		$equipment->equipmentTypeID = Input::get('equipmentType');
 		$equipment->name = Input::get('name');
 		if(Input::get('createdAt') != '')
-			$equipment->createdAt = Input::get('createdAt');
+			$equipment->createdAt = strtotime(Input::get('createdAt'));
 		if(Input::get('maintInterval') != '')
 			$equipment->maintInterval = Input::get('maintInterval');
 		$equipment->comments = Input::get('comments');
@@ -164,6 +164,7 @@ class EquipmentController extends \BaseController {
 			return Redirect::to("aquariums/");
 		
 		$name = $equipment->name;
+		$createdAt = $equipment->createdAt;
 		
 		if(Input::get('delete'))
 			return $this->destroy($aquariumID, $equipmentID);
@@ -171,8 +172,8 @@ class EquipmentController extends \BaseController {
 		$validator = Validator::make(
 			Input::all(),
 			array('name' => "required|unique:Equipment,name,$name,name,aquariumID,$aquariumID",
-				  'createdAt' => 'date_format:Y-m-d H:i:s',
-				  'deletedAt' => 'date_format:Y-m-d H:i:s',
+				  'createdAt' => 'date',
+				  'deletedAt' => "after:$createdAt|date",
    		  		  'maintInterval' => 'integer|min:1|max:65535')
 		);
 		if ($validator->fails())
@@ -183,9 +184,9 @@ class EquipmentController extends \BaseController {
 		$equipment->equipmentTypeID = Input::get('equipmentType');
 		$equipment->name = Input::get('name');
 		if(Input::get('createdAt') != '')
-			$equipment->createdAt = Input::get('createdAt');
+			$equipment->createdAt = strtotime(Input::get('createdAt'));
 		if(Input::get('deletedAt') != '')
-			$equipment->deletedAt = Input::get('deletedAt');
+			$equipment->deletedAt = strtotime(Input::get('deletedAt'));
 		else
 			$equipment->deletedAt = null;
 		if(Input::get('maintInterval') != '')
