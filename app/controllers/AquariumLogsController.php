@@ -210,6 +210,25 @@ class AquariumLogsController extends BaseController
 		return null;
 	}
 	
+	private static function validateLog()
+	{
+		$validator = Validator::make(
+			Input::all(),
+			array('logDate' => 'date',
+				'temperature' => 'numeric|min:0|max:100',
+				'ammonia' => 'numeric|min:0|max:999',
+				'nitrites' => 'numeric|min:0|max:999',
+				'nitrates' => 'numeric|min:0|max:999',
+				'phosphates' => 'numeric|min:0|max:999',
+				'pH' => 'numeric|min:0|max:99',
+				'KH' => 'numeric|min:0|max:255',
+				'amountExchanged' => 'numeric|min:0|max:65535',
+				'waterAdditiveAmount' => 'numeric|min:0|max:999')
+		);
+		
+		return $validator;
+	}
+	
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -232,12 +251,14 @@ class AquariumLogsController extends BaseController
 	 */
 	public function create($aquariumID)
 	{
+		DB::beginTransaction();
 		$food = Food::get();
 		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
 		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)->lists('name', 'equipmentID');
 		$measurementUnits = Aquarium::where('aquariumID', '=', $aquariumID)
 			->select('measurementUnits')
 			->first();
+		DB::commit();
 
 		return View::make('aquariumlogs/editlog')
 			->with('aquariumID', $aquariumID)
@@ -256,6 +277,12 @@ class AquariumLogsController extends BaseController
 	 */
 	public function store($aquariumID)
 	{
+		$validator = self::validateLog();
+		if ($validator->fails())
+			return Redirect::to("aquariums/$aquariumID/logs/create")
+				->withInput(Input::all())
+				->withErrors($validator);
+	
 		$log = new AquariumLog();
 		$log->aquariumID = $aquariumID;
 		$log->comments = Input::get('comments');
@@ -264,7 +291,7 @@ class AquariumLogsController extends BaseController
 		if(isset($logDate))
 			if($logDate != '')
 				$log->logDate = Input::get('logDate');
-				
+
 		DB::beginTransaction();
 		$log->save();
 		$aquariumLogID = $log->aquariumLogID;
@@ -401,6 +428,12 @@ class AquariumLogsController extends BaseController
 	{		
 		if(Input::get('delete'))
 			return $this->destroy($aquariumID, $aquariumLogID);
+		
+		$validator = self::validateLog();
+		if ($validator->fails())
+			return Redirect::to("aquariums/$aquariumID/logs/$aquariumLogID/edit")
+				->withInput(Input::all())
+				->withErrors($validator);
 			
 		DB::beginTransaction();
 		$log = AquariumLog::where('aquariumLogID', '=', $aquariumLogID)->first();

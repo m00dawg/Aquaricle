@@ -3,9 +3,14 @@
 
 <h2>Log Details</h2>
 
+
 @if (isset($status))
 <h4>{{ $status }}</h4>
 @endif
+
+@foreach ($errors->all() as $message)
+	<h4>{{ $message }}</h4>
+@endforeach
 
 @if (isset($log))
 	<table>
