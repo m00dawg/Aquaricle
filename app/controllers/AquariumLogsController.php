@@ -223,7 +223,8 @@ class AquariumLogsController extends BaseController
 				'pH' => 'numeric|min:0|max:99',
 				'KH' => 'numeric|min:0|max:255',
 				'amountExchanged' => 'numeric|min:0|max:65535',
-				'waterAdditiveAmount' => 'numeric|min:0|max:999')
+				'waterAdditiveAmount' => 'numeric|min:0|max:999',
+				'name' => 'max:48')
 		);
 		
 		return $validator;
@@ -520,7 +521,7 @@ class AquariumLogsController extends BaseController
 	}
 	
 	public function storeFavorite($aquariumID)
-	{
+	{	
 		DB::beginTransaction();
 		$aquariumLogID = Input::get('favoriteLog');
 		$results = DB::select('CALL ProcessFavoriteLog(?,?)',array($aquariumLogID, $aquariumID));
