@@ -54,13 +54,25 @@ class EquipmentController extends \BaseController {
 	 */
 	public function store($aquariumID)
 	{
+		$validator = Validator::make(
+			Input::all(),
+			array('name' => "required|unique:Equipment,name,NULL,id,aquariumID,$aquariumID",
+				  'createdAt' => 'date_format:Y-m-d H:i:s',
+   		  		  'maintInterval' => 'integer|min:0|max:65535')
+		);
+		if ($validator->fails())
+			return Redirect::to("aquariums/$aquariumID/equipment/create")
+				->withInput(Input::all())
+				->withErrors($validator);
+		
 		$equipment = new Equipment();
 		$equipment->aquariumID = $aquariumID;
 		$equipment->equipmentTypeID = Input::get('equipmentType');
 		$equipment->name = Input::get('name');
 		if(Input::get('createdAt') != '')
 			$equipment->createdAt = Input::get('createdAt');
-		$equipment->maintInterval = Input::get('maintInterval');
+		if(Input::get('maintInterval') != '')
+			$equipment->maintInterval = Input::get('maintInterval');
 		$equipment->comments = Input::get('comments');
 		
 		DB::beginTransaction();
@@ -144,27 +156,48 @@ class EquipmentController extends \BaseController {
 	 */
 	public function update($aquariumID, $equipmentID)
 	{
-		if(Input::get('delete'))
-			return $this->destroy($aquariumID, $equipmentID);
-		
+		DB::beginTransaction();
 		$equipment = Equipment::where('aquariumID', '=', $aquariumID)
 			->where('equipmentID', '=', $equipmentID)
 			->first();
 		if(!is_a($equipment, 'Equipment'))
 			return Redirect::to("aquariums/");
+		
+		$name = $equipment->name;
+		
+		if(Input::get('delete'))
+			return $this->destroy($aquariumID, $equipmentID);
+		
+		$validator = Validator::make(
+			Input::all(),
+			array('name' => "required|unique:Equipment,name,$name,name,aquariumID,$aquariumID",
+				  'createdAt' => 'date_format:Y-m-d H:i:s',
+				  'deletedAt' => 'date_format:Y-m-d H:i:s',
+   		  		  'maintInterval' => 'integer|min:1|max:65535')
+		);
+		if ($validator->fails())
+			return Redirect::to("aquariums/$aquariumID/equipment/$equipmentID/edit")
+				->withInput(Input::all())
+				->withErrors($validator);
+		
 		$equipment->equipmentTypeID = Input::get('equipmentType');
 		$equipment->name = Input::get('name');
-		$equipment->createdAt = Input::get('createdAt');
+		if(Input::get('createdAt') != '')
+			$equipment->createdAt = Input::get('createdAt');
 		if(Input::get('deletedAt') != '')
 			$equipment->deletedAt = Input::get('deletedAt');
-		$equipment->maintInterval = Input::get('maintInterval');
+		else
+			$equipment->deletedAt = null;
+		if(Input::get('maintInterval') != '')
+			$equipment->maintInterval = Input::get('maintInterval');
+		else
+			$equipment->maintInterval = null;
 		$equipment->comments = Input::get('comments');
 
 		$log = new AquariumLog();
 		$log->aquariumID = $aquariumID;
 		$log->summary = 'Updated '.$equipment->name;
 		
-		DB::beginTransaction();
 		$equipment->save();
 		$log->save();
 		$equipmentLog = new EquipmentLog();

@@ -214,7 +214,7 @@ class AquariumLogsController extends BaseController
 	{
 		$validator = Validator::make(
 			Input::all(),
-			array('logDate' => 'date',
+			array('logDate' => 'date_format:Y-m-d H:i:s',			
 				'temperature' => 'numeric|min:0|max:100',
 				'ammonia' => 'numeric|min:0|max:999',
 				'nitrites' => 'numeric|min:0|max:999',
@@ -222,8 +222,8 @@ class AquariumLogsController extends BaseController
 				'phosphates' => 'numeric|min:0|max:999',
 				'pH' => 'numeric|min:0|max:99',
 				'KH' => 'numeric|min:0|max:255',
-				'amountExchanged' => 'numeric|min:0|max:65535',
-				'waterAdditiveAmount' => 'numeric|min:0|max:999',
+				'amountExchanged' => 'numeric|min:1|max:65535',
+				'waterAdditiveAmount' => 'numeric|min:1|max:999',
 				'name' => 'max:48')
 		);
 		

@@ -82,10 +82,10 @@ class AquariumController extends BaseController
 					'length' => 'required|numeric|min:0|max:999.99',
 					'width' => 'required|numeric|min:0|max:999.99',
 					'height' => 'required|numeric|min:0|max:999.99',
-					'waterChangeInterval' => 'required|integer|min:0|max:255',
-					'targetTemperature' => 'required|numeric|min:0|max:999.9',
-					'targetPH' => 'required|numeric|min:0|max:99.9',
-					'targetKH' => 'required|integer|min:0|max:255',
+					'waterChangeInterval' => 'integer|min:0|max:255',
+					'targetTemperature' => 'numeric|min:0|max:999.9',
+					'targetPH' => 'numeric|min:0|max:99.9',
+					'targetKH' => 'integer|min:0|max:255',
 					'aquariduinoHostname' => 'max:255'
 					)
 		);
@@ -94,8 +94,35 @@ class AquariumController extends BaseController
 				->withInput(Input::all())
 				->withErrors($validator);
 
-
-		$aquarium = new Aquarium(Input::all());
+		$aquarium = new Aquarium();
+		$aquarium->name = Input::get('name');
+		$aquarium->location = Input::get('location');
+		$aquarium->measurementUnits = Input::get('measurementUnits');
+		$aquarium->visibility = Input::get('visibility');
+		
+		/* These ugly if checks are for cases where the field was empty.
+           MySQL doesn't like empty fields to be defined (I think due to the sql_mode used)
+		   so the fields get set to null instead */
+		if(Input::get('capacity') != '')
+			$aquarium->capacity = Input::get('capacity');
+		if(Input::get('length') != '')
+			$aquarium->length = Input::get('length');
+		if(Input::get('width') != '')
+			$aquarium->width = Input::get('width');
+		if(Input::get('height') != '')
+			$aquarium->height = Input::get('height');
+		if(Input::get('waterChangeInterval') != '')
+			$aquarium->waterChangeInterval = Input::get('waterChangeInterval');
+		if(Input::get('targetTemperature') != '')
+			$aquarium->targetTemperature = Input::get('targetTemperature');
+		if(Input::get('targetPH') != '')
+			$aquarium->targetPH = Input::get('targetPH');
+		if(Input::get('targetKH') != '')
+			$aquarium->targetKH = Input::get('targetKH');
+		
+		$aquarium->aquariduinoHostname = Input::get('aquariduinoHostname');
+		
+		
 		$aquarium->userID = $userID;
 		$aquarium->save();
 		$aquariumID = $aquarium->aquariumID;
@@ -130,10 +157,10 @@ class AquariumController extends BaseController
 					'length' => 'required|numeric|min:0|max:999.99',
 					'width' => 'required|numeric|min:0|max:999.99',
 					'height' => 'required|numeric|min:0|max:999.99',
-					'waterChangeInterval' => 'required|integer|min:0|max:255',
-					'targetTemperature' => 'required|numeric|min:0|max:999.9',
-					'targetPH' => 'required|numeric|min:0|max:99.9',
-					'targetKH' => 'required|integer|min:0|max:255',
+					'waterChangeInterval' => 'integer|min:0|max:255',
+					'targetTemperature' => 'numeric|min:0|max:999.9',
+					'targetPH' => 'numeric|min:0|max:99.9',
+					'targetKH' => 'integer|min:0|max:255',
 					'aquariduinoHostname' => 'max:255'
 					)
 		);
@@ -142,19 +169,31 @@ class AquariumController extends BaseController
 				->withInput(Input::all())
 				->withErrors($validator);
 		
-		
 		$aquarium->name = Input::get('name');
 		$aquarium->location = Input::get('location');
 		$aquarium->measurementUnits = Input::get('measurementUnits');
 		$aquarium->visibility = Input::get('visibility');
-		$aquarium->capacity = Input::get('capacity');
-		$aquarium->length = Input::get('length');
-		$aquarium->width = Input::get('width');
-		$aquarium->height = Input::get('height');
-		$aquarium->waterChangeInterval = Input::get('waterChangeInterval');
-		$aquarium->targetTemperature = Input::get('targetTemperature');
-		$aquarium->targetPH = Input::get('targetPH');
-		$aquarium->targetKH = Input::get('targetKH');
+		
+		/* These ugly if checks are for cases where the field was empty.
+           MySQL doesn't like empty fields to be defined (I think due to the sql_mode used)
+		   so the fields get set to null instead */
+		if(Input::get('capacity') != '')
+			$aquarium->capacity = Input::get('capacity');
+		if(Input::get('length') != '')
+			$aquarium->length = Input::get('length');
+		if(Input::get('width') != '')
+			$aquarium->width = Input::get('width');
+		if(Input::get('height') != '')
+			$aquarium->height = Input::get('height');
+		if(Input::get('waterChangeInterval') != '')
+			$aquarium->waterChangeInterval = Input::get('waterChangeInterval');
+		if(Input::get('targetTemperature') != '')
+			$aquarium->targetTemperature = Input::get('targetTemperature');
+		if(Input::get('targetPH') != '')
+			$aquarium->targetPH = Input::get('targetPH');
+		if(Input::get('targetKH') != '')
+			$aquarium->targetKH = Input::get('targetKH');
+		
 		$aquarium->aquariduinoHostname = Input::get('aquariduinoHostname');
 		$aquarium->save();
 		return Redirect::to("aquariums/$aquariumID/");

@@ -11,6 +11,10 @@
 	{{ Form::open(array('url' => "aquariums/$aquariumID/equipment")) }}
 @endif
 
+@foreach ($errors->all() as $message)
+	<h4>{{ $message }}</h4>
+@endforeach
+
 <div class="formBox">
 
 <table>
