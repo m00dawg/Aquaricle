@@ -35,6 +35,8 @@
 				<th>Phosphates</th>
 				<th>pH</th>
 				<th>KH</th>
+				<th>GH</th>
+				<th>TDS</th>
 				<th>Water Exchanged</th>
 			</tr>
 			<tr>
@@ -45,6 +47,8 @@
 				<td>{{ $log->phosphates }}</td>
 				<td>{{ $log->pH }}</td>
 				<td>{{ $log->KH }}</td>
+				<td>{{ $log->GH }}</td>
+				<td>{{ $log->TDS }}</td>				
 				<td>{{ $log->amountExchanged }}</td>
 			</tr>
 		</table>

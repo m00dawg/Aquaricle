@@ -13,6 +13,8 @@
 		<th>Phosphates</th>
 		<th>pH</th>
 		<th>KH</th>
+		<th>GH</th>
+		<th>TDS</th>
 		<th>Water Exchanged ({{ $measurementUnits['Volume'] }})</th>
 	</tr>
 	
@@ -28,6 +30,8 @@
 				<td style="background-color: {{ $log->phosphateBackgroundColor()}}">{{ $log->phosphates }}</td>
 				<td>{{ $log->pH }}</td>
 				<td>{{ $log->KH }}</td>
+				<td>{{ $log->GH }}</td>
+				<td>{{ $log->TDS }}</td>
 				<td>{{ $log->amountExchanged }}</td>
 			</tr>
 		@endforeach

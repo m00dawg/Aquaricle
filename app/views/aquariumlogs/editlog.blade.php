@@ -29,6 +29,8 @@
 		 isset($log->phosphates) ||
 		 isset($log->pH) ||
 		 isset($log->KH) ||
+		 isset($log->GH) ||
+  		 isset($log->TDS) ||
 		 isset($log->amountExchanged))
 		<br />
 		<table>	
@@ -40,6 +42,8 @@
 				<th>Phosphates</th>
 				<th>pH</th>
 				<th>KH</th>
+				<th>GH</th>
+				<th>TDS</th>
 				<th>Water Exchanged</th>
 			</tr>
 			<tr>
@@ -50,6 +54,8 @@
 				<td>{{ $log->phosphates }}</td>
 				<td>{{ $log->pH }}</td>
 				<td>{{ $log->KH }}</td>
+				<td>{{ $log->GH }}</td>
+				<td>{{ $log->TDS }}</td>
 				<td>{{ $log->amountExchanged }}</td>
 			</tr>
 		</table>
@@ -128,6 +134,8 @@
 		<tr><th>Phosphates</th><td>{{ Form::text('phosphates', null, array('size' => '8')) }} ppm</td></tr>
 		<tr><th>pH</th><td>{{ Form::text('pH', null, array('size' => '8')) }}</td></tr>
 		<tr><th>KH</th><td>{{ Form::text('KH', null, array('size' => '8')) }} &deg;</td></tr>
+		<tr><th>GH</th><td>{{ Form::text('GH', null, array('size' => '8')) }} &deg;</td></tr>
+		<tr><th>TDS</th><td>{{ Form::text('TDS', null, array('size' => '8')) }} ppm</td></tr>
 		<tr>
 			<th>Water Exchanged</th>
 			<td>{{ Form::text('amountExchanged', null, array('size' => '8')) }}
@@ -165,7 +173,7 @@
 	{{ Form::label('logDate', 'Date') }}: {{ Form::text('logDate') }}
 	
 	@if(!isset($log))
-		YYYY-MM-DD HH:MM:SS Format<br /> (Leave Blank for Current Time)
+		(Leave Blank for Current Time)
 	@endif
 	
 	<br />

@@ -12,6 +12,8 @@ class AquariumLogsController extends BaseController
 		   Input::get('phosphates') != '' ||
 		   Input::get('pH') != '' ||
 		   Input::get('KH') != '' ||
+		   Input::get('GH') != '' ||
+		   Input::get('TDS') != '' ||
 		   Input::get('amountExchanged') != '')
 		{
 			$waterTestLog = WaterTestLog::FirstOrNew(array('aquariumLogID' => $aquariumLogID));
@@ -30,6 +32,10 @@ class AquariumLogsController extends BaseController
 				$waterTestLog->pH = Input::get('pH');
 			if(Input::get('KH') != '')
 				$waterTestLog->KH = Input::get('KH');
+			if(Input::get('GH') != '')
+				$waterTestLog->GH = Input::get('GH');
+			if(Input::get('TDS') != '')
+				$waterTestLog->TDS = Input::get('TDS');
 			if(Input::get('amountExchanged') != '')
 				$waterTestLog->amountExchanged = Input::get('amountExchanged');	
 			$waterTestLog->save();
@@ -146,7 +152,9 @@ class AquariumLogsController extends BaseController
 			   $waterLog->nitrates != '' ||
 			   $waterLog->phosphates != '' ||
 			   $waterLog->pH != '' ||
-			   $waterLog->KH != '')
+			   $waterLog->KH != '' ||
+   			   $waterLog->GH != '' ||
+   			   $waterLog->TDS != '')
 				$summary = 'Tested Water';
 			if($waterLog->amountExchanged > 0)
 			{
@@ -222,6 +230,8 @@ class AquariumLogsController extends BaseController
 				'phosphates' => 'numeric|min:0|max:999',
 				'pH' => 'numeric|min:0|max:99',
 				'KH' => 'numeric|min:0|max:255',
+				'GH' => 'numeric|min:0|max:255',
+				'TDS' => 'numeric|min:0|max:65535',
 				'amountExchanged' => 'numeric|min:1|max:65535',
 				'waterAdditiveAmount' => 'numeric|min:1|max:999',
 				'name' => 'max:48')
@@ -320,7 +330,7 @@ class AquariumLogsController extends BaseController
 			->leftjoin('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->select('AquariumLogs.aquariumLogID', 'AquariumLogs.aquariumID', 'logDate', 
 				'summary', 'comments', 'temperature', 'ammonia', 'nitrites', 'nitrates',
-				'phosphates', 'pH', 'KH', 'amountExchanged')
+				'phosphates', 'pH', 'KH', 'GH', 'TDS', 'amountExchanged')
 			->first();
 		$food = Food::leftjoin('FoodLogs', function ($join) use($logID)
 			{
@@ -378,7 +388,7 @@ class AquariumLogsController extends BaseController
 			->leftjoin('AquariumLogFavorites', 'AquariumLogFavorites.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->select('AquariumLogs.aquariumLogID', 'AquariumLogs.aquariumID', 'logDate', 
 				'summary', 'comments', 'temperature', 'ammonia', 'nitrites', 'nitrates',
-				'phosphates', 'pH', 'KH', 'amountExchanged', 'name')
+				'phosphates', 'pH', 'KH', 'GH', 'TDS', 'amountExchanged', 'name')
 			->first();
 		$food = Food::leftjoin('FoodLogs', function ($join) use($logID)
 			{
