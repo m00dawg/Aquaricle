@@ -115,7 +115,8 @@
 		<tr><th colspan="2">Water Logs</th></tr>
 		<tr>
 			<th>Temperature</th>
-			<td>{{ Form::text('temperature', null, array('size' => '8')) }} &deg;
+			<td>
+				{{ Form::text('temperature', null, array('size' => '8')) }} &deg;
 				{{ $measurementUnits['Temperature'] }}
 			</td>
 		</tr>
