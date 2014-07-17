@@ -17,6 +17,11 @@
 	<tr><th>Username</th><td>{{ $user->username }}</td></tr>
 	<tr><th>E-Mail</th><td>{{ Form::text('email', null, array('size' => '32')) }}</td></tr>
 	<tr>
+		<th>Receive E-mail Reminders?</th>
+		<td>{{ Form::select('emailReminders', 
+				array('Yes' => 'Yes', 'No' => 'No'), $user->emailReminders) }}</td>
+	</tr>
+	<tr>
 		<th>Timezone</th>
 		<td>{{ Form::select('timezone', $timezones, $user->timezoneID) }}</td>
 	</tr>

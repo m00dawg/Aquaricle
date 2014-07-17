@@ -46,6 +46,7 @@ class ProcessEmailReminders extends Command {
 		// Get Active Users
 		$users = User::active()
 			->select(DB::raw('userID, username, email'))
+			->where('emailReminders', '=', 'Yes')
 			->get();
 		
 		// Loop through active users
@@ -98,30 +99,4 @@ class ProcessEmailReminders extends Command {
 			}
 		}
 	}
-
-	/**
-	 * Get the console command arguments.
-	 *
-	 * @return array
-	 */
-	protected function getArguments()
-	{
-		
-		return array(
-			array('example', InputArgument::OPTIONAL, 'An example argument.'),
-		);
-	}
-
-	/**
-	 * Get the console command options.
-	 *
-	 * @return array
-	 */
-	protected function getOptions()
-	{
-		return array(
-			array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
-		);
-	}
-
 }

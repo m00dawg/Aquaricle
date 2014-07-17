@@ -11,9 +11,10 @@ class UserController extends BaseController
     public function getProfile($status = null)
     {
 		$user = User::select(
-			DB::raw('username, email, createdAt, updatedAt, mysql.time_zone_name.Name AS timezone'))
+			DB::raw('username, email, emailReminders, createdAt, 
+				updatedAt, mysql.time_zone_name.Name AS timezone'))
 			->join('mysql.time_zone_name', 'mysql.time_zone_name.Time_zone_id',
-				'=', 'Users.timeZoneID')
+				'=', 'Users.timezoneID')
 			->where('userID', '=', Auth::id())
 			->first();
         return View::make('user.profile', array('user' => $user, 'status' => $status));
@@ -32,11 +33,14 @@ class UserController extends BaseController
 		DB::beginTransaction();
 		$user = Auth::user();
 		$user->email = Input::get('email');
+		if(Input::get('emailReminders') == 'Yes' || Input::get('emailReminders') == 'No')
+			$user->emailReminders = Input::get('emailReminders');
 		$user->timezoneID = Input::get('timezone');
 		$user->save();
 
 		$user = User::select(
-			DB::raw('username, email, createdAt, updatedAt, mysql.time_zone_name.Name AS timezone'))
+			DB::raw('username, email, emailReminders, createdAt, updatedAt,
+				mysql.time_zone_name.Name AS timezone'))
 			->join('mysql.time_zone_name', 'mysql.time_zone_name.Time_zone_id',
 				'=', 'Users.timeZoneID')
 			->where('userID', '=', Auth::id())
