@@ -58,11 +58,11 @@ class ProcessEmailReminders extends Command {
 			foreach ($aquariums as $aquarium)
 			{
 				if($aquarium->dueIn > 0)
-					$body .= $aquarium->name." aquarium is due for a water change in ".$aquariums->dueIn." days or less!\n";
+					$body .= "Your ".$aquarium->name." is due for a water change in ".$aquariums->dueIn." days or less!\n";
 				elseif($aquarium->dueIn == 0)
-					$body .= $aquarium->name." aquarium is due for a water change today!\n";
+					$body .= "Your ".$aquarium->name." is due for a water change today!\n";
 				else
-					$body .= $aquarium->name." aquarium is OVERDUE for a water change!\n";
+					$body .= "Your ".$aquarium->name." is OVERDUE for a water change!\n";
 				$body .= "Last water change was performend on ".$aquarium->logDate."\n\n";
 			}
 
@@ -71,29 +71,26 @@ class ProcessEmailReminders extends Command {
 			foreach ($equipment as $equip)
 			{
 				if($equip->dueIn > 0)
-					$body .= "Your ".$equip->name." 
-						is due for maintenance on your ".
-						$equip->aquariumname.
-						"aquarium in ".
+					$body .= "Your ".$equip->equipmentName.
+						" on your ".$equip->aquariumName.
+						" is due for maintenance in ".
 						$equip->dueIn.
 						" days or less!\n";
 				elseif($equip->dueIn == 0)
-					$body .= "Your ".$equip->name." 
-						is due for maintenance on your ".
-						$equip->aquariumname.
-						"aquarium today!\n";
+					$body .= "Your ".$equip->equipmentName.
+						" on your ".$equip->aquariumName.
+						" is due for maintenance today!\n";
 				else
-					$body .= "Your ".$equip->name." 
-						is OVERDUE for maintenance on your ".
-						$equip->aquariumname.
-						"aquarium!\n";
+					$body .= "Your ".$equip->equipmentName.
+						" on your ".$equip->aquariumName.
+						" is OVERDUE for maintenance!\n";
 				$body .= "Last maintenance was performend on ".$equip->logDate."\n\n";
 			}
 
 			if($body != '')
 			{
 				Mail::send(array('text' => 'email.reminders'), 
-				array('body' => $body, 'user' => $user), 
+				array('body' => $body, 'username' => $user->username), 
 				function($message) use ($user, $subject)
 				{
 				    $message->to($user->email, $user->username)->subject($subject);
