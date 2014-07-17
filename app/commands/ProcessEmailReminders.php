@@ -92,7 +92,9 @@ class ProcessEmailReminders extends Command {
 
 			if($body != '')
 			{
-				Mail::send(array('text' => 'email.reminders'), array('body' => $body), function($message) use ($user, $subject)
+				Mail::send(array('text' => 'email.reminders'), 
+				array('body' => $body, 'user' => $user), 
+				function($message) use ($user, $subject)
 				{
 				    $message->to($user->email, $user->username)->subject($subject);
 				});
