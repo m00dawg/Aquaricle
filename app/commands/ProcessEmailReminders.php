@@ -37,6 +37,7 @@ class ProcessEmailReminders extends Command {
 	 */
 	public function fire()
 	{
+		$withinDays = 2;
 		$subject = 'Aquaricle: Maintenance Reminder';
 		$body = '';
 		
@@ -53,7 +54,7 @@ class ProcessEmailReminders extends Command {
 			$body = '';
 			$this->info("Processing User ".$user->userID."\n");
 			// Check on Water Changes
-			$aquariums = DB::select('CALL WaterChangesDue(?,?)',array($user->userID,2));
+			$aquariums = DB::select('CALL WaterChangesDue(?,?)',array($user->userID,$withinDays));
 			foreach ($aquariums as $aquarium)
 			{
 				if($aquarium->dueIn > 0)
@@ -64,13 +65,23 @@ class ProcessEmailReminders extends Command {
 					$body .= $aquarium->name." is OVERDUE for a water change!\n";
 				$body .= "Last water change was performend on ".$aquarium->logDate."\n\n";
 			}
-			
-			// Check on Equipment Maintenance
 
+			// Check on Equipment Maintenance			
+			$equipment = DB::select('CALL EquipmentMaintenanceDue(?, ?)', array($user->userID, $withinDays));
+			foreach ($equipment as $equip)
+			{
+				if($equip->dueIn > 0)
+					$body .= $equip->name." is due for maintenance in ".$equip->dueIn." days or less!\n";
+				elseif($equip->dueIn == 0)
+					$body .= $equip->name." is due for maintenance NOW!\n";
+				else
+					$body .= $equip->name." is OVERDUE for maintenance!\n";
+				$body .= "Last maintenance was performend on ".$equip->logDate."\n\n";
+			}
 
 			if($body != '')
 			{
-				Mail::send('email.reminders', array('body' => $body), function($message) use ($user, $subject)
+				Mail::send(array('text' => 'email.reminders'), array('body' => $body), function($message) use ($user, $subject)
 				{
 				    $message->to($user->email, $user->username)->subject($subject);
 				});
