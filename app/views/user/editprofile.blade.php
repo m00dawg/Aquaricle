@@ -9,6 +9,10 @@
 	<h3>{{ $status }}</h3>
 @endif
 
+@foreach ($errors->all() as $message)
+	<h4>{{ $message }}</h4>
+@endforeach
+
 <div class="formBox">
 {{ Form::model($user, 
 	array('route' => array("user.editprofile"), 'method' => 'post')) }}	

@@ -32,6 +32,21 @@ class UserController extends BaseController
 	{
 		DB::beginTransaction();
 		$user = Auth::user();
+		
+		$validator = Validator::make(
+			Input::all(),
+			array('email' => "required|email|unique:Users,email,$user->userID,userID",
+				'timezone' => "required|min:1|max:579")	
+		);
+		if ($validator->fails())
+		{
+			DB::rollback();
+			return Redirect::to('user/editprofile')
+				->withInput(Input::all())
+				->withErrors($validator);
+		}
+		
+		
 		$user->email = Input::get('email');
 		if(Input::get('emailReminders') == 'Yes' || Input::get('emailReminders') == 'No')
 			$user->emailReminders = Input::get('emailReminders');
