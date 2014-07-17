@@ -58,11 +58,11 @@ class ProcessEmailReminders extends Command {
 			foreach ($aquariums as $aquarium)
 			{
 				if($aquarium->dueIn > 0)
-					$body .= $aquarium->name." is due for a water change in ".$aquariums->dueIn." days or less!\n";
+					$body .= $aquarium->name." aquarium is due for a water change in ".$aquariums->dueIn." days or less!\n";
 				elseif($aquarium->dueIn == 0)
-					$body .= $aquarium->name." is due for a water change NOW!\n";
+					$body .= $aquarium->name." aquarium is due for a water change today!\n";
 				else
-					$body .= $aquarium->name." is OVERDUE for a water change!\n";
+					$body .= $aquarium->name." aquarium is OVERDUE for a water change!\n";
 				$body .= "Last water change was performend on ".$aquarium->logDate."\n\n";
 			}
 
@@ -71,11 +71,22 @@ class ProcessEmailReminders extends Command {
 			foreach ($equipment as $equip)
 			{
 				if($equip->dueIn > 0)
-					$body .= $equip->name." is due for maintenance in ".$equip->dueIn." days or less!\n";
+					$body .= "Your ".$equip->name." 
+						is due for maintenance on your ".
+						$equip->aquariumname.
+						"aquarium in ".
+						$equip->dueIn.
+						" days or less!\n";
 				elseif($equip->dueIn == 0)
-					$body .= $equip->name." is due for maintenance NOW!\n";
+					$body .= "Your ".$equip->name." 
+						is due for maintenance on your ".
+						$equip->aquariumname.
+						"aquarium today!\n";
 				else
-					$body .= $equip->name." is OVERDUE for maintenance!\n";
+					$body .= "Your ".$equip->name." 
+						is OVERDUE for maintenance on your ".
+						$equip->aquariumname.
+						"aquarium!\n";
 				$body .= "Last maintenance was performend on ".$equip->logDate."\n\n";
 			}
 

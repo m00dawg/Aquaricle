@@ -19,7 +19,7 @@ class AddEquipmentmaintreminderProcedure extends Migration {
 				(IN inUserID INT UNSIGNED, IN inDueOffset TINYINT UNSIGNED)
 			BEGIN
 
-			SELECT Equipment.aquariumID, Equipment.name, 
+			SELECT Aquariums.name AS aquariumName, Equipment.name AS equipmentName, 
 				CAST(maintInterval AS signed) - DATEDIFF(NOW(), AquariumLogs.logDate) AS dueIn,
 				AquariumLogs.logDate
 			FROM 
@@ -31,6 +31,7 @@ class AddEquipmentmaintreminderProcedure extends Migration {
 						AND maintenance = 'Yes'
 						AND userID = inUserID
 					GROUP BY EquipmentLogs.equipmentID) AS LastEquipmentChanges
+			JOIN Aquariums ON Aquariums.aquariumID = LastEquipmentChanges.aquariumID
 			JOIN AquariumLogs ON AquariumLogs.aquariumID = LastEquipmentChanges.aquariumID
 			AND AquariumLogs.logDate = LastEquipmentChanges.logDate
 			JOIN Equipment ON Equipment.equipmentID = LastEquipmentChanges.equipmentID
