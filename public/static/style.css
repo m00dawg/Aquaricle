@@ -203,6 +203,41 @@ a.waterAdditives:hover { color: #0000FF; }
     text-align: center;
 }
 
+div.equipmentTotalCost{
+	font-size: 115%;
+}
+
+th.equipmentName{
+	text-align: left;
+	width: 35%;
+}
+
+.equipmentType{
+	text-align: center;
+	width: 10%;
+}
+
+th.equipmentPrice{
+	text-align: center;
+	width: 10%;
+}
+
+th.equipmentMaintInterval{
+	text-align: center;
+	width: 15%;
+}
+
+th.equipmentActiveInstalledOn{
+	text-align: center;
+	width: 30%;
+}
+
+th.equipmentInactiveInstalledOn, th.equipmentInactiveRemovedOn{
+	text-align: center;
+	width: 15%;
+}
+
+
 .equipmentMaintName{
     text-align: left;
     border-right-color: #000000;

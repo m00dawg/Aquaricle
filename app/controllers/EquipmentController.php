@@ -26,11 +26,16 @@ class EquipmentController extends \BaseController {
 			->whereNotNull('deletedAt')
 			->select('equipmentID', 'name', 'typeName', 'createdAt', 'deletedAt', 'maintInterval')
 			->get();
+				
+		$totalCost = $price = DB::table('Equipment')
+			->where('aquariumID', '=', $aquariumID)
+			->sum('purchasePrice');
 
-	    return View::make('equipment/equipmentindex')
+	    return View::make('equipment/index')
 			->with('aquariumID', $aquariumID)
 			->with('activeEquipment', $activeEquipment)
-			->with('inactiveEquipment', $inactiveEquipment);
+			->with('inactiveEquipment', $inactiveEquipment)
+			->with('totalCost', $totalCost);
 	}
 
 
@@ -172,27 +177,42 @@ class EquipmentController extends \BaseController {
 		$validator = Validator::make(
 			Input::all(),
 			array('name' => "required|unique:Equipment,name,$name,name,aquariumID,$aquariumID",
+				  'purchasePrice' => 'numeric|min:0|max:9999.99',
+				  'url' => 'url|max:255',
+   		  		  'maintInterval' => 'integer|min:1|max:65535',
 				  'createdAt' => 'date',
-				  'deletedAt' => "after:$createdAt|date",
-   		  		  'maintInterval' => 'integer|min:1|max:65535')
+				  'deletedAt' => "after:$createdAt|date"
+			  )
 		);
 		if ($validator->fails())
+		{
+			DB::rollback();
 			return Redirect::to("aquariums/$aquariumID/equipment/$equipmentID/edit")
 				->withInput(Input::all())
 				->withErrors($validator);
+		}
 		
 		$equipment->equipmentTypeID = Input::get('equipmentType');
 		$equipment->name = Input::get('name');
+		if(Input::get('maintInterval') != '')
+			$equipment->maintInterval = Input::get('maintInterval');
+		else
+			$equipment->maintInterval = null;
+		if(Input::get('purchasePrice') != '')
+			$equipment->purchasePrice = Input::get('purchasePrice');
+		else
+			$equipment->purchasePrice = null;
+		if(Input::get('url') != '')
+			$equipment->url = Input::get('url');
+		else
+			$equipment->url = null;
 		if(Input::get('createdAt') != '')
 			$equipment->createdAt = strtotime(Input::get('createdAt'));
 		if(Input::get('deletedAt') != '')
 			$equipment->deletedAt = strtotime(Input::get('deletedAt'));
 		else
 			$equipment->deletedAt = null;
-		if(Input::get('maintInterval') != '')
-			$equipment->maintInterval = Input::get('maintInterval');
-		else
-			$equipment->maintInterval = null;
+
 		$equipment->comments = Input::get('comments');
 
 		$log = new AquariumLog();

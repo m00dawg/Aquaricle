@@ -33,6 +33,18 @@
 		</td>
 	</tr>
 	<tr>
+		<th>Purchase Price</th>
+		<td>$ {{ Form::text('purchasePrice', null, array('size' => '8')) }}</td>
+	</tr>
+	<tr>
+		<th>Information URL</th>
+		<td>{{ Form::text('url', null, array('size' => '64')) }}</td>
+	</tr>	
+	<tr>
+		<th>Maintenance Interval</th>
+		<td>{{ Form::text('maintInterval', null, array('size' => '8')) }} Days</td>
+	</tr>
+	<tr>
 		<th>Installed On</th>
 		<td>
 			{{ Form::text('createdAt', null, array('size' => '32')) }}
@@ -47,10 +59,6 @@
 			<td>{{ Form::text('deletedAt', null, array('size' => '32')) }}</td>
 		</tr>
 	@endif
-	<tr>
-		<th>Maintenance Interval</th>
-		<td>{{ Form::text('maintInterval', null, array('size' => '32')) }} Days</td>
-	</tr>
 	<tr>
 		<th>Comments</th>
 		<td>{{ Form::textarea('comments') }}</td>

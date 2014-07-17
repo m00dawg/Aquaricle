@@ -4,15 +4,45 @@
 <h1>{{ $equipment->name }}</h1>
 
 <table>
-	<tr><th>Name</th><td>{{ $equipment->name }}</td></tr>
+	<tr>
+		<th>Name</th>
+		<td>
+			@if ($equipment->url)
+				<a class="equipment" href="{{ $equipment->url }}">{{ $equipment->name }}</a>
+			@else
+				{{ $equipment->name }}
+			@endif
+		</td>
+	</tr>
 	<tr><th>Type</th><td>{{ $equipment->typeName }}</td></tr>
+
+	@if ($equipment->purchasePrice)
+		<tr><th>Purchase Price</th><td>${{ $equipment->purchasePrice }}</td></tr>
+	@endif
+	
+	<tr>
+		<th>Maintenance Interval</th>
+		<td>
+			@if ($equipment->maintInterval)
+				{{ $equipment->maintInterval }}
+			@else
+				None
+			@endif
+		</td>
+	</tr>
+
 	<tr><th>Installed On</th><td>{{ $equipment->createdAt }}</td></tr>
-	<tr><th>Date Removed</th><td>{{ $equipment->deletedAt }}</td></tr>
-	<tr><th>Maintenance Interval</th><td>{{ $equipment->maintInterval }}</td></tr>
+
+	@if ($equipment->deletedAt)
+		<tr><th>Date Removed</th><td>{{ $equipment->deletedAt }}</td></tr>
+	@endif
+
+
 	@if ($equipment->comments)
 		<tr><th colspan="2">Comments</th></tr>
 		<tr><td colspan="2">{{ $equipment->comments }}</td></tr>
 	@endif
+
 </table>
 
 @if (count($logs) > 0)
