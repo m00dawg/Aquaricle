@@ -234,8 +234,8 @@ class EquipmentController extends \BaseController {
 		$equipmentLog = new EquipmentLog();
 		$equipmentLog->aquariumLogID = $log->aquariumLogID;
 		$equipmentLog->equipmentID = $equipment->equipmentID;
-		$equipmentLog->maintenance = 'Yes';
-		$equipmentLog->save();	
+		$equipmentLog->maintenance = 'No';
+		$equipmentLog->save();
 		DB::commit();
 		
 		return Redirect::to("aquariums/$aquariumID/equipment/$equipmentID");
