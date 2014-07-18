@@ -284,9 +284,13 @@ td.lastMaintenance, td.equipmentDaysSince, .equipmentMaintInterval, .equipmentMa
     text-align: center;
 }
 
-td.equipmentMaintDueSoon, td.equipmentMaintDue, td.equipmentMaintOverdue{
+td.equipmentMaintDays, td.equipmentMaintDueSoon, td.equipmentMaintDue, td.equipmentMaintOverdue{
     font-weight: bold;
     text-align: center;
+}
+
+td.equipmentMaintDays{
+	font-weight: normal;
 }
 
 td.equipmentMaintDueSoon{

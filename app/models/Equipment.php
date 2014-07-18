@@ -20,9 +20,9 @@ class Equipment extends BaseModel
 	public function nextMaintClass()
 	{
 		if(!isset($this->nextMaintDays))
-			return "";
+			return "equipmentMaintDays";
 		if($this->nextMaintDays > 2)
-			return "";
+			return "equipmentMaintDays";
 		if($this->nextMaintDays > 1)
 			return "equipmentMaintDueSoon";
 		if($this->nextMaintDays > 0)
