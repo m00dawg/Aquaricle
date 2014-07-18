@@ -29,12 +29,12 @@ class EquipmentController extends \BaseController {
 				
 		$activeCost = $price = DB::table('Equipment')
 			->where('aquariumID', '=', $aquariumID)
-			->whereNotNull('deletedAt')
+			->whereNull('deletedAt')
 			->sum('purchasePrice');
 
 		$inactiveCost = $price = DB::table('Equipment')
 			->where('aquariumID', '=', $aquariumID)
-			->whereNull('deletedAt')
+			->whereNotNull('deletedAt')
 			->sum('purchasePrice');
 
 		$totalCost = $activeCost + $inactiveCost;

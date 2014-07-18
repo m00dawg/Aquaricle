@@ -23,7 +23,7 @@
 				array('class'=>'equipment')) }}</td>
 			<td class="equipmentType">{{ $equip->typeName }}</td>
 			@if ($equip->purchasePrice)
-				<td class="equipmentPrice">${{ $equip->purchasePrice }}</td>
+				<td class="equipmentPrice">${{ money_format('%i', $equip->purchasePrice) }}</td>
 			@else
 				<td class="blank"></td>
 			@endif
@@ -60,7 +60,7 @@
 				array('class'=>'equipment')) }}</td>
 			<td class="equipmentType">{{ $equip->typeName }}</td>
 			@if ($equip->purchasePrice)
-				<td class="equipmentPrice">${{ $equip->purchasePrice }}</td>
+				<td class="equipmentPrice">${{ money_format('%i', $equip->purchasePrice) }}</td>
 			@else
 				<td class="blank"></td>
 			@endif
@@ -81,15 +81,15 @@
 	<table class="equipmentCosts">
 		<tr class="equipmentCosts">
 			<th class="equipmentCosts">Active Equipment:</th>
-			<td class="equipmentCosts">${{ $activeCost }}</td>
+			<td class="equipmentCosts">${{ money_format('%i', $activeCost) }}</td>
 		</tr>
 		<tr class="equipmentCosts">
 			<th class="equipmentCosts">Inactive Equipment:</th>
-			<td class="equipmentCosts">${{ $inactiveCost}}</td>
+			<td class="equipmentCosts">${{ money_format('%i', $inactiveCost) }}</td>
 		</tr>
 		<tr class="equipmentCosts">
 			<th class="equipmentCosts">Total:</th>
-			<td class="equipmentCostsTotal">${{ $totalCost }}</td>
+			<td class="equipmentCostsTotal">${{ money_format('%i', $totalCost) }}</td>
 		</tr>
 	</table>
 @endif
