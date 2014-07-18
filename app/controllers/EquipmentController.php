@@ -15,7 +15,7 @@ class EquipmentController extends \BaseController {
 				'=', 
 				'Equipment.equipmentTypeID')
 			->whereNull('deletedAt')
-			->select('equipmentID', 'name', 'typeName', 'createdAt', 'maintInterval')
+			->select('equipmentID', 'name', 'typeName', 'purchasePrice', 'createdAt', 'maintInterval')
 			->get();
 				
 		$inactiveEquipment = Equipment::where('aquariumID', '=', $aquariumID)
@@ -24,17 +24,27 @@ class EquipmentController extends \BaseController {
 				'=', 
 				'Equipment.equipmentTypeID')
 			->whereNotNull('deletedAt')
-			->select('equipmentID', 'name', 'typeName', 'createdAt', 'deletedAt', 'maintInterval')
+			->select('equipmentID', 'name', 'typeName', 'purchasePrice', 'createdAt', 'deletedAt', 'maintInterval')
 			->get();
 				
-		$totalCost = $price = DB::table('Equipment')
+		$activeCost = $price = DB::table('Equipment')
 			->where('aquariumID', '=', $aquariumID)
+			->whereNotNull('deletedAt')
 			->sum('purchasePrice');
+
+		$inactiveCost = $price = DB::table('Equipment')
+			->where('aquariumID', '=', $aquariumID)
+			->whereNull('deletedAt')
+			->sum('purchasePrice');
+
+		$totalCost = $activeCost + $inactiveCost;
 
 	    return View::make('equipment/index')
 			->with('aquariumID', $aquariumID)
 			->with('activeEquipment', $activeEquipment)
 			->with('inactiveEquipment', $inactiveEquipment)
+			->with('activeCost', $activeCost)
+			->with('inactiveCost', $inactiveCost)	
 			->with('totalCost', $totalCost);
 	}
 

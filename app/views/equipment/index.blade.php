@@ -17,19 +17,21 @@
 
 	@foreach ($activeEquipment as $equip)
 		<tr>					
-			<td>{{ link_to_route('aquariums.equipment.show', 
+			<td class="equipmentName">{{ link_to_route('aquariums.equipment.show', 
 				$equip->name, 
 				array($aquariumID, $equip->equipmentID),
 				array('class'=>'equipment')) }}</td>
 			<td class="equipmentType">{{ $equip->typeName }}</td>
-			<td>
-				@if ($equip->purchasePrice)
-					${{ $equip->purchasePrice }}
-				@else
-					{{ $equip->purchasePrice }}
-				@endif
-			</td>
-			<td>{{ $equip->maintInterval }}</td>
+			@if ($equip->purchasePrice)
+				<td class="equipmentPrice">${{ $equip->purchasePrice }}</td>
+			@else
+				<td class="blank"></td>
+			@endif
+			@if ($equip->maintInterval)
+				<td>{{ $equip->maintInterval }}</td>
+			@else
+				<td class="blank"></td>
+			@endif
 			<td>{{ $equip->createdAt }}</td>
 		</tr>
 	@endforeach
@@ -57,14 +59,16 @@
 				array($aquariumID, $equip->equipmentID),
 				array('class'=>'equipment')) }}</td>
 			<td class="equipmentType">{{ $equip->typeName }}</td>
-			<td>
-				@if ($equip->purchasePrice)
-					${{ $equip->purchasePrice }}
-				@else
-					{{ $equip->purchasePrice }}
-				@endif
-			</td>
-			<td>{{ $equip->maintInterval }}</td>
+			@if ($equip->purchasePrice)
+				<td class="equipmentPrice">${{ $equip->purchasePrice }}</td>
+			@else
+				<td class="blank"></td>
+			@endif
+			@if ($equip->maintInterval)
+				<td>{{ $equip->maintInterval }}</td>
+			@else
+				<td class="blank"></td>
+			@endif
 			<td>{{ $equip->createdAt }}</td>
 			<td>{{ $equip->deletedAt }}</td>
 		</tr>
@@ -72,9 +76,22 @@
 </table>
 @endif
 
-@if ($totalCost)
-	<br />
-	<div class="equipmentTotalCost">Total Purchase Costs: ${{$totalCost}}</div>
+@if ($activeCost || $inactiveCost)
+	<br /><br />
+	<table class="equipmentCosts">
+		<tr class="equipmentCosts">
+			<th class="equipmentCosts">Active Equipment:</th>
+			<td class="equipmentCosts">${{ $activeCost }}</td>
+		</tr>
+		<tr class="equipmentCosts">
+			<th class="equipmentCosts">Inactive Equipment:</th>
+			<td class="equipmentCosts">${{ $inactiveCost}}</td>
+		</tr>
+		<tr class="equipmentCosts">
+			<th class="equipmentCosts">Total:</th>
+			<td class="equipmentCostsTotal">${{ $totalCost }}</td>
+		</tr>
+	</table>
 @endif
 
 <br />

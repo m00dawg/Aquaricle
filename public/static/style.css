@@ -203,13 +203,45 @@ a.waterAdditives:hover { color: #0000FF; }
     text-align: center;
 }
 
-div.equipmentTotalCost{
+table.equipmentCosts, tr.equipmentCosts, th.equipmentCosts, td.equipmentCosts, td.equipmentCostsTotal{
+	background-color: transparent;
+	border: 0px;
+    box-shadow: 0px 0px 0px;
+	color: #ffffff;
+	text-align: left;
+	font-size: 110%;;
+}
+
+table.equipmentCosts{
+	margin-left: 15%;
+	margin-right: 0%;
+	width: 25%;
+}
+
+th.equipmentCosts{
+	width: 75%;
+}
+
+td.equipmentCosts, td.equipmentCostsTotal{
+	text-align: right;
+}
+
+td.equipmentCostsTotal{
+	border-top: 1px dotted #ffffff;
+}
+
+
+div.equipmentCosts{
 	font-size: 115%;
 }
 
 th.equipmentName{
-	text-align: left;
+	text-align: center;
 	width: 35%;
+}
+
+td.equipmentName{
+    font-weight: bold;	
 }
 
 .equipmentType{
@@ -219,6 +251,11 @@ th.equipmentName{
 
 th.equipmentPrice{
 	text-align: center;
+	width: 10%;
+}
+
+td.equipmentPrice{
+	text-align: right;
 	width: 10%;
 }
 
