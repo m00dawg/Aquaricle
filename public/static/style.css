@@ -259,7 +259,7 @@ td.equipmentPrice{
 	width: 10%;
 }
 
-th.equipmentMaintInterval{
+th.equipmentMaintInterval, td.equipmentMaintInterval{
 	text-align: center;
 	width: 15%;
 }
@@ -280,33 +280,27 @@ th.equipmentInactiveInstalledOn, th.equipmentInactiveRemovedOn{
     border-right-color: #000000;
 }
 
-.equipmentMaintInterval{
+td.lastMaintenance, td.equipmentDaysSince, .equipmentMaintInterval, .equipmentMaintLast, .equipmentMaintSince{
     text-align: center;
 }
 
-.equipmentMaintLast{
-    text-align: center;
-}
-
-.equipmentMaintSince{
+td.equipmentMaintDueSoon, td.equipmentMaintDue, td.equipmentMaintOverdue{
+    font-weight: bold;
     text-align: center;
 }
 
 td.equipmentMaintDueSoon{
     background-color: #ffff00;
-    font-weight: bold;
 }
 
 td.equipmentMaintDue{
     background-color: #ff5500;
 	color: #ffffff;
-    font-weight: bold;
 }
 
 td.equipmentMaintOverdue{
     background-color: #ff0000;
 	color: #ffffff;
-    font-weight: bold;
 }
 
 /* Logs */

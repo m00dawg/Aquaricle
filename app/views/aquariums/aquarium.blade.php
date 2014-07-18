@@ -88,9 +88,9 @@
 					$equip->name, 
 					array($aquarium->aquariumID, $equip->equipmentID),
 					array('class'=>'logs')) }}</td>
-				<td>{{ $equip->lastMaint }}</td>
+				<td class="lastMaintenance"> {{ $equip->lastMaint }}</td>
 				@if (isset($equip->daysSinceMaint))
-					<td>{{ $equip->daysSinceMaint }}</td>
+					<td class="equipmentDaysSince">{{ $equip->daysSinceMaint }}</td>
 					<td class="{{ $equip->nextMaintClass() }}">{{ $equip->nextMaintDays }}</td>
 				@else
 					<td colspan="2" class="blank"></td>

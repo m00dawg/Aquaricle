@@ -28,7 +28,7 @@
 				<td class="blank"></td>
 			@endif
 			@if ($equip->maintInterval)
-				<td>{{ $equip->maintInterval }}</td>
+				<td class="equipmentMaintInterval">{{ $equip->maintInterval }}</td>
 			@else
 				<td class="blank"></td>
 			@endif
@@ -65,7 +65,7 @@
 				<td class="blank"></td>
 			@endif
 			@if ($equip->maintInterval)
-				<td>{{ $equip->maintInterval }}</td>
+				<td class="equipmentMaintInterval">{{ $equip->maintInterval }}</td>
 			@else
 				<td class="blank"></td>
 			@endif
