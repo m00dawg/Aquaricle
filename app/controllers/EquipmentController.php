@@ -97,7 +97,7 @@ class EquipmentController extends \BaseController {
 		$log->aquariumID = $aquariumID;
 		$log->summary = 'Installed '.$equipment->name;
 		$log->save();
-	
+		
 		$equipmentLog = new EquipmentLog();
 		$equipmentLog->aquariumLogID = $log->aquariumLogID;
 		$equipmentLog->equipmentID = $equipmentID;
@@ -225,17 +225,20 @@ class EquipmentController extends \BaseController {
 
 		$equipment->comments = Input::get('comments');
 
+		/*
 		$log = new AquariumLog();
 		$log->aquariumID = $aquariumID;
 		$log->summary = 'Updated '.$equipment->name;
-		
+		*/
 		$equipment->save();
+		/*
 		$log->save();
 		$equipmentLog = new EquipmentLog();
 		$equipmentLog->aquariumLogID = $log->aquariumLogID;
 		$equipmentLog->equipmentID = $equipment->equipmentID;
 		$equipmentLog->maintenance = 'No';
 		$equipmentLog->save();
+		*/
 		DB::commit();
 		
 		return Redirect::to("aquariums/$aquariumID/equipment/$equipmentID");
