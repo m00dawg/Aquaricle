@@ -49,7 +49,7 @@ class Equipment extends BaseModel
 			->whereNotNull('maintInterval')
 			->whereNull('Equipment.deletedAt')
 			->groupby('Equipment.equipmentID')
-			->orderby('nextMaintDays', 'desc')
+			->orderby('nextMaintDays', 'asc')
 			->get();
 	}	
 }
