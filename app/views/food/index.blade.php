@@ -7,7 +7,7 @@
 	<h4>{{ $message }}</h4>
 @endforeach
 
-@if (isset($userFood))
+@if (count($userFood) > 0)
 <h3>Your Food</h3>
 <table>
 	<tr><th>Food</th><th>Description</th></tr>
@@ -23,7 +23,7 @@
 <br />
 @endif
 
-@if (isset($globalFood))
+@if (count($globalFood) > 0)
 <h3>System Food</h3>
 <table>
 	<tr><th>Food</th><th>Description</th></tr>
