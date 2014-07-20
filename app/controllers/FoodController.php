@@ -18,6 +18,30 @@ class FoodController extends \BaseController
 			->with('userFood', $userFood);
 	}
 	
+	public function create()
+	{
+		return View::make('food/editfood');
+	}
+	
+	public function store()
+	{
+		$validator = Validator::make(
+			Input::all(),
+			array('name' => "required|unique:Food,name,NULL,name,userID,".auth::id())
+		);
+		if ($validator->fails())
+			return Redirect::to("food/editfood")
+				->withInput(Input::all())
+	 			->withErrors($validator);
+		$food = new Food();
+		$food->name = Input::get('name');
+		$food->description = Input::get('description');
+		$food->userID = auth::id();
+		$food->save();		
+		return Redirect::to('food')
+			->withErrors(array('message' => 'Food Added!'));
+	}
+	
 	public function edit($foodID)
 	{
 		$food = Food::where('userID', '=', Auth::id())

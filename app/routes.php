@@ -78,7 +78,17 @@ Route::get('/food/', [
     'as'     => 'food',
     'uses'   => 'FoodController@index'
 ]);
+
+Route::get('/food/create', [
+    'as'     => 'food.create',
+    'uses'   => 'FoodController@create'
+]);
 	
+Route::post('/food/create', [
+    'as'     => 'food.create',
+    'uses'   => 'FoodController@store'
+]);
+
 Route::get('/food/{foodID}/edit', [
     'as'     => 'food.edit',
     'uses'   => 'FoodController@edit'

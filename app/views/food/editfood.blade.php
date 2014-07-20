@@ -12,17 +12,17 @@
 		{{ Form::model($food, 
 			array('route' => array("food.edit", $food->foodID), 'method' => 'post')) }}		
 	@else
-		{{ Form::open(array('url' => "food/edit")) }}
+		{{ Form::open(array('url' => "food/create")) }}
 	@endif
 
 	<table>
 		<tr>
 			<th>Name</th>
-			<td>{{ Form::text('name', $food->name) }}</td>
+			<td>{{ Form::text('name') }}</td>
 		</tr>
 		<tr>	
 			<th>Description</th>
-			<td>{{ Form::textarea('description', $food->description) }}</td>
+			<td>{{ Form::textarea('description') }}</td>
 		</tr>
 	</table>
 	<br />

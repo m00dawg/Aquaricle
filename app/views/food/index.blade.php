@@ -7,21 +7,24 @@
 	<h4>{{ $message }}</h4>
 @endforeach
 
-@if (count($userFood) > 0)
 <h3>Your Food</h3>
 <table>
 	<tr><th>Food</th><th>Description</th></tr>
-	@if(count($userFood) > 0)
+	@if (count($userFood) > 0)
 		@foreach ($userFood as $item)
 			<tr>
 				<td><a class="food" href="food/{{ $item->foodID }}/edit">{{ $item->name }}</a></td>
 				<td>{{ $item->description }}</td>
 			</tr>
 		@endforeach
+	@else
+		<tr><td colspan="2">No User Food Defined</td></tr>
 	@endif
 </table>
 <br />
-@endif
+{{ link_to_route('food.create', 'Add Food') }}
+
+
 
 @if (count($globalFood) > 0)
 <h3>System Food</h3>
