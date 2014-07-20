@@ -7,4 +7,15 @@ class Life extends BaseModel {
 	public $primaryKey = 'userID';
 	public $timestamps = false;
 
+	/* Relationships */
+	public function user()
+	{
+		return $this->belongsTo('User', 'userID');
+	}
+
+	public function lifeType()
+	{
+		return $this->belongsTo('LifeTypes', 'lifeTypeID');
+	}
+
 }

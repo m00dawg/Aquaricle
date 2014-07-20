@@ -21,11 +21,18 @@ class CreateLifeTables extends Migration {
 			$table->unique('lifeTypeName');
 		});
 		
+		DB::table('LifeTypes')->insert(array('lifeTypeName' => 'Fish'));
+		DB::table('LifeTypes')->insert(array('lifeTypeName' => 'Plants'));
+		DB::table('LifeTypes')->insert(array('lifeTypeName' => 'Coral'));
+		DB::table('LifeTypes')->insert(array('lifeTypeName' => 'Gastropod'));
+		DB::table('LifeTypes')->insert(array('lifeTypeName' => 'Crustaceans'));
+		DB::commit();
+		
 		Schema::create('Life', function(Blueprint $table)
 		{
 			$table->engine = 'InnoDB';
 			$table->increments('lifeID')->unsigned();
-			$table->tinyInteger('lifeTypeID')->unsigned();
+			$table->tinyInteger('lifeTypeID')->unsigned()->nullable();
 			$table->integer('userID')->unsigned()->nullable();
 			$table->string('commonName', 32);
 			$table->string('scientificName', 64)->nullabe();
