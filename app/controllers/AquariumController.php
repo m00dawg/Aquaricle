@@ -143,7 +143,7 @@ class AquariumController extends BaseController
 	
 	public function update($aquariumID)
 	{
-		$userID = Auth:id();
+		$userID = Auth::id();
 		$aquarium = Aquarium::singleAquarium($aquariumID);
 		$name = $aquarium->name;
 				
