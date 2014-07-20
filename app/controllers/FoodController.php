@@ -30,9 +30,11 @@ class FoodController extends \BaseController
 			array('name' => "required|unique:Food,name,NULL,name,userID,".auth::id())
 		);
 		if ($validator->fails())
-			return Redirect::to("food/editfood")
+		{
+			return Redirect::to('food/create')
 				->withInput(Input::all())
-	 			->withErrors($validator);
+	 			->withErrors($validator);			
+		}
 		$food = new Food();
 		$food->name = Input::get('name');
 		$food->description = Input::get('description');
