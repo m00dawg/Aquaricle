@@ -102,7 +102,6 @@
 	<h3>Add New Log Entry</h3>
 @endif
 
-
 <div class="formBox">
 	@if (isset($log))
 		{{ Form::model($log, 

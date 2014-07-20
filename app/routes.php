@@ -13,6 +13,7 @@
 
 /* Some Magical Route Filters */
 Route::when('aquarium*', 'auth');
+Route::when('food*', 'auth');
 Route::when('user*', 'auth');
 Route::when('aquariums/*/', 'auth.aquarium');
 Route::when('*', 'csrf', array('post', 'put', 'patch'));
@@ -55,13 +56,7 @@ Route::get('/aquariums/{aquariumID}/logs/waterlogs', [
     'uses'   => 'AquariumLogsController@getWaterLogs'
 ]);
 
-// Feedings
-Route::get('/aquariums/{aquariumID}/logs/feedings', [
-    'as'     => 'aquariums.logs.feedings',
-    'uses'   => 'AquariumLogsController@getFeedings'
-]);
-
-// Water Additives
+	// Water Additives
 Route::get('/aquariums/{aquariumID}/wateradditives', [
     'as'     => 'aquariums.wateradditives',
     'uses'   => 'WaterAdditivesController@index'
@@ -72,6 +67,27 @@ Route::get('/aquariums/{aquariumID}/wateradditives/{waterAdditiveID}', [
     'uses'   => 'WaterAdditivesController@getWaterAdditive'
 ]);	
 	
+	
+// Food
+Route::get('/aquariums/{aquariumID}/feedings/', [
+    'as'     => 'aquariums.feedings',
+    'uses'   => 'FoodController@getFeedings'
+]);
+
+Route::get('/food/', [
+    'as'     => 'food',
+    'uses'   => 'FoodController@index'
+]);
+	
+Route::get('/food/{foodID}/edit', [
+    'as'     => 'food.edit',
+    'uses'   => 'FoodController@edit'
+]);	
+
+Route::post('/food/{foodID}/edit', [
+    'as'     => 'food.edit',
+    'uses'   => 'FoodController@update'
+]);	
 
 Route::resource('aquariums.logs', 'AquariumLogsController');
 

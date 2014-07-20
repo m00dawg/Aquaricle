@@ -25,6 +25,8 @@
 	<ul>
 		@if ( Auth::user() && !Request::is('public/*'))
 			<li>{{ link_to_route('aquariums.index', 'Aquariums') }}</li>
+			<li>{{ link_to_route('food', 'Food') }}</li>
+			
 			@if (isset($aquariumID))
 				<li>{{ link_to_route('aquariums.show', 'Current Aquarium', array($aquariumID)) }}</li>			
 				<li>{{ link_to_route('aquariums.equipment.index', 'Equipment', array($aquariumID)) }}</li>
@@ -32,7 +34,7 @@
 				<li>{{ link_to_route('aquariums.logs.index', 'Logs', array($aquariumID)) }}</li>
 				<li>{{ link_to_route('aquariums.logs.waterlogs', 'Water Tests', array($aquariumID)) }}</li>
 				<li>{{ link_to_route('aquariums.wateradditives', 'Additives', array($aquariumID)) }}</li>
-				<li>{{ link_to_route('aquariums.logs.feedings', 'Feedings', array($aquariumID)) }}</li>
+				<li>{{ link_to_route('aquariums.feedings', 'Feedings', array($aquariumID)) }}</li>
 			@endif
 		@else
 			@if (isset($aquariumID))

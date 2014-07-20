@@ -70,7 +70,7 @@ class AquariumController extends BaseController
 	
 	public function store()
 	{
-		$userID = Auth::user()->userID;
+		$userID = Auth::id();
 
 		$validator = Validator::make(
 			Input::all(),
@@ -143,7 +143,7 @@ class AquariumController extends BaseController
 	
 	public function update($aquariumID)
 	{
-		$userID = Auth::user()->userID;
+		$userID = Auth:id();
 		$aquarium = Aquarium::singleAquarium($aquariumID);
 		$name = $aquarium->name;
 				
