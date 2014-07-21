@@ -32,7 +32,11 @@
 				<td>{{ $log->KH }}</td>
 				<td>{{ $log->GH }}</td>
 				<td>{{ $log->TDS }}</td>
-				<td>{{ $log->amountExchanged }}</td>
+				<td>
+					@if ( $log->amountExchanged )
+						{{ $log->amountExchanged }} ({{ $log->changePct }}%)
+					@endif
+				</td>
 			</tr>
 		@endforeach
 	@else

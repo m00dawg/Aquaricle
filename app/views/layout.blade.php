@@ -25,6 +25,7 @@
 	<ul>
 		@if ( Auth::user() && !Request::is('public/*') && !isset($aquariumID))
 			<li>{{ link_to_route('aquariums.index', 'Aquariums') }}</li>
+<!--			<li>{{ link_to_route('life', 'Life') }}</li> -->
 			<li>{{ link_to_route('food', 'Food') }}</li>
 		@elseif ( Auth::user() && !Request::is('public/*') && isset($aquariumID))
 			<li>{{ link_to_route('aquariums.index', 'Home') }}</li>			

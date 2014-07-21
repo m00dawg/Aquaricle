@@ -13,6 +13,7 @@
 
 /* Some Magical Route Filters */
 Route::when('aquarium*', 'auth');
+Route::when('life*', 'auth');
 Route::when('food*', 'auth');
 Route::when('user*', 'auth');
 Route::when('aquariums/*/', 'auth.aquarium');
@@ -56,7 +57,7 @@ Route::get('/aquariums/{aquariumID}/logs/waterlogs', [
     'uses'   => 'AquariumLogsController@getWaterLogs'
 ]);
 
-	// Water Additives
+// Water Additives
 Route::get('/aquariums/{aquariumID}/wateradditives', [
     'as'     => 'aquariums.wateradditives',
     'uses'   => 'WaterAdditivesController@index'
@@ -66,8 +67,7 @@ Route::get('/aquariums/{aquariumID}/wateradditives/{waterAdditiveID}', [
     'as'     => 'aquariums.wateradditives.show',
     'uses'   => 'WaterAdditivesController@getWaterAdditive'
 ]);	
-	
-	
+
 // Food
 Route::get('/aquariums/{aquariumID}/feedings/', [
     'as'     => 'aquariums.feedings',
@@ -98,6 +98,27 @@ Route::post('/food/{foodID}/edit', [
     'as'     => 'food.edit',
     'uses'   => 'FoodController@update'
 ]);	
+
+// Life
+Route::get('/life/', [
+    'as'     => 'life',
+    'uses'   => 'LifeController@index'
+]);
+	
+Route::get('/life/create', [
+    'as'     => 'life.create',
+    'uses'   => 'LifeController@create'
+]);
+
+Route::post('/life/create', [
+    'as'     => 'life.create',
+    'uses'   => 'LifeController@store'
+]);
+	
+Route::post('/life/{lifeID}', [
+    'as'     => 'life.show',
+    'uses'   => 'LifeController@show'
+]);
 
 Route::resource('aquariums.logs', 'AquariumLogsController');
 

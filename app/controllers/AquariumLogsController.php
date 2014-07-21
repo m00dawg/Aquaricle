@@ -548,14 +548,21 @@ class AquariumLogsController extends BaseController
 		$aquarium = Aquarium::where('aquariumID', '=', $aquariumID)
 			->first();
 		if(!$aquarium)
-			return;
-		$waterLogs = WaterTestLog::where('aquariumID', '=', $aquariumID)
+			return Redirect::to("/");
+		$waterLogs = WaterTestLog::select(DB::raw('WaterTestLogs.aquariumLogID, 
+			logDate, temperature,
+			ammonia, nitrites, nitrates, phosphates, pH, KH, GH, TDS,
+			amountExchanged,
+			ROUND((amountExchanged / capacity) * 100, 0) AS changePct'))
 			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'WaterTestLogs.aquariumLogID')
+			->join('Aquariums', 'Aquariums.aquariumID', '=', 'AquariumLogs.aquariumID')
+			->where('Aquariums.aquariumID', '=', $aquariumID)
 			->orderBy('logDate', 'desc')
 			->paginate(20);
 		DB::commit();
 		return View::make('aquariumlogs/waterlogs')
 			->with('aquariumID', $aquariumID)
+			->with('capacity', $aquarium->capacity)
 			->with('measurementUnits', $aquarium->getMeasurementUnits())
 			->with('waterLogs', $waterLogs);
 	}

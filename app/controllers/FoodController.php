@@ -2,7 +2,6 @@
 
 class FoodController extends \BaseController
 {
-
 	public function index()
 	{
 		$globalFood = Food::whereNull('userID')
