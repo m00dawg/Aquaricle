@@ -6,7 +6,7 @@
 <table>	
 	<tr>
 		<th>Date</th>
-		<th>Temperature ({{ $measurementUnits['Temperature'] }})</th>
+		<th>Temp ({{ $measurementUnits['Temperature'] }})</th>
 		<th>Ammonia</th>
 		<th>Nitrites</th>
 		<th>Nitrates</th>
@@ -15,7 +15,7 @@
 		<th>KH</th>
 		<th>GH</th>
 		<th>TDS</th>
-		<th>Water Exchanged ({{ $measurementUnits['Volume'] }})</th>
+		<th>Water Exchanged</th>
 	</tr>
 	
 	@if (count($waterLogs) > 0)
@@ -34,7 +34,7 @@
 				<td>{{ $log->TDS }}</td>
 				<td>
 					@if ( $log->amountExchanged )
-						{{ $log->amountExchanged }} ({{ $log->changePct }}%)
+						{{ $log->amountExchanged }} {{ $measurementUnits['Volume'] }} ({{ $log->changePct }}%)
 					@endif
 				</td>
 			</tr>
