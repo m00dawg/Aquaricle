@@ -59,16 +59,15 @@ class ProcessEmailReminders extends Command {
 			foreach ($aquariums as $aquarium)
 			{
 				if($aquarium->dueIn > 0)
-					$body .= "Your ".$aquarium->name." is due for a water change in ".$aquariums->dueIn." days or less!\n";
+					$body .= "Your ".$aquarium->name." is due for a water change in ".$aquarium->dueIn." days or less!\n";
 				elseif($aquarium->dueIn == 0)
 					$body .= "Your ".$aquarium->name." is due for a water change today!\n";
 				else
-					$body .= "Your ".$aquarium->name." is OVERDUE for a water change!\n";
 				$body .= "Last water change was performend on ".$aquarium->logDate."\n\n";
 			}
-
 			// Check on Equipment Maintenance			
 			$equipment = DB::select('CALL EquipmentMaintenanceDue(?, ?)', array($user->userID, $withinDays));
+
 			foreach ($equipment as $equip)
 			{
 				if($equip->dueIn > 0)
