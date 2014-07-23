@@ -33,9 +33,11 @@
 	@if (count($globalLife) > 0)
 		@foreach ($globalLife as $life)
 			<tr>
-				<a class="life" href="life/{{ $life->lifeID }}">
+				<td>
+                    <a class="life" href="life/{{ $life->lifeID }}">
 					{{ $life->commonName }}
-				</a>
+				    </a>
+                </td>
 				<td>{{ $life->scientificName }}</td>
 				<td>{{ $life->lifeTypeName }}</td>
 			</tr>
