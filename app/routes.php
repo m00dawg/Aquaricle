@@ -38,7 +38,37 @@ Route::get('/public/aquariums/{aquariumID}/logs/waterlogs', [
     'uses'   => 'AquariumLogsController@getPublicWaterLogs'
 ]);
 
+/// Aquarium Life Module
+Route::get('/aquariums/{aquariumID}/life', [
+    'as'     => 'aquariums.life',
+    'uses'   => 'AquariumLifeController@index'
+]);
+
+Route::get('/aquariums/{aquariumID}/life/create', [
+    'as'     => 'aquariums.life.create',
+    'uses'   => 'AquariumLifeController@create'
+]);
+
+Route::post('/aquariums/{aquariumID}/life/create', [
+    'as'     => 'aquariums.life.store',
+    'uses'   => 'AquariumLifeController@store'
+]);
+
+Route::get('/aquariums/{aquariumID}/life/{lifeID}', [
+    'as'     => 'aquariums.life.show',
+    'uses'   => 'AquariumLifeController@show'
+]);
+
+Route::get('/aquariums/{aquariumID}/life/{lifeID}/edit', [
+    'as'     => 'aquariums.life.edit',
+    'uses'   => 'AquariumLifeController@edit'
+]);
 	
+Route::post('/aquariums/{aquariumID}/life/{lifeID}/update', [
+    'as'     => 'aquariums.life.update',
+    'uses'   => 'AquariumLifeController@update'
+]);
+
 /// Logs
 
 // Favorites
@@ -99,7 +129,7 @@ Route::post('/food/{foodID}/edit', [
     'uses'   => 'FoodController@update'
 ]);	
 
-// Life
+/// Global Life Module
 Route::get('/life/', [
     'as'     => 'life',
     'uses'   => 'LifeController@index'
@@ -132,7 +162,6 @@ Route::post('/life/{lifeID}/edit', [
 
 
 Route::resource('aquariums.logs', 'AquariumLogsController');
-
 Route::resource('aquariums.equipment', 'EquipmentController');
 
 // User Interactions

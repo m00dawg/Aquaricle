@@ -36,7 +36,7 @@
 			<li>{{ link_to_route('aquariums.logs.waterlogs', 'Water Tests', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.wateradditives', 'Additives', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.feedings', 'Feedings', array($aquariumID)) }}</li>
-			<li>Aquarium Life (Soon)</li>
+			<li>{{ link_to_route('aquariums.life', 'Aquarium Life', array($aquariumID)) }}</li>
 		@elseif (Request::is('public/*') && isset($aquariumID))
 				<li>{{ link_to_route('public.aquariums', 'Aquarium', array($aquariumID)) }}</li>
 				<li>{{ link_to_route('public.aquariums.logs.waterlogs', 'Water Tests', array($aquariumID)) }}</li>

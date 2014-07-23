@@ -186,6 +186,12 @@ a.life:visited { color: #000000; }
 a.life:active { color: #000000; }
 a.life:hover { color: #0000FF; }
 
+a.aquariumLife:link { color: #000000; }
+a.aquariumLife:visited { color: #000000; }
+a.aquariumLife:active { color: #000000; }
+a.aquariumLife:hover { color: #0000FF; }
+
+
 .formBox{
     background-color: #000055;
     margin-left: auto;

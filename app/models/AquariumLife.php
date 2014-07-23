@@ -14,9 +14,9 @@ class AquariumLife extends BaseModel {
 		return $this->belongsTo('User', 'userID');
 	}
 
-	public function lifeType()
+	public function life()
 	{
-		return $this->belongsTo('LifeTypes', 'lifeTypeID');
+		return $this->belongsTo('Life', 'lifeID');
 	}
 
 }
