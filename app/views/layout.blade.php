@@ -25,7 +25,7 @@
 	<ul>
 		@if ( Auth::user() && !Request::is('public/*') && !isset($aquariumID))
 			<li>{{ link_to_route('aquariums.index', 'Aquariums') }}</li>
-<!--			<li>{{ link_to_route('life', 'Life') }}</li> -->
+			<li>{{ link_to_route('life', 'Life') }}</li>
 			<li>{{ link_to_route('food', 'Food') }}</li>
 		@elseif ( Auth::user() && !Request::is('public/*') && isset($aquariumID))
 			<li>{{ link_to_route('aquariums.index', 'Home') }}</li>			
@@ -36,6 +36,7 @@
 			<li>{{ link_to_route('aquariums.logs.waterlogs', 'Water Tests', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.wateradditives', 'Additives', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.feedings', 'Feedings', array($aquariumID)) }}</li>
+			<li>Aquarium Life (Soon)</li>
 		@elseif (Request::is('public/*') && isset($aquariumID))
 				<li>{{ link_to_route('public.aquariums', 'Aquarium', array($aquariumID)) }}</li>
 				<li>{{ link_to_route('public.aquariums.logs.waterlogs', 'Water Tests', array($aquariumID)) }}</li>
