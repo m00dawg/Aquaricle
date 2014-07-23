@@ -4,7 +4,7 @@ class Life extends BaseModel {
 
 	protected $table = 'Life';
 	protected $guarded = array('lifeID', 'userID');
-	public $primaryKey = 'userID';
+	public $primaryKey = 'lifeID';
 	public $timestamps = false;
 
 	/* Relationships */
@@ -15,7 +15,7 @@ class Life extends BaseModel {
 
 	public function lifeType()
 	{
-		return $this->belongsTo('LifeTypes', 'lifeTypeID');
+		return $this->belongsTo('LifeType', 'lifeTypeID');
 	}
 
 }

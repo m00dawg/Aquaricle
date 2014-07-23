@@ -115,10 +115,21 @@ Route::post('/life/create', [
     'uses'   => 'LifeController@store'
 ]);
 	
-Route::post('/life/{lifeID}', [
+Route::get('/life/{lifeID}', [
     'as'     => 'life.show',
     'uses'   => 'LifeController@show'
 ]);
+	
+Route::get('/life/{lifeID}/edit', [
+    'as'     => 'life.edit',
+    'uses'   => 'LifeController@edit'
+]);
+	
+Route::post('/life/{lifeID}/edit', [
+    'as'     => 'life.update',
+    'uses'   => 'LifeController@update'
+]);
+
 
 Route::resource('aquariums.logs', 'AquariumLogsController');
 
