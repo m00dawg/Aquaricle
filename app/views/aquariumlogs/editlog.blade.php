@@ -192,6 +192,15 @@
 	{{ Form::close() }}
 
 </div>
+<br />
+
+<div class="helpBox">
+	<strong>Wondering where the life section is? It's not implemented just yet. It will be soon!</strong>
+	<p>The log page is currently a bit complicated - this will be fixed in the future. For now, be aware
+		that you can add multiple additives and equipment to a log entry, but you must first create the
+		base entry and then add each item one at a time (pressing the Update button each time).</p>
+</div>
+<br />
 
 {{ link_to("aquariums/$aquariumID/", "Go Back") }}</td>
 
