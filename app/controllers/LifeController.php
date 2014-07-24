@@ -69,7 +69,7 @@ class LifeController extends BaseController
 		else
 			$life->scientificName = null;
 		$life->lifeTypeID = Input::get('lifeType');
-		if(Input::get('description')
+		if(Input::get('description'))
 			$life->description = Input::get('description');
 		else
 			$life->description = null;
