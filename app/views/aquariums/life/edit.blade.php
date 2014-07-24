@@ -40,7 +40,12 @@
 		</tr>
 		<tr>
 			<th>Date Added</th>
-			<td>{{ Form::text('createdAt', null, array('size' => 16)) }} (Leave Blank For Current)</td>
+			<td>
+				{{ Form::text('createdAt', null, array('size' => 16)) }}
+				@if (!isset($life))
+					 (Leave Blank For Current Time)
+				@endif
+			 </td>
 		</tr>
 		@if (isset($life))		
 			<tr>
@@ -68,7 +73,7 @@
 	<br />
 	@if (isset($life))
 		{{ Form::submit('Update') }}
-		<input type="submit" name="delete" value="Delete">
+		<input type="submit" name="delete" value="Permanently Delete">
 	@else
 		{{ Form::submit('Add') }}
 	@endif	

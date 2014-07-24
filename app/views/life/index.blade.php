@@ -48,6 +48,14 @@
 </table>
 <br />
 
+<div class="helpBox">
+	<p>Here is where you define your living creatures that have in any of your aquariums. 
+	<strong>Your Life</strong> are creatures you define that might not yet be part of the global database.
+	Note that good life definitions can get migrated to the global database so everyone else using
+	Aquaricle can benefit.</p>
+</div>
+<br />
+
 {{ link_to_route('life.create', 'Add Life') }}
 
 

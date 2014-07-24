@@ -2,6 +2,55 @@
 
 class AquariumLifeController extends BaseController
 {
+	
+	// Constants for the helper function to generate the log
+	const ADD = 0;
+	const REMOVE = 1;
+	const READD = 2;
+	
+	private function generateLog($life, $action)
+	{
+		$log = new AquariumLog();
+		$log->aquariumID = $life->aquariumID;
+		
+		if ($life->nickname)
+			$name = $life->nickname;
+		else
+			$name = $life->Life->commonName;
+		if($life->qty > 1)
+		{
+			$qty = ' '.$life->qty;
+			$name = str_plural($name);
+		}
+		else
+			$qty = '';
+		
+		switch ($action)
+		{
+			case self::ADD:
+			{
+				$log->summary = "Added".$qty." $name To Aquarium";
+				break;
+			}
+			case self::REMOVE:
+			{
+				$log->summary = "Removed".$qty." $name From Aquarium";
+				break;
+			}
+			case self::READD:
+			{
+				$log->summary = "Re-Added".$qty." $name To Aquarium";
+				break;
+			}
+		}		
+		$log->save();
+		
+		$lifeLog = new LifeLog();
+		$lifeLog->aquariumLogID = $log->aquariumLogID;
+		$lifeLog->lifeID = $life->lifeID;
+		$lifeLog->save();
+	}
+	
 	public function index($aquariumID)
 	{	
 		$currentLife = AquariumLife::where('aquariumID', '=', $aquariumID)
@@ -99,18 +148,9 @@ class AquariumLifeController extends BaseController
 			$life->comments = Input::get('comments');
 		else
 			$life->comments = null;
-		
 		$life->save();
 		
-		$log = new AquariumLog();
-		$log->aquariumID = $aquariumID;	
-		$log->summary = 'Added '.$life->qty.' '.$life->Life->commonName.' To Aquarium';
-		$log->save();
-		
-		$lifeLog = new LifeLog();
-		$lifeLog->aquariumLogID = $log->aquariumLogID;
-		$lifeLog->lifeID = $life->lifeID;
-		$lifeLog->save();
+		$this->generateLog($life, self::ADD);
 		
 		DB::commit();
 		
@@ -141,11 +181,15 @@ class AquariumLifeController extends BaseController
 	
 	public function update($aquariumID, $aquariumLifeID)
 	{
+		DB::beginTransaction();
 		$life = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->where('AquariumLife.aquariumLifeID', '=', $aquariumLifeID)
 			->first();
 		if(!$life)
+		{
+			DB::rollback();
 			return Redirect::to("aquariums/$aquariumID/life/");
+		}
 		
 		if(Input::get('delete'))
 		{
@@ -154,6 +198,7 @@ class AquariumLifeController extends BaseController
 			else
 				$name = $life->Life->commonName;
 			$life->delete();
+			DB::commit();
 			return Redirect::to('aquariums/$aquariumID/life')
 				->withErrors(array('message' => "$name Deleted!"));
 		}
@@ -170,6 +215,7 @@ class AquariumLifeController extends BaseController
 		);
 		if ($validator->fails())
 		{
+			DB::rollback();
 			return Redirect::to("aquariums/$aquariumID/life/$aquariumLifeID/edit")
 				->withInput(Input::all())
 	 			->withErrors($validator);	
@@ -183,10 +229,6 @@ class AquariumLifeController extends BaseController
 			$life->nickname = null;
 		if(Input::get('createdAt'))
 			$life->createdAt = Input::get('createdAt');
-		if(Input::get('deletedAt'))
-			$life->deletedAt = Input::get('deletedAt');	
-		else
-			$life->deletedAt = null;	
 		if(Input::get('purchasePrice'))
 			$life->purchasePrice = Input::get('purchasePrice');
 		else
@@ -199,7 +241,25 @@ class AquariumLifeController extends BaseController
 			$life->comments = Input::get('comments');
 		else
 			$life->comments = null;
+		
+		if(Input::get('deletedAt'))
+		{
+			// Only update the log if this update is when the life was removed.
+			// Otherwise, every update will create a new log entry.
+			if (!$life->deletedAt)
+				$this->generateLog($life, self::REMOVE);
+			$life->deletedAt = Input::get('deletedAt');	
+		}
+		else
+		{
+			// If deletedAt was blanked out, it means the life was re-added to the tank.
+			// So we want to make a log entry for that.
+			if($life->deletedAt)
+				$this->generateLog($life, self::READD);	
+			$life->deletedAt = null;
+		}
 		$life->save();
+		DB::commit();
 		
 		return Redirect::to("aquariums/$aquariumID/life/$aquariumLifeID/edit")
 			->withInput(Input::all())

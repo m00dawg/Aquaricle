@@ -64,9 +64,15 @@ class LifeController extends BaseController
 		$life = new Life();
 		$life->userID = Auth::id();
 		$life->commonName = Input::get('commonName');
-		$life->scientificName = Input::get('scientificName');
+		if($life->scientificName)
+			$life->scientificName = Input::get('scientificName');
+		else
+			$life->scientificName = null;
 		$life->lifeTypeID = Input::get('lifeType');
-		$life->description = Input::get('description');
+		if($life->description)
+			$life->description = Input::get('description');
+		else
+			$life->description = null;
 		$life->save();
 		return Redirect::to('life')
 			->withErrors(array('message' => 'Life Added!'));
@@ -123,9 +129,15 @@ class LifeController extends BaseController
 		}
 		
 		$life->commonName = Input::get('commonName');
-		$life->scientificName = Input::get('scientificName');
+		if($life->scientificName)
+			$life->scientificName = Input::get('scientificName');
+		else
+			$life->scientificName = null;
 		$life->lifeTypeID = Input::get('lifeType');
-		$life->description = Input::get('description');
+		if($life->description)
+			$life->description = Input::get('description');
+		else
+			$life->description = null;
 		$life->save();
 		return Redirect::to("life/$lifeID/edit")
 			->withErrors(array('message' => 'Life Updated!'));

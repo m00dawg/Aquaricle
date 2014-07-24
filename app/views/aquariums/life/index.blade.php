@@ -74,6 +74,15 @@
 @endif
 <br />
 
+<div class="helpBox">
+	<p>This is the main area that you handle stocking of your current tank. If you find a species does not
+		exists that you have, you can add it by creating a Life definition over 
+		{{ link_to_route('life', 'here') }}.</p>
+		
+		
+</div>
+<br />
+
 {{ link_to_route('aquariums.life.create', 'Add Life To Aquarium', array('aquariumID' => $aquariumID)) }}
 
 @stop
