@@ -64,12 +64,12 @@ class LifeController extends BaseController
 		$life = new Life();
 		$life->userID = Auth::id();
 		$life->commonName = Input::get('commonName');
-		if($life->scientificName)
+		if(Input::get('scientificName'))
 			$life->scientificName = Input::get('scientificName');
 		else
 			$life->scientificName = null;
 		$life->lifeTypeID = Input::get('lifeType');
-		if($life->description)
+		if(Input::get('description')
 			$life->description = Input::get('description');
 		else
 			$life->description = null;
