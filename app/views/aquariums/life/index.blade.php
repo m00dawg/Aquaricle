@@ -34,7 +34,12 @@
 					@endif
 				</td>
 			</tr>
-		@endforeach		
+		@endforeach
+		<tr class="totals">
+			<td colspan="3">Totals</td>
+			<td>{{ $currentSummary->totalQty }}</td>
+			<td>{{ $currentSummary->totalPrice }}</td>
+		</tr>
 	@else
 		<tr><td colspan="3">Your Aquarium is Lifeless. How Sad.</td></tr>
 	@endif
@@ -45,31 +50,32 @@
 	<h3>Former Life</h3>
 	<table>
 		<tr><th>Nickname</th><th>Common Name</th><th>Date Removed</th><th>Qty</th><th>Price Paid</th></tr>
-		@if (count($formerLife) > 0)
-			@foreach ($formerLife as $item)
-				<tr>
-					<td>
-						<a class="aquariumLife" href="/aquariums/{{ $aquariumID }}/life/{{ $item->aquariumLifeID }}">
-							@if ( $item->nickname)
-								{{ $item->nickname }}
-							@else
-								Unnamed
-							@endif
-						</a>
-					</td>
-					<td>{{ $item->commonName }}</td>
-					<td>{{ $item->deletedAt }}</td>
-					<td>{{ $item->qty }}</td>
-					<td>
-						@if ($item->purchasePrice)
-							${{ $item->purchasePrice }}
+		@foreach ($formerLife as $item)
+			<tr>
+				<td>
+					<a class="aquariumLife" href="/aquariums/{{ $aquariumID }}/life/{{ $item->aquariumLifeID }}">
+						@if ( $item->nickname)
+							{{ $item->nickname }}
+						@else
+							Unnamed
 						@endif
-					</td>
-				</tr>
-			@endforeach		
-		@else
-			<tr><td colspan="3">Your Aquarium is Lifeless. How Sad.</td></tr>
-		@endif
+					</a>
+				</td>
+				<td>{{ $item->commonName }}</td>
+				<td>{{ $item->deletedAt }}</td>
+				<td>{{ $item->qty }}</td>
+				<td>
+					@if ($item->purchasePrice)
+						${{ $item->purchasePrice }}
+					@endif
+				</td>
+			</tr>
+		@endforeach		
+		<tr class="totals">
+			<td colspan="3">Totals</td>
+			<td>{{ $formerSummary->totalQty }}</td>
+			<td>{{ $formerSummary->totalPrice }}</td>
+		</tr>
 	</table>
 @endif
 <br />

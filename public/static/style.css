@@ -222,6 +222,13 @@ a.aquariumLife:hover { color: #0000FF; }
 	padding: 0.25%;
 }
 
+/* Aquarium Life */
+
+tr.totals{
+	font-size: 120%;
+	font-weight: bold;
+}
+
 /* Equpiment */
 
 #equipment{

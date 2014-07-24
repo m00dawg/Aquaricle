@@ -56,27 +56,32 @@ class AquariumLifeController extends BaseController
 		$currentLife = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
 			->whereNull('deletedAt')
+			->orderBy('nickname')
 			->get();
 		$formerLife = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
 			->whereNotNull('deletedAt')
+			->orderBy('nickname')
 			->get();
 		
-		$currentCost =  DB::table('AquariumLife')
+		$currentSummary =  DB::table('AquariumLife')
 			->where('aquariumID', '=', $aquariumID)
 			->whereNull('deletedAt')
-			->sum('purchasePrice');
+			->selectRaw('SUM(purchasePrice) AS totalPrice, COUNT(qty) AS totalQty')
+			->first();
 
-		$formerCost =  DB::table('Equipment')
+		$formerSummary =  DB::table('AquariumLife')
 			->where('aquariumID', '=', $aquariumID)
 			->whereNotNull('deletedAt')
-			->sum('purchasePrice');
-			
+			->selectRaw('SUM(purchasePrice) AS totalPrice, COUNT(qty) AS totalQty')
+			->first();
 		
 		return View::make('aquariums/life/index')
 			->with('aquariumID', $aquariumID)
 			->with('currentLife', $currentLife)
-			->with('formerLife', $formerLife);
+			->with('currentSummary', $currentSummary)
+			->with('formerLife', $formerLife)
+			->with('formerSummary', $formerSummary);
 	}
 	
 	public function show($aquariumID, $aquariumLifeID)
