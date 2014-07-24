@@ -4,19 +4,36 @@ class AquariumLifeController extends BaseController
 {
 	public function index($aquariumID)
 	{	
-		$life = AquariumLife::where('aquariumID', '=', $aquariumID)
+		$currentLife = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
+			->whereNull('deletedAt')
 			->get();
+		$formerLife = AquariumLife::where('aquariumID', '=', $aquariumID)
+			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
+			->whereNotNull('deletedAt')
+			->get();
+		
+		$currentCost =  DB::table('AquariumLife')
+			->where('aquariumID', '=', $aquariumID)
+			->whereNull('deletedAt')
+			->sum('purchasePrice');
+
+		$formerCost =  DB::table('Equipment')
+			->where('aquariumID', '=', $aquariumID)
+			->whereNotNull('deletedAt')
+			->sum('purchasePrice');
+			
 		
 		return View::make('aquariums/life/index')
 			->with('aquariumID', $aquariumID)
-			->with('life', $life);
+			->with('currentLife', $currentLife)
+			->with('formerLife', $formerLife);
 	}
 	
-	public function show($aquariumID, $lifeID)
+	public function show($aquariumID, $aquariumLifeID)
 	{
 		$life = AquariumLife::where('aquariumID', '=', $aquariumID)
-			->where('aquariumLifeID', '=', $lifeID)
+			->where('aquariumLifeID', '=', $aquariumLifeID)
 			->first();
 		if(!$life)
 			return Redirect::to("aquariums/$aquariumID/life/");
@@ -45,6 +62,7 @@ class AquariumLifeController extends BaseController
 			Input::all(),
 			array('nickname' => 'min:1|max:48',
 			      'lifeID' => 'required|exists:Life,lifeID',
+				  'createdAt' => 'date',
 				  'qty' => 'required|integer|min:1|max:255',
 				  'purchasePrice' => 'numeric|min:0|max:9999.99',
 				  'purchasedAt' => 'min:1|max:64')
@@ -66,6 +84,9 @@ class AquariumLifeController extends BaseController
 			$life->nickname = Input::get('nickname');
 		else
 			$life->nickname = null;
+		
+		if(Input::get('createdAt'))
+			$life->createdAt = Input::get('createdAt');
 		if(Input::get('purchasePrice'))
 			$life->purchasePrice = Input::get('purchasePrice');
 		else
@@ -78,11 +99,18 @@ class AquariumLifeController extends BaseController
 			$life->comments = Input::get('comments');
 		else
 			$life->comments = null;
+		
 		$life->save();
 		
-		$log = new Log();
-		$log->aquariumID = $aquariumID;
-		raise("this is broken!");
+		$log = new AquariumLog();
+		$log->aquariumID = $aquariumID;	
+		$log->summary = 'Added '.$life->qty.' '.$life->Life->commonName.' To Aquarium';
+		$log->save();
+		
+		$lifeLog = new LifeLog();
+		$lifeLog->aquariumLogID = $log->aquariumLogID;
+		$lifeLog->lifeID = $life->lifeID;
+		$lifeLog->save();
 		
 		DB::commit();
 		
@@ -91,10 +119,10 @@ class AquariumLifeController extends BaseController
  			->withErrors(array('message' => 'Life Added!'));	
 	}
 	
-	public function edit($aquariumID, $lifeID)
+	public function edit($aquariumID, $aquariumLifeID)
 	{
 		$life = AquariumLife::where('aquariumID', '=', $aquariumID)
-			->where('AquariumLife.lifeID', '=', $lifeID)
+			->where('AquariumLife.aquariumLifeID', '=', $aquariumLifeID)
 			->first();
 		if(!$life)
 			return Redirect::to("aquariums/$aquariumID/life/");
@@ -111,25 +139,38 @@ class AquariumLifeController extends BaseController
 			->with('life', $life);
 	}
 	
-	public function update($aquariumID, $lifeID)
+	public function update($aquariumID, $aquariumLifeID)
 	{
 		$life = AquariumLife::where('aquariumID', '=', $aquariumID)
-			->where('AquariumLife.lifeID', '=', $lifeID)
+			->where('AquariumLife.aquariumLifeID', '=', $aquariumLifeID)
 			->first();
 		if(!$life)
 			return Redirect::to("aquariums/$aquariumID/life/");
+		
+		if(Input::get('delete'))
+		{
+			if($life->nickname)
+				$name = $life->nickname;
+			else
+				$name = $life->Life->commonName;
+			$life->delete();
+			return Redirect::to('aquariums/$aquariumID/life')
+				->withErrors(array('message' => "$name Deleted!"));
+		}
 		
 		$validator = Validator::make(
 			Input::all(),
 			array('nickname' => 'min:1|max:48',
 			      'lifeID' => 'required|exists:Life,lifeID',
 				  'qty' => 'required|integer|min:1|max:255',
+				  'createdAt' => 'date',
+				  'deletedAt' => "after:".$life->createdAt."|date",
 				  'purchasePrice' => 'numeric|min:0|max:9999.99',
 				  'purchasedAt' => 'min:1|max:64')
 		);
 		if ($validator->fails())
 		{
-			return Redirect::to("aquariums/$aquariumID/life/$lifeID/edit")
+			return Redirect::to("aquariums/$aquariumID/life/$aquariumLifeID/edit")
 				->withInput(Input::all())
 	 			->withErrors($validator);	
 		}	
@@ -140,6 +181,12 @@ class AquariumLifeController extends BaseController
 			$life->nickname = Input::get('nickname');
 		else
 			$life->nickname = null;
+		if(Input::get('createdAt'))
+			$life->createdAt = Input::get('createdAt');
+		if(Input::get('deletedAt'))
+			$life->deletedAt = Input::get('deletedAt');	
+		else
+			$life->deletedAt = null;	
 		if(Input::get('purchasePrice'))
 			$life->purchasePrice = Input::get('purchasePrice');
 		else
@@ -154,7 +201,7 @@ class AquariumLifeController extends BaseController
 			$life->comments = null;
 		$life->save();
 		
-		return Redirect::to("aquariums/$aquariumID/life/$lifeID/edit")
+		return Redirect::to("aquariums/$aquariumID/life/$aquariumLifeID/edit")
 			->withInput(Input::all())
  			->withErrors(array('message' => 'Life Updated!'));	
 	}

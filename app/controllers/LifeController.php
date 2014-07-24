@@ -103,10 +103,8 @@ class LifeController extends BaseController
 		if(Input::get('delete'))
 		{
 			$life->delete();
-			$name = $life->commonName;
-			$life->delete();
 			return Redirect::to('life')
-				->withErrors(array('message' => "$name Deleted!"));
+				->withErrors(array('message' => $life->commonName." Deleted!"));
 		}
 		
 		$validator = Validator::make(

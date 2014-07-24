@@ -11,7 +11,7 @@
 	</h1>
 	{{ Form::model($life, 
 		array('route' => array('aquariums.life.update', 
-			$aquariumID, $life->lifeID), 'method' => 'post')) }}
+			$aquariumID, $life->aquariumLifeID), 'method' => 'post')) }}
 @else
 	<h2>Add Life to Aquarium</h2>
 	{{ Form::open(array('route' => array('aquariums.life.create',
@@ -38,6 +38,16 @@
 				@endif
 			</td>
 		</tr>
+		<tr>
+			<th>Date Added</th>
+			<td>{{ Form::text('createdAt', null, array('size' => 16)) }} (Leave Blank For Current)</td>
+		</tr>
+		@if (isset($life))		
+			<tr>
+				<th>Date Removed</th>
+				<td>{{ Form::text('deletedAt', null, array('size' => 16)) }}</td>
+			</tr>
+		@endif
 		<tr>
 			<th>Qty</th>
 			<td>{{ Form::text('qty', null, array('size' => 8)) }}</td>

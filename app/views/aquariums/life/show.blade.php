@@ -9,7 +9,7 @@
 @endif
 
 ({{ link_to_route('aquariums.life.edit', 'Edit', 
-	array('aquariumID' => $aquariumID, 'lifeID' => $life->lifeID)
+	array('aquariumID' => $aquariumID, 'aquriumLifeID' => $life->aquariumLifeID)
 )}})
 </h1>
 
