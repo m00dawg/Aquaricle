@@ -395,6 +395,8 @@ class AquariumLogsController extends BaseController
 				$join->on('FoodLogs.foodID', '=', 'Food.foodID')
 					->where('FoodLogs.aquariumLogID', '=', $logID);
 			})
+			->where('Food.userID', '=', Auth::id())
+			->orWhere('Food.userID', '=', null)
 			->selectraw('Food.foodID AS foodID, name, IF(aquariumLogID, true, false) AS selected')
 			->get();
 		
