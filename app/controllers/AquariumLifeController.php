@@ -67,13 +67,13 @@ class AquariumLifeController extends BaseController
 		$currentSummary =  DB::table('AquariumLife')
 			->where('aquariumID', '=', $aquariumID)
 			->whereNull('deletedAt')
-			->selectRaw('SUM(purchasePrice) AS totalPrice, COUNT(qty) AS totalQty')
+			->selectRaw('SUM(purchasePrice) AS totalPrice, SUM(qty) AS totalQty')
 			->first();
 
 		$formerSummary =  DB::table('AquariumLife')
 			->where('aquariumID', '=', $aquariumID)
 			->whereNotNull('deletedAt')
-			->selectRaw('SUM(purchasePrice) AS totalPrice, COUNT(qty) AS totalQty')
+			->selectRaw('SUM(purchasePrice) AS totalPrice, SUM(qty) AS totalQty')
 			->first();
 		
 		return View::make('aquariums/life/index')
