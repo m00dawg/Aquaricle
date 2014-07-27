@@ -68,7 +68,7 @@
 	@endif
 </ul>
 
-@if ($aquarium->aquariduinoHostname)
+($aquarium->sparkID && $aquarium->sparkToken)
 	<h3>Graphs</h3>
 	<div id="graph">
 	<a href="/static/graphs/{{ $aquarium->aquariumID }}-temps-full.png">

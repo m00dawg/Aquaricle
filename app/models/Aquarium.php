@@ -69,7 +69,6 @@ class Aquarium extends BaseModel {
 		 $curlResponse = curl_exec($curl);
 		 if ($curlResponse === false)
 		 {
-		     $info = curl_getinfo($curl);
 		     curl_close($curl);
 			 return null;
 		 }
