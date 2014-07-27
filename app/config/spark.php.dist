@@ -1,0 +1,10 @@
+<?php
+
+/* Spark.io Configuration Information */
+
+return array(
+
+    /* API Root URL */
+    'url' => 'https://api.spark.io/v1/devices/',
+
+);

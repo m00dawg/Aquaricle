@@ -55,5 +55,30 @@ class Aquarium extends BaseModel {
 		return $this->hasMany('Equipment', 'aquariumID');
 	}
 
-
+	public function sparkTemperature()
+	{
+	    $key = 'Aquarium:sparkTemperature';
+		if(Cache::has($key))
+	        return Cache::get($key);
+	   
+		 Config::get('spark.url');
+		 $curl = curl_init(Config::get('spark.url').
+			$this->sparkID."/temperature?access_token=".
+			$this->sparkToken);
+		 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		 $curlResponse = curl_exec($curl);
+		 if ($curlResponse === false)
+		 {
+		     $info = curl_getinfo($curl);
+		     curl_close($curl);
+			 return null;
+		 }
+		 curl_close($curl);
+		 $decoded = json_decode($curlResponse);
+		 if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
+			 return null;
+		 }
+		 Cache::put($key, $decoded->result, Config::get('cache.ttl'));
+		 return $decoded->result;
+	}
 }

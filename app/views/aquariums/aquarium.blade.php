@@ -63,6 +63,9 @@
 			</li>
 		</ul>
 	</li>
+	@if ($aquarium->sparkID && $aquarium->sparkToken)
+		<li><strong>Current Temperature:</strong> {{ $aquarium->sparkTemperature() }} C</li>
+	@endif
 </ul>
 
 @if ($aquarium->aquariduinoHostname)
