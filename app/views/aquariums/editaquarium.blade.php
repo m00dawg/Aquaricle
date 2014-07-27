@@ -67,8 +67,14 @@
 			<td>{{ Form::text('targetKH') }}</td>
 		</tr>
 		<tr>	
-			<th>{{ Form::label('Aquariduino Hostname') }}</th>
-			<td>{{ Form::text('aquariduinoHostname', null, array('size' => '32')) }}
+			<th>{{ Form::label('Spark Device ID') }}</th>
+			<td>{{ Form::text('sparkID', null, array('size' => '24')) }}
+				Leave blank if not using the hardware device
+			</td>
+		</tr>
+		<tr>	
+			<th>{{ Form::label('Spark Token') }}</th>
+			<td>{{ Form::text('sparkToken', null, array('size' => '40')) }}
 				Leave blank if not using the hardware device
 			</td>
 		</tr>

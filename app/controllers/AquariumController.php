@@ -76,8 +76,8 @@ class AquariumController extends BaseController
 			Input::all(),
 			array('name' => "required|unique:Aquariums,name,NULL,id,userID,$userID",
 					'location' => 'max:48',
-					'visibility' => 'in:Public,Private',
-					'measurementUnits' => 'in:Metric,Imperial',
+					'visibility' => 'required|in:Public,Private',
+					'measurementUnits' => 'required|in:Metric,Imperial',
 					'capacity' => 'required|numeric|min:0|max:999.99',
 					'length' => 'required|numeric|min:0|max:999.99',
 					'width' => 'required|numeric|min:0|max:999.99',
@@ -86,7 +86,8 @@ class AquariumController extends BaseController
 					'targetTemperature' => 'numeric|min:0|max:999.9',
 					'targetPH' => 'numeric|min:0|max:99.9',
 					'targetKH' => 'integer|min:0|max:255',
-					'aquariduinoHostname' => 'max:255'
+					'sparkID' => 'max:24',
+					'sparkHostname' => 'max:40'
 					)
 		);
 		if ($validator->fails())
@@ -119,10 +120,11 @@ class AquariumController extends BaseController
 			$aquarium->targetPH = Input::get('targetPH');
 		if(Input::get('targetKH') != '')
 			$aquarium->targetKH = Input::get('targetKH');
-		
-		$aquarium->aquariduinoHostname = Input::get('aquariduinoHostname');
-		
-		
+		if(Input::get('sparkID') != '')
+			$aquarium->sparkID = Input::get('sparkID');
+		if(Input::get('sparkToken') != '')
+			$aquarium->sparkToken = Input::get('sparkToken');
+				
 		$aquarium->userID = $userID;
 		$aquarium->save();
 		$aquariumID = $aquarium->aquariumID;
@@ -151,8 +153,8 @@ class AquariumController extends BaseController
 			Input::all(),
 			array('name' => "required|unique:Aquariums,name,$name,name,userID,$userID",
 					'location' => 'max:48',
-					'visibility' => 'in:Public,Private',
-					'measurementUnits' => 'in:Metric,Imperial',
+					'visibility' => 'required|in:Public,Private',
+					'measurementUnits' => 'required|in:Metric,Imperial',
 					'capacity' => 'required|numeric|min:0|max:999.99',
 					'length' => 'required|numeric|min:0|max:999.99',
 					'width' => 'required|numeric|min:0|max:999.99',
@@ -161,7 +163,8 @@ class AquariumController extends BaseController
 					'targetTemperature' => 'numeric|min:0|max:999.9',
 					'targetPH' => 'numeric|min:0|max:99.9',
 					'targetKH' => 'integer|min:0|max:255',
-					'aquariduinoHostname' => 'max:255'
+					'sparkID' => 'max:24',
+					'sparkHostname' => 'max:40'
 					)
 		);
 		if ($validator->fails())
@@ -193,8 +196,17 @@ class AquariumController extends BaseController
 			$aquarium->targetPH = Input::get('targetPH');
 		if(Input::get('targetKH') != '')
 			$aquarium->targetKH = Input::get('targetKH');
-		
-		$aquarium->aquariduinoHostname = Input::get('aquariduinoHostname');
+	
+		if(Input::get('sparkID') != '')
+			$aquarium->sparkID = Input::get('sparkID');
+		else
+			$aquarium->sparkID = null;
+
+		if(Input::get('sparkToken') != '')
+			$aquarium->sparkToken = Input::get('sparkToken');
+		else
+			$aquarium->sparkToken = null;
+
 		$aquarium->save();
 		return Redirect::to("aquariums/$aquariumID/");
 	}
