@@ -64,7 +64,7 @@
 		</ul>
 	</li>
 	@if ($aquarium->sparkID && $aquarium->sparkToken)
-		<li><strong>Current Temperature:</strong> {{ $aquarium->sparkTemperature() }} C</li>
+		<li><strong>Current Temperature:</strong> {{ round($aquarium->sparkTemperature(), 2) }} C</li>
 	@endif
 </ul>
 
