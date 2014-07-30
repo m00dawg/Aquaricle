@@ -263,7 +263,11 @@ class AquariumLogsController extends BaseController
 	public function create($aquariumID)
 	{
 		DB::beginTransaction();
-		$food = Food::get();
+
+		$food = Food::where('Food.userID', '=', Auth::id())
+                        ->orWhere('Food.userID', '=', null)
+			->get();
+
 		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
 		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)->lists('name', 'equipmentID');
 		$measurementUnits = Aquarium::where('aquariumID', '=', $aquariumID)
