@@ -38,8 +38,14 @@
 			<li>{{ link_to_route('aquariums.feedings', 'Feedings', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.life', 'Life', array($aquariumID)) }}</li>
 		@elseif (Request::is('public/*') && isset($aquariumID))
-				<li>{{ link_to_route('public.aquariums', 'Aquarium', array($aquariumID)) }}</li>
-				<li>{{ link_to_route('public.aquariums.logs.waterlogs', 'Water Tests', array($aquariumID)) }}</li>
+			<li>{{ link_to_route('public.aquariums', 'Aquarium', array($aquariumID)) }}</li>
+			<li>{{ link_to_route('public.aquariums.logs.waterlogs', 'Water Tests', array($aquariumID)) }}</li>
+		@else
+			<li>{{ link_to('/', 'News') }}</li>
+			<li>{{ link_to('https://github.com/m00dawg/Aquaricle/issues', 'Bugs/Features') }}</li>
+			<li>{{ link_to('http://demo.aquaricle.com/', 'Demo') }}
+			<li>{{ link_to('/login', 'Login') }}</li>
+			<li>{{ link_to('/signup', 'Signup') }}</li>
 		@endif
 	</ul>
 </div>
