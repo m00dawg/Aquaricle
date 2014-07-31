@@ -12,3 +12,4 @@
 */
 
 Artisan::add(new ProcessEmailReminders);
+Artisan::add(new UpdateRRDs);
