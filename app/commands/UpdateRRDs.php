@@ -11,14 +11,14 @@ class UpdateRRDs extends Command {
 	 *
 	 * @var string
 	 */
-	protected $name = 'command:name';
+	protected $name = 'spark:updateRRDs';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Command description.';
+	protected $description = 'Updates aquarium RRDs';
 
 	/**
 	 * Create a new command instance.
@@ -37,7 +37,17 @@ class UpdateRRDs extends Command {
 	 */
 	public function fire()
 	{
-		//
+        $path = Config::get('spark.rrdPath');
+
+        $aquariums = Aquariums::whereNotNull('sparkID')
+            ->whereNotNull('sparkToken')
+            ->select('aquariumID', 'sparkID', 'sparkToken')
+            ->get();
+
+        foreach ($aquariums as $aquarium)
+        {
+            $this->info("Updating RRD for Aquarium $aquarium");
+        } 
 	}
 
 	/**
@@ -47,9 +57,11 @@ class UpdateRRDs extends Command {
 	 */
 	protected function getArguments()
 	{
+/*
 		return array(
 			array('example', InputArgument::REQUIRED, 'An example argument.'),
 		);
+*/
 	}
 
 	/**
@@ -59,9 +71,11 @@ class UpdateRRDs extends Command {
 	 */
 	protected function getOptions()
 	{
+/*
 		return array(
 			array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
 		);
+*/
 	}
 
 }
