@@ -39,15 +39,40 @@ class UpdateRRDs extends Command {
 	{
         $path = Config::get('spark.rrdPath');
 
-        $aquariums = Aquariums::whereNotNull('sparkID')
+        $aquariums = Aquarium::whereNotNull('sparkID')
             ->whereNotNull('sparkToken')
             ->select('aquariumID', 'sparkID', 'sparkToken')
             ->get();
 
-        foreach ($aquariums as $aquarium)
-        {
-            $this->info("Updating RRD for Aquarium $aquarium");
-        } 
+		foreach ($aquariums as $aquarium)
+    	{
+       	 	$this->info("Updating RRD for Aquarium ".$aquarium->aquariumID);
+
+			$updater = new RRDUpdater(Config::get('spark.rrdPath').$aquarium->aquariumID.".rrd");
+			$url = Config::get('spark.url').
+				$aquarium->sparkID.'/stats?access_token='.
+				$aquarium->sparkToken;
+		
+			$curl = curl_init($url);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+			$curlResponse = curl_exec($curl);
+			if ($curlResponse === false)
+			{
+			    curl_close($curl);
+				$this->error('Erorr occured while using curl exec');
+			}
+			curl_close($curl);
+			$decoded = json_decode($curlResponse);
+			if (isset($decoded->response->status) && $decoded->response->status == 'ERROR')
+				$this->error('Error occured with response');
+
+			$stats = explode(':', $decoded->result);
+			$updater->update(array(
+				'temperature' => $stats[0],
+				'heater' => $stats[1],
+				'light' => $stats[2]
+			));		
+		} 
 	}
 
 	/**
@@ -57,11 +82,12 @@ class UpdateRRDs extends Command {
 	 */
 	protected function getArguments()
 	{
-/*
+		/*
 		return array(
 			array('example', InputArgument::REQUIRED, 'An example argument.'),
 		);
-*/
+		*/
+		return array();
 	}
 
 	/**
@@ -71,11 +97,13 @@ class UpdateRRDs extends Command {
 	 */
 	protected function getOptions()
 	{
-/*
+		/*
 		return array(
 			array('example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null),
 		);
-*/
+		*/
+		return array();
+		
 	}
 
 }
