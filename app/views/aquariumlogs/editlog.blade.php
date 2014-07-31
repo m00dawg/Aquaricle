@@ -95,6 +95,23 @@
 				<tr><td>{{ $foodItem->name }}</td></tr>
 			@endforeach
 		</table>
+		<br />
+	@endif
+	
+	@if (count($aquariumLifeLogs) > 0)
+		<table>
+			<tr><th>Aquarium Life</th></tr>
+			@foreach($aquariumLifeLogs as $life)
+				<tr><td>
+				@if ($life->nickname)
+					{{ $life->nickname }}
+				@else
+					{{ $life->commonName }}
+				@endif
+				</td></tr>
+			@endforeach
+		</table>
+		<br />
 	@endif
 
 	<h3>Modify Log Entry</h3>
@@ -144,28 +161,50 @@
 		</tr>
 	</table>
 	<br />
-	<table>
-		<tr>
-			<th>Food</th>
-			<td colspan="2">
-				@foreach($food as $item)
-					{{ Form::checkbox('food[]', $item->foodID, $item->selected) }} {{ $item->name }}<br />
-				@endforeach
-			</td>
-		</tr>
 
+	<table>
+		<tr><th>Food</th></tr>
+		@foreach($food as $item)
+			<tr><td>
+				{{ Form::checkbox('food[]', 
+					$item->foodID, $item->selected) }}
+				{{ $item->name }}
+			</td></tr>
+		@endforeach
+	</table>
+	<br />
+		
+	<table>
+		<tr><th>Aquarium Life</th></tr>
+		@foreach($aquariumLife as $life)
+			<tr><td>
+				{{ Form::checkbox('aquariumLife[]', 
+					$life->aquariumLifeID, $life->selected) }} 
+				@if ($life->nickname)
+					{{ $life->nickname }}
+				@else
+					{{ $life->commonName }}
+				@endif
+			</td></tr>
+		@endforeach
+	</table>
+	<br />
+
+	<table>
 		<tr>
 			<th>Water Additive</th>
 			<td>{{ Form::select('waterAdditive', $waterAdditives) }}</td>
 			<td>{{ Form::text('waterAdditiveAmount', null, array('size' => '8')) }} mL </td>
 		</tr>
-	
+	</table>
+	<br />
+		
+	<table>
 		<tr>
 			<th>Equipment</th>
 			<td>{{ Form::select('equipment', $equipment) }}</td>
 			<td>{{ Form::checkbox('equipmentMaintenance') }} Maintenance</td>
 		</tr>
-
 	</table>
 
 	<br />

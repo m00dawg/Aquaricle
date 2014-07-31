@@ -42,7 +42,8 @@ class AquariumLogsController extends BaseController
 		}
 	}
 	
-	// We had to use DB::table here over Eloquent because Eloquent does not support composite primary keys
+	// We had to use DB::table here over Eloquent because Eloquent does not 
+	// support composite primary keys
 	private function updateWaterAdditive($aquariumLogID)
 	{
 		// First see if an additive was selected
@@ -88,7 +89,8 @@ class AquariumLogsController extends BaseController
 			}
 	}
 	
-	// We had to use DB::table here over Eloquent because Eloquent does not support composite primary keys
+	// We had to use DB::table here over Eloquent because Eloquent does not 
+	// support composite primary keys
 	private function updateEquipmentLog($aquariumLogID)
 	{
 		// First see if an equipment was selected
@@ -137,6 +139,19 @@ class AquariumLogsController extends BaseController
  			if(Input::get('food') != 0)	
 				foreach(Input::get('food') as $foodID)
 					DB::table('FoodLogs')->insert(array('aquariumLogID' => $aquariumLogID, 'foodID' => $foodID));
+	}
+	
+	private function updateAquariumLifeLog($aquariumLogID)
+	{
+		//First delete what's there
+		DB::table('AquariumLifeLogs')->where('aquariumLogID', '=', $aquariumLogID)->delete();
+		//Then check to see if food is part of input
+		if(Input::get('aquariumLife') != '')
+ 			if(Input::get('aquariumLife') != 0)	
+				foreach(Input::get('aquariumLife') as $aquariumLifeID)
+					DB::table('AquariumLifeLogs')
+						->insert(array('aquariumLogID' => $aquariumLogID, 
+									   'aquariumLifeID' => $aquariumLifeID));
 	}
 	
 	private function generateLogSummary($aquariumLogID)
@@ -213,6 +228,33 @@ class AquariumLogsController extends BaseController
 			}
 		}
 		
+		// Aquarium Life
+		$aquariumLifeLog = AquariumLifeLog::where('aquariumLogID', '=', $aquariumLogID)
+			->join('AquariumLife', 'AquariumLife.aquariumLifeID', 
+				'=', 'AquariumLifeLogs.aquariumLifeID')
+			->get();
+		$aquariumLifeLogCount = count($aquariumLifeLog);
+		if($aquariumLifeLogCount > 0)
+		{
+			if($summary != '')
+				$summary .= ', ';
+			$summary .= 'Looked At';
+			
+			$count = 0;
+			foreach($aquariumLifeLog as $life)
+			{
+				if($life->nickname)
+					$name = $life->nickname;
+				else
+					$name = $life->life->commonName;
+					
+				$summary .= ' '.$name;
+				if($count + 1 < $aquariumLifeLogCount)
+					$summary .= ' &amp; ';
+				++$count;
+			}
+		}
+		
 		if($summary != '')
 			return $summary;
 		return null;
@@ -268,11 +310,16 @@ class AquariumLogsController extends BaseController
                         ->orWhere('Food.userID', '=', null)
 			->get();
 
+		$aquariumLife = AquariumLife::where('aquariumID', '=', $aquariumID)
+			->get();
+
+		//$waterAdditives = WaterAdditive::get();
+
 		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
+			
 		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)
 			->lists('name', 'equipmentID');
-//		$life = array('0' => 'None') + AquariumLife::where('aquariumID', '=', $aquariumID)
-//			->lists('name', 'l');
+
 		$measurementUnits = Aquarium::where('aquariumID', '=', $aquariumID)
 			->select('measurementUnits')
 			->first();
@@ -281,6 +328,7 @@ class AquariumLogsController extends BaseController
 		return View::make('aquariumlogs/editlog')
 			->with('aquariumID', $aquariumID)
 			->with('food', $food)
+			->with('aquariumLife', $aquariumLife)
 			->with('waterAdditives', $waterAdditives)
 			->with('equipment', $equipment)
 			->with('measurementUnits', $measurementUnits);
@@ -316,6 +364,7 @@ class AquariumLogsController extends BaseController
 		$this->updateWaterAdditive($aquariumLogID);
 		$this->updateEquipmentLog($aquariumLogID);
 		$this->updateFoodLog($aquariumLogID);
+		$this->updateAquariumLifeLog($aquariumLogID);
 		$log->summary = $this->generateLogSummary($aquariumLogID);
 		$log->save();
 		DB::commit();
@@ -405,7 +454,18 @@ class AquariumLogsController extends BaseController
 			->orWhere('Food.userID', '=', null)
 			->selectraw('Food.foodID AS foodID, name, IF(aquariumLogID, true, false) AS selected')
 			->get();
-		
+			
+		$aquariumLife = AquariumLife::leftjoin('AquariumLifeLogs', function ($join) use($logID)
+			{
+				$join->on('AquariumLifeLogs.aquariumLifeID', '=', 'AquariumLife.aquariumLifeID')
+					->where('AquariumLifeLogs.aquariumLogID', '=', $logID);
+			})
+			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
+			->selectraw('AquariumLife.aquariumLifeID AS aquariumLifeID, 
+				nickname, commonName, 
+				IF(aquariumLogID, true, false) AS selected')
+			->get();		
+			
 		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
 		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)
 			->lists('name', 'equipmentID');
@@ -421,18 +481,25 @@ class AquariumLogsController extends BaseController
 		$foodLogs = FoodLog::where('aquariumLogID', '=', $logID)
 			->join('Food', 'Food.foodID', '=', 'FoodLogs.foodID')
 			->get();
-			
+
+		$aquariumLifeLogs = AquariumLifeLog::where('aquariumLogID', '=', $logID)
+			->join('AquariumLife', 'AquariumLife.aquariumLifeID',
+				'=', 'AquariumLifeLogs.aquariumLifeID')
+			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
+			->get();		
 		DB::commit();
 
 		return View::make('aquariumlogs/editlog')
 			->with('aquariumID', $aquariumID)
 			->with('log', $log)
 			->with('food', $food)
+			->with('aquariumLife', $aquariumLife)
 			->with('waterAdditives', $waterAdditives)
 			->with('waterAdditiveLogs', $waterAdditiveLogs)
 			->with('equipmentLogs', $equipmentLogs)
 			->with('equipment', $equipment)
 			->with('foodLogs', $foodLogs)
+			->with('aquariumLifeLogs', $aquariumLifeLogs)
 			->with('measurementUnits', $aquarium->getMeasurementUnits());
 	}
 
@@ -472,6 +539,7 @@ class AquariumLogsController extends BaseController
 		$this->updateWaterAdditive($aquariumLogID);
 		$this->updateEquipmentLog($aquariumLogID);
 		$this->updateFoodLog($aquariumLogID);
+		$this->updateAquariumLifeLog($aquariumLogID);
 		$log->summary = $this->generateLogSummary($aquariumLogID);
 		
 		// Add/Update Log as a favorite if it has been given a name
