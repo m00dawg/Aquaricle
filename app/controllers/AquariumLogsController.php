@@ -269,7 +269,10 @@ class AquariumLogsController extends BaseController
 			->get();
 
 		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
-		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)->lists('name', 'equipmentID');
+		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)
+			->lists('name', 'equipmentID');
+//		$life = array('0' => 'None') + AquariumLife::where('aquariumID', '=', $aquariumID)
+//			->lists('name', 'l');
 		$measurementUnits = Aquarium::where('aquariumID', '=', $aquariumID)
 			->select('measurementUnits')
 			->first();
@@ -281,7 +284,6 @@ class AquariumLogsController extends BaseController
 			->with('waterAdditives', $waterAdditives)
 			->with('equipment', $equipment)
 			->with('measurementUnits', $measurementUnits);
-
 	}
 
 

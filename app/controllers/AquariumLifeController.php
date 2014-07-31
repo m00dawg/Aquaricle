@@ -45,10 +45,10 @@ class AquariumLifeController extends BaseController
 		}		
 		$log->save();
 		
-		$lifeLog = new LifeLog();
-		$lifeLog->aquariumLogID = $log->aquariumLogID;
-		$lifeLog->lifeID = $life->lifeID;
-		$lifeLog->save();
+		$aquariumLifeLog = new AquariumLifeLog();
+		$aquariumLifeLog->aquariumLogID = $log->aquariumLogID;
+		$aquariumLifeLog->aquariumLifeID = $life->aquariumLifeID;
+		$aquariumLifeLog->save();
 	}
 	
 	public function index($aquariumID)
