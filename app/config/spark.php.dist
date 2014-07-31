@@ -7,4 +7,6 @@ return array(
     /* API Root URL */
     'url' => 'https://api.spark.io/v1/devices/',
 
+    /* Path for RRDs */
+    'rrdPath' => __DIR__.'/../../rrd',    
 );
