@@ -3,12 +3,27 @@
 
 <h2>Water Logs</h2>
 
-<h3>Graphs</h3>
-
 <div id="graphs">
-	<h4>Basic Tests</h4>
-	<canvas id="waterTestsGraph"></canvas>
-	<script>basicTestsChart.generateLegend();</script>
+	@if (count($cycleLogDateList) > 0)
+		<div class="graph">
+			<h4>Tank Cycling</h4>
+			<canvas id="waterCycleGraph"></canvas>
+		</div>
+	@endif
+	
+	@if (count($phoshateDataList) > 0)
+		<div class="graph">
+			<h4>Phosphates</h4>
+			<canvas id="waterPhosphatesGraph"></canvas>
+		</div>
+	@endif
+
+	@if (count($waterChangeDataList) > 0)
+		<div class="graph">
+			<h4>Water Changes</h4>
+			<canvas id="waterChangeGraph"></canvas>
+		</div>
+	@endif
 </div>
 
 
@@ -54,6 +69,12 @@
 		<tr><td colspan="9">No Water Tests Have Been Logged Yet.</td></tr>
 	@endif
 </table>
+<br />
+<br />
+<div class="helpBox">
+	<p>The cycling graph will only graph entries which include both ammonia, nitriates, nitrates.
+		If you omit one of these in a water test, that entry will not be used in the graph.</p>
+</div>
 
 @stop
 
@@ -63,10 +84,10 @@
 	<script>
 		(function()
 		{
-			var ctx = document.getElementById('waterTestsGraph').getContext('2d');
-			var data = 
+			var waterCycleGraph = document.getElementById('waterCycleGraph').getContext('2d');
+			var waterCycleData = 
 			{
-				labels: {{ json_encode($logDateList) }},
+				labels: {{ json_encode($cycleLogDateList) }},
 				datasets: [
 					{
 						label: "Nitrates",
@@ -89,21 +110,63 @@
 						strokeColor: "#00bb00",
 						pointColor: "#00ff00",
 					},
-				
 				]
 			};
-			
+
+			var phosphatesGraph = document.getElementById('waterPhosphatesGraph').getContext('2d');
+			var phosphatesData = 
+			{
+				labels: {{ json_encode($phoshateLogDateList) }},
+				datasets: [
+					{
+						label: "Phosphates",
+						data: {{ json_encode($phoshateDataList) }},
+						fillColor: "rgba(250, 250, 00, 0.75)",
+						strokeColor: "#ffcc00",
+						pointColor: "#ffff00",
+					},
+				]
+			};
+	
+			var waterChangeGraph = document.getElementById('waterChangeGraph').getContext('2d');
+			var waterChangeData = 
+			{
+				labels: {{ json_encode($waterChangeDateList) }},
+				datasets: [
+					{
+						label: "Water Changes",
+						data: {{ json_encode($waterChangeDataList) }},
+						fillColor: "rgba(0, 0, 250, 0.25)",
+						strokeColor: "#0000bb",
+						pointColor: "#4444ff",
+					},
+				]
+			};
+	
 			Chart.defaults.global.responsive = true;
 			Chart.defaults.global.maintainAspectRatio = false;
 			Chart.defaults.global.tooltipTitleFontSize = 12;
 			Chart.defaults.global.tooltipFontSize = 10;
+			Chart.defaults.global.scaleFontColor = "#eeeeff";
+			Chart.defaults.global.scaleLineColor = "#ddddff";
+			Chart.defaults.global.scaleGridLineColor = "#ccccff";
 			
-			basicTestsChart = new Chart(ctx).Line(data, { 
-				bezierCurve: false,  
-				scaleFontColor: "#eeeeff",
-				scaleLineColor: "#ddddff",
-				scaleGridLineColor: "#ccccff"
-			}); 
+			@if (count($cycleLogDateList) > 0)
+				basicTestsChart = new Chart(waterCycleGraph).Line(waterCycleData, { 
+					bezierCurve: false
+				}); 
+			@endif
+			@if (count($phoshateDataList) > 0)
+				basicTestsChart = new Chart(phosphatesGraph).Line(phosphatesData, { 
+					bezierCurve: false
+				}); 
+			@endif
+			
+			@if (count($waterChangeDataList) > 0)
+				basicTestsChart = new Chart(waterChangeGraph).Line(waterChangeData, { 
+					bezierCurve: false
+				}); 
+			@endif
 		})();	
 	</script>
 @stop
