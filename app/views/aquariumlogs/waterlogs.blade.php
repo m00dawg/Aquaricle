@@ -158,13 +158,13 @@
 				}); 
 			@endif
 			@if (count($phoshateDataList) > 1)
-				basicTestsChart = new Chart(phosphatesGraph).Line(phosphatesData, { 
+				phosphatesChart = new Chart(phosphatesGraph).Line(phosphatesData, { 
 					bezierCurve: false
 				}); 
 			@endif
 			
 			@if (count($waterChangeDataList) > 1)
-				basicTestsChart = new Chart(waterChangeGraph).Line(waterChangeData, { 
+				waterChangeChart = new Chart(waterChangeGraph).Line(waterChangeData, { 
 					bezierCurve: false
 				}); 
 			@endif
