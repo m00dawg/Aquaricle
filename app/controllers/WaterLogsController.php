@@ -68,17 +68,56 @@ class WaterLogsController extends BaseController
 	/* Public Interface Functions */
 	public function getPublicWaterLogs($aquariumID)
 	{
+		$numEntries = 20;
+		
 		DB::beginTransaction();
+		
 		$aquarium = Aquarium::where('aquariumID', '=', $aquariumID)
 			->first();
 		$waterLogs = WaterTestLog::where('aquariumID', '=', $aquariumID)
 			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', '=', 'WaterTestLogs.aquariumLogID')
 			->orderBy('logDate', 'desc')
 			->get();
+		
+		$cycleData = WaterTestLog::selectRaw('DATE(logDate) AS logDate,
+				ammonia, nitrites, nitrates')
+			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
+				'=', 'WaterTestLogs.aquariumLogID')
+			->where('AquariumLogs.aquariumID', '=', $aquariumID)
+			->whereNotNull('ammonia')
+			->whereNotNull('nitrites')
+			->whereNotNull('nitrates')
+			->orderBy('logDate', 'desc')
+			->paginate($numEntries);
+			
+		$phosphates = WaterTestLog::selectRaw('DATE(logDate) AS logDate, phosphates')
+			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
+				'=', 'WaterTestLogs.aquariumLogID')
+			->where('AquariumLogs.aquariumID', '=', $aquariumID)
+			->whereNotNull('phosphates')
+			->orderBy('logDate', 'desc')
+			->paginate($numEntries);
+			
+		$waterExchanged = WaterTestLog::selectRaw('DATE(logDate) AS logDate, amountExchanged')
+			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
+				'=', 'WaterTestLogs.aquariumLogID')
+			->where('AquariumLogs.aquariumID', '=', $aquariumID)
+			->whereNotNull('amountExchanged')
+			->orderBy('logDate', 'desc')
+			->paginate($numEntries);
+		
 		DB::commit();
 		return View::make('public/waterlogs')
 			->with('aquariumID', $aquariumID)
 			->with('measurementUnits', $aquarium->getMeasurementUnits())
-			->with('waterLogs', $waterLogs);
+			->with('waterLogs', $waterLogs)
+			->with('cycleLogDateList', $cycleData->lists('logDate'))
+			->with('ammoniaList', $cycleData->lists('ammonia'))
+			->with('nitriteList', $cycleData->lists('nitrites'))
+			->with('nitrateList', $cycleData->lists('nitrates'))
+			->with('phoshateLogDateList', $phosphates->lists('logDate'))
+			->with('phoshateDataList', $phosphates->lists('phosphates'))
+			->with('waterChangeDateList', $waterExchanged->lists('logDate'))
+			->with('waterChangeDataList', $waterExchanged->lists('amountExchanged'));
 	}
 }
