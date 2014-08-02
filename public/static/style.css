@@ -372,7 +372,8 @@ th.logDate{
 
 #waterCycleGraph, #waterPhosphatesGraph, #waterChangeGraph{
 	background-color: #9999dd;
-	border: 1px solid #555599;
+	border: 1px solid #444488;
+  box-shadow: 8px 8px 12px rgba(0,0,0,0.2);
 }
 
 span.waterNeverChanged{
