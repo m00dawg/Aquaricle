@@ -439,12 +439,17 @@ class AquariumLogsController extends BaseController
 			->first();
 		
 		$log = AquariumLog::where('AquariumLogs.aquariumLogID', '=', $logID)
+			->where('AquariumLogs.aquariumID', '=', $aquariumID)
 			->leftjoin('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->leftjoin('AquariumLogFavorites', 'AquariumLogFavorites.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->select('AquariumLogs.aquariumLogID', 'AquariumLogs.aquariumID', 'logDate', 
 				'summary', 'comments', 'temperature', 'ammonia', 'nitrites', 'nitrates',
 				'phosphates', 'pH', 'KH', 'GH', 'TDS', 'amountExchanged', 'name')
 			->first();
+				
+		if(!$log)
+			return Redirect::to("aquariums/$aquariumID/");
+				
 		$food = Food::leftjoin('FoodLogs', function ($join) use($logID)
 			{
 				$join->on('FoodLogs.foodID', '=', 'Food.foodID')

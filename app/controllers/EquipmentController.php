@@ -263,6 +263,7 @@ class EquipmentController extends \BaseController {
 			->where('equipmentID', '=', $equipmentID)
 			->first();
 		$equipment->delete();
+		DB::commit();
 		return Redirect::to("aquariums/$aquariumID/equipment");
 	}
 

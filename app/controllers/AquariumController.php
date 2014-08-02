@@ -91,10 +91,11 @@ class AquariumController extends BaseController
 					)
 		);
 		if ($validator->fails())
-			return Redirect::to('aquariums/create')
+		{
+			return Redirect::to('aquarium/create')
 				->withInput(Input::all())
 				->withErrors($validator);
-
+		}
 		$aquarium = new Aquarium();
 		$aquarium->name = Input::get('name');
 		$aquarium->location = Input::get('location');

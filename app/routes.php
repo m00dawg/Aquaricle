@@ -16,12 +16,9 @@ Route::when('aquarium*', 'auth');
 Route::when('life*', 'auth');
 Route::when('food*', 'auth');
 Route::when('user*', 'auth');
-Route::when('aquariums/*/', 'auth.aquarium');
+Route::when('aquariums/*', 'auth.aquarium');
 Route::when('*', 'csrf', array('post', 'put', 'patch'));
 Route::when('public/aquariums/*', 'aquarium.public');
-
-/* RESTful Resource Controllers */
-Route::resource('aquariums', 'AquariumController');
 
 /// Public Aquariums
 Route::get('/public/aquariums/{aquariumID}', [
@@ -36,6 +33,37 @@ Route::get('/public/aquariums/{aquariumID}/waterlogs', [
 	'after' => 'cache',
     'as'     => 'public.aquariums.waterlogs',
     'uses'   => 'WaterLogsController@getPublicWaterLogs'
+]);
+
+// Aquariums Module
+Route::get('/aquarium/create', [
+	'as'	=> 'aquariums.create',
+	'uses' => 'AquariumController@create'	
+]);
+
+Route::post('/aquarium/create', [
+	'as'	=> 'aquariums.store',
+	'uses' => 'AquariumController@store'	
+]);
+	
+Route::get('/aquariums', [
+	'as'	=> 'aquariums.index',
+	'uses' => 'AquariumController@index'	
+]);
+	
+Route::get('/aquariums/{aquariumID}', [
+	'as'	=> 'aquariums.show',
+	'uses' => 'AquariumController@getAquarium'	
+]);
+
+Route::get('/aquariums/{aquariumID}/edit', [
+	'as'	=> 'aquariums.edit',
+	'uses' => 'AquariumController@edit'	
+]);
+	
+Route::post('/aquariums/{aquariumID}/update', [
+	'as'	=> 'aquariums.update',
+	'uses' => 'AquariumController@update'	
 ]);
 
 /// Aquarium Life Module
@@ -71,6 +99,7 @@ Route::post('/aquariums/{aquariumID}/life/{lifeID}/update', [
 
 /// Logs
 
+
 // Favorites
 Route::get('/aquariums/{aquariumID}/logs/favorites', [
     'as'     => 'aquariums.logs.favorites',
@@ -79,6 +108,37 @@ Route::get('/aquariums/{aquariumID}/logs/favorites', [
 Route::post('/aquariums/{aquariumID}/logs/favorites', [
     'as'     => 'aquariums.logs.favorites',
     'uses'   => 'AquariumLogsController@storeFavorite'
+]);
+
+
+Route::get('/aquariums/{aquariumID}/logs/create', [
+	'as'	=> 'aquariums.logs.create',
+	'uses' => 'AquariumLogsController@create'	
+]);
+
+Route::post('/aquarium/{aquariumID}/logs/create', [
+	'as'	=> 'aquariums.logs.store',
+	'uses' => 'AquariumLogsController@store'	
+]);
+	
+Route::get('/aquariums/{aquariumID}/logs', [
+	'as'	=> 'aquariums.logs.index',
+	'uses' => 'AquariumLogsController@index'	
+]);
+	
+Route::get('/aquariums/{aquariumID}/logs/{aquariumLogID}', [
+	'as'	=> 'aquariums.logs.show',
+	'uses' => 'AquariumLogsController@show'	
+]);
+
+Route::get('/aquariums/{aquariumID}/logs/{aquariumLogID}/edit', [
+	'as'	=> 'aquariums.logs.edit',
+	'uses' => 'AquariumLogsController@edit'	
+]);
+	
+Route::post('/aquariums/{aquariumID}/logs/{aquariumLogID}/update', [
+	'as'	=> 'aquariums.logs.update',
+	'uses' => 'AquariumLogsController@update'	
 ]);
 
 // Water Logs
@@ -128,6 +188,37 @@ Route::post('/food/{foodID}/edit', [
     'as'     => 'food.edit',
     'uses'   => 'FoodController@update'
 ]);	
+	
+/// Equipment
+Route::get('/aquariums/{aquariumID}/equipment/create', [
+	'as'	=> 'aquariums.equipment.create',
+	'uses' => 'EquipmentController@create'	
+]);
+
+Route::post('/aquariums/{aquariumID}/equipment/create', [
+	'as'	=> 'aquariums.equipment.store',
+	'uses' => 'EquipmentController@store'	
+]);
+	
+Route::get('/aquariums/{aquariumID}/equipment', [
+	'as'	=> 'aquariums.equipment.index',
+	'uses' => 'EquipmentController@index'	
+]);
+	
+Route::get('/aquariums/{aquariumID}/equipment/{equipmentID}', [
+	'as'	=> 'aquariums.equipment.show',
+	'uses' => 'EquipmentController@show'	
+]);
+
+Route::get('/aquariums/{aquariumID}/equipment/{equipmentID}/edit', [
+	'as'	=> 'aquariums.equipment.edit',
+	'uses' => 'EquipmentController@edit'	
+]);
+	
+Route::post('/aquariums/{aquariumID}/equipment/{equipmentID}/update', [
+	'as'	=> 'aquariums.equipment.update',
+	'uses' => 'EquipmentController@update'	
+]);
 
 /// Global Life Module
 Route::get('/life/', [
@@ -159,10 +250,6 @@ Route::post('/life/{lifeID}/edit', [
     'as'     => 'life.update',
     'uses'   => 'LifeController@update'
 ]);
-
-
-Route::resource('aquariums.logs', 'AquariumLogsController');
-Route::resource('aquariums.equipment', 'EquipmentController');
 
 // User Interactions
 // Get Logged In User's Profile

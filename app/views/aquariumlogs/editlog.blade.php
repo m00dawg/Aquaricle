@@ -122,9 +122,9 @@
 <div class="formBox">
 	@if (isset($log))
 		{{ Form::model($log, 
-			array('route' => array("aquariums.logs.update", $aquariumID, $log->aquariumLogID), 'method' => 'put')) }}		
+			array('route' => array("aquariums.logs.update", $aquariumID, $log->aquariumLogID), 'method' => 'post')) }}		
 	@else
-		{{ Form::open(array('url' => "aquariums/$aquariumID/logs")) }}
+		{{ Form::open(array('url' => "aquariums/$aquariumID/logs", 'method' => 'post')) }}
 	@endif
 	
 	<table>
