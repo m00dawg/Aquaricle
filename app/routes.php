@@ -31,11 +31,11 @@ Route::get('/public/aquariums/{aquariumID}', [
 	'uses'	=> 'AquariumController@getPublicAquarium'
 ]);
 	
-Route::get('/public/aquariums/{aquariumID}/logs/waterlogs', [
+Route::get('/public/aquariums/{aquariumID}/waterlogs', [
 	'before' => 'cache',
 	'after' => 'cache',
-    'as'     => 'public.aquariums.logs.waterlogs',
-    'uses'   => 'AquariumLogsController@getPublicWaterLogs'
+    'as'     => 'public.aquariums.waterlogs',
+    'uses'   => 'WaterLogsController@getPublicWaterLogs'
 ]);
 
 /// Aquarium Life Module
@@ -82,9 +82,9 @@ Route::post('/aquariums/{aquariumID}/logs/favorites', [
 ]);
 
 // Water Logs
-Route::get('/aquariums/{aquariumID}/logs/waterlogs', [
-    'as'     => 'aquariums.logs.waterlogs',
-    'uses'   => 'AquariumLogsController@getWaterLogs'
+Route::get('/aquariums/{aquariumID}/waterlogs', [
+    'as'     => 'aquariums.waterlogs',
+    'uses'   => 'WaterLogsController@getWaterLogs'
 ]);
 
 // Water Additives

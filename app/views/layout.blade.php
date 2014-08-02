@@ -33,13 +33,13 @@
 			<li>{{ link_to_route('aquariums.equipment.index', 'Equipment', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.logs.favorites', 'Actions', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.logs.index', 'Logs', array($aquariumID)) }}</li>
-			<li>{{ link_to_route('aquariums.logs.waterlogs', 'Tests', array($aquariumID)) }}</li>
+			<li>{{ link_to_route('aquariums.waterlogs', 'Tests', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.wateradditives', 'Additives', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.feedings', 'Feedings', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.life', 'Life', array($aquariumID)) }}</li>
 		@elseif (Request::is('public/*') && isset($aquariumID))
 			<li>{{ link_to_route('public.aquariums', 'Aquarium', array($aquariumID)) }}</li>
-			<li>{{ link_to_route('public.aquariums.logs.waterlogs', 'Water Tests', array($aquariumID)) }}</li>
+			<li>{{ link_to_route('public.aquariums.waterlogs', 'Water Tests', array($aquariumID)) }}</li>
 		@else
 			<li>{{ link_to('/', 'News') }}</li>
 			<li>{{ link_to('https://github.com/m00dawg/Aquaricle/issues', 'Bugs/Features') }}</li>
@@ -61,6 +61,7 @@
 
 <div id="footer">
 Aquaricle by Tim Soderstrom
+@yield('footer')
 </div>
 
 </body>

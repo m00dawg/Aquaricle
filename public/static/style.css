@@ -360,6 +360,15 @@ th.logDate{
 
 /* Water Logs */
 
+#graphs{
+	text-align: center;
+}
+
+#waterTestsGraph{
+	background-color: #9999dd;
+	border: 1px solid #555599;
+}
+
 span.waterNeverChanged{
 	color: #ffff00;	
 }
