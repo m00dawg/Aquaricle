@@ -4,21 +4,22 @@
 <h2>Water Logs</h2>
 
 <div id="graphs">
-	@if (count($cycleLogDateList) > 0)
+	{{-- Set to > 1 since we need at least 2 data points to make a useful graph --}}
+	@if (count($cycleLogDateList) > 1)
 		<div class="graph">
 			<h4>Tank Cycling</h4>
 			<canvas id="waterCycleGraph"></canvas>
 		</div>
 	@endif
 	
-	@if (count($phoshateDataList) > 0)
+	@if (count($phoshateDataList) > 1)
 		<div class="graph">
 			<h4>Phosphates</h4>
 			<canvas id="waterPhosphatesGraph"></canvas>
 		</div>
 	@endif
 
-	@if (count($waterChangeDataList) > 0)
+	@if (count($waterChangeDataList) > 1)
 		<div class="graph">
 			<h4>Water Changes</h4>
 			<canvas id="waterChangeGraph"></canvas>
@@ -151,18 +152,18 @@
 			Chart.defaults.global.scaleLineColor = "#ddddff";
 			Chart.defaults.global.scaleGridLineColor = "#ccccff";
 			
-			@if (count($cycleLogDateList) > 0)
+			@if (count($cycleLogDateList) > 1)
 				basicTestsChart = new Chart(waterCycleGraph).Line(waterCycleData, { 
 					bezierCurve: false
 				}); 
 			@endif
-			@if (count($phoshateDataList) > 0)
+			@if (count($phoshateDataList) > 1)
 				basicTestsChart = new Chart(phosphatesGraph).Line(phosphatesData, { 
 					bezierCurve: false
 				}); 
 			@endif
 			
-			@if (count($waterChangeDataList) > 0)
+			@if (count($waterChangeDataList) > 1)
 				basicTestsChart = new Chart(waterChangeGraph).Line(waterChangeData, { 
 					bezierCurve: false
 				}); 
