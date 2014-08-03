@@ -5,6 +5,14 @@
 
 <div id="graphs">
 	{{-- Set to > 1 since we need at least 2 data points to make a useful graph --}}
+
+	@if (count($waterChangeDataList) > 1)
+		<div class="graph">
+			<h4>Water Changes</h4>
+			<canvas id="waterChangeGraph"></canvas>
+		</div>
+	@endif
+	
 	@if (count($cycleLogDateList) > 1)
 		<div class="graph">
 			<h4>Tank Cycling</h4>
@@ -16,13 +24,6 @@
 		<div class="graph">
 			<h4>Phosphates</h4>
 			<canvas id="waterPhosphatesGraph"></canvas>
-		</div>
-	@endif
-
-	@if (count($waterChangeDataList) > 1)
-		<div class="graph">
-			<h4>Water Changes</h4>
-			<canvas id="waterChangeGraph"></canvas>
 		</div>
 	@endif
 </div>
@@ -166,8 +167,9 @@
 					]
 				};
 			
-				waterChangeChart = new Chart(waterChangeGraph).Line(waterChangeData, { 
-					bezierCurve: false
+				waterChangeChart = new Chart(waterChangeGraph).Bar(waterChangeData, { 
+					bezierCurve: false,
+					scaleBeginAtZero: true
 				}); 
 			@endif
 		})();	

@@ -64,19 +64,30 @@ body{
 	border-left: 1px;
 	border-right: 1px;
 	border-color: #000000;
-    border-style: solid;
+  border-style: solid;
+}
+
+#findABug{
+	float: left;
+	text-align: left;
+  display: block;
+	font-size: .8em;
+	font-weight: bold;
+	text-align: right;
+  text-decoration: none;
+	padding: 0.25%;
+	padding-left: 6%;
 }
 
 #login{
 	text-align: right;
-    display: block;
+  display: block;
 	font-size: .8em;
 	font-weight: bold;
 	text-align: right;
-    text-decoration: none;
+  text-decoration: none;
 	padding: 0.25%;
 	padding-right: 5%;
-
 }
 
 #navBar a{

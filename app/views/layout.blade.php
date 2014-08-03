@@ -5,6 +5,10 @@
 </head>
 <body>
 
+<div id="findABug">
+	Find a bug? <a href="https://github.com/m00dawg/Aquaricle/issues">Log It!</a>
+</div>
+
 @if ( Auth::user() && !Request::is('public/*'))
 	<div id="login">Logged In As {{ Auth::user()->username }} 
 		({{ link_to('/logout', 'Logout') }} / 
