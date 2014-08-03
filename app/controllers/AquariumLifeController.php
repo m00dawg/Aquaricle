@@ -79,7 +79,7 @@ class AquariumLifeController extends BaseController
 			->get();
 		$fishTotal = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->whereNull('deletedAt')
-			->sum('lifeID');
+			->sum('qty');
 					
 		$formerLife = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
