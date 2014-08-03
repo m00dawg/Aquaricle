@@ -361,7 +361,6 @@ th.logDate{
 /* Water Logs */
 
 #graphs{
-	width: 1280px;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -370,10 +369,21 @@ th.logDate{
 	text-align: center;
 }
 
+#pieChart{
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
 #waterCycleGraph, #waterPhosphatesGraph, #waterChangeGraph{
 	background-color: #9999dd;
 	border: 1px solid #444488;
   box-shadow: 8px 8px 12px rgba(0,0,0,0.2);
+}
+
+#fishGraph{
+
 }
 
 span.waterNeverChanged{

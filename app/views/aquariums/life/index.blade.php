@@ -8,8 +8,13 @@
 	<h4>{{ $message }}</h4>
 @endforeach
 
-@if (count($formerLife) > 0)
+@if (count($currentLife) > 0)
 	<h3>Current Life</h3>
+	<div id="pieChart">
+		<canvas id="fishGraph"></canvas>
+	</div>
+	<br />
+	<br />
 @endif
 
 <table>
@@ -90,4 +95,28 @@
 
 {{ link_to_route('aquariums.life.create', 'Add Life To Aquarium', array('aquariumID' => $aquariumID)) }}
 
+@stop
+
+@section('footer')
+	<script src="/js/vendor/chart.js"></script>
+	
+	<script>
+		(function()
+		{
+			Chart.defaults.global.responsive = true;
+			Chart.defaults.global.maintainAspectRatio = true;
+			Chart.defaults.global.tooltipTitleFontSize = 14;
+			Chart.defaults.global.tooltipFontSize = 12;
+			Chart.defaults.global.scaleFontColor = "#eeeeff";
+			Chart.defaults.global.scaleLineColor = "#ddddff";
+			Chart.defaults.global.scaleGridLineColor = "#ccccff";
+			
+			var fishGraph = document.getElementById('fishGraph').getContext('2d');
+			var fishData = {{ $fishGraphData }}
+
+			fishChart = new Chart(fishGraph).Pie(fishData, { 
+			}); 
+
+		})();	
+	</script>
 @stop

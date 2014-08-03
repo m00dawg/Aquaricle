@@ -53,11 +53,30 @@ class AquariumLifeController extends BaseController
 	
 	public function index($aquariumID)
 	{	
+		DB::beginTransaction();
+		
 		$currentLife = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
 			->whereNull('deletedAt')
 			->orderBy('nickname')
 			->get();
+		
+		// Fish Graph Data
+		DB::statement('SELECT @colorsCnt := (SELECT MAX(colorID) FROM Colors)');
+		DB::statement('SELECT @rowNumber := 0');
+		$fishGraphData = AquariumLife::where('aquariumID', '=', $aquariumID)
+			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
+			->join('LifeTypes', 'LifeTypes.lifeTypeID',
+				'=', 'Life.lifeTypeID')
+			->where('LifeTypes.lifeTypeName', '=', 'Fish')
+			->whereNull('deletedAt')
+			->groupBy('AquariumLife.lifeID')
+			->selectRaw("@rowNumber:=@rowNumber + 1 AS rowNumber, 
+				Life.commonName AS label, COUNT(AquariumLife.lifeID) AS value,
+				(SELECT CONCAT('#', LPAD(CONV(color, 10, 16), 6, '0'))
+					FROM Colors WHERE colorID = (@rowNumber % @colorsCnt)) AS color")
+			->get();
+					
 		$formerLife = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
 			->whereNotNull('deletedAt')
@@ -76,12 +95,15 @@ class AquariumLifeController extends BaseController
 			->selectRaw('SUM(purchasePrice) AS totalPrice, SUM(qty) AS totalQty')
 			->first();
 		
+		DB::commit();
+		
 		return View::make('aquariums/life/index')
 			->with('aquariumID', $aquariumID)
 			->with('currentLife', $currentLife)
 			->with('currentSummary', $currentSummary)
 			->with('formerLife', $formerLife)
-			->with('formerSummary', $formerSummary);
+			->with('formerSummary', $formerSummary)
+			->with('fishGraphData', json_encode($fishGraphData, JSON_NUMERIC_CHECK));
 	}
 	
 	public function show($aquariumID, $aquariumLifeID)
