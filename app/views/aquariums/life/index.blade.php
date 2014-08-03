@@ -11,8 +11,8 @@
 @if (count($currentLife) > 0)
 	<h3>Current Life</h3>
 	<div id="pieChart">
-		<h5>Animals</h5>
-		<canvas id="animalsGraph"></canvas>
+		<h4>Fish</h4>
+		<canvas id="fishGraph"></canvas>
 	</div>
 	<br />
 	<br />
@@ -113,10 +113,10 @@
 			Chart.defaults.global.scaleLineColor = "#ddddff";
 			Chart.defaults.global.scaleGridLineColor = "#ccccff";
 			
-			var animalsGraph = document.getElementById('animalsGraph').getContext('2d');
-			var animalsData = {{ $animalsGraphData }}
+			var fishGraph = document.getElementById('fishGraph').getContext('2d');
+			var fishData = {{ $fishGraphData }}
 
-			animalsChart = new Chart(animalsGraph).Pie(animalsData, { 
+			fishChart = new Chart(fishGraph).Pie(fishData, { 
 			}); 
 
 		})();	

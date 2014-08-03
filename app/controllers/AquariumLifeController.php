@@ -62,14 +62,14 @@ class AquariumLifeController extends BaseController
 			->orderBy('LifeTypes.lifeTypeID', 'nickname')
 			->get();
 		
-		// Animals Graph Data
+		// Fish Graph Data
 		DB::statement('SELECT @colorsCnt := (SELECT MAX(colorID) FROM Colors)');
 		DB::statement('SELECT @rowNumber := 0');
-		$animalsGraphData = AquariumLife::where('aquariumID', '=', $aquariumID)
+		$fishGraphData = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
 			->join('LifeTypes', 'LifeTypes.lifeTypeID',
 				'=', 'Life.lifeTypeID')
-			->where('LifeTypes.lifeTypeName', '!=', 'Plants')
+			->where('LifeTypes.lifeTypeName', '=', 'Fish')
 			->whereNull('deletedAt')
 			->groupBy('AquariumLife.lifeID')
 			->selectRaw("@rowNumber:=@rowNumber + 1 AS rowNumber, 
@@ -104,7 +104,7 @@ class AquariumLifeController extends BaseController
 			->with('currentSummary', $currentSummary)
 			->with('formerLife', $formerLife)
 			->with('formerSummary', $formerSummary)
-			->with('animalsGraphData', json_encode($animalsGraphData, JSON_NUMERIC_CHECK));
+			->with('fishGraphData', json_encode($fishGraphData, JSON_NUMERIC_CHECK));
 	}
 	
 	public function show($aquariumID, $aquariumLifeID)
