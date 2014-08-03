@@ -77,9 +77,13 @@ class AquariumLifeController extends BaseController
 				(SELECT CONCAT('#', LPAD(CONV(color, 10, 16), 6, '0'))
 					FROM Colors WHERE colorID = (@rowNumber % @colorsCnt)) AS color")
 			->get();
+		$fishTotal = AquariumLife::where('aquariumID', '=', $aquariumID)
+			->whereNull('deletedAt')
+			->sum('lifeID');
 					
 		$formerLife = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
+			->join('LifeTypes', 'LifeTypes.lifeTypeID', '=', 'Life.lifeTypeID')
 			->whereNotNull('deletedAt')
 			->orderBy('nickname')
 			->get();
@@ -104,7 +108,8 @@ class AquariumLifeController extends BaseController
 			->with('currentSummary', $currentSummary)
 			->with('formerLife', $formerLife)
 			->with('formerSummary', $formerSummary)
-			->with('fishGraphData', json_encode($fishGraphData, JSON_NUMERIC_CHECK));
+			->with('fishGraphData', json_encode($fishGraphData, JSON_NUMERIC_CHECK))
+			->with('fishTotal', $fishTotal);
 	}
 	
 	public function show($aquariumID, $aquariumLifeID)
