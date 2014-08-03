@@ -78,6 +78,10 @@ class AquariumLifeController extends BaseController
 					FROM Colors WHERE colorID = (@rowNumber % @colorsCnt)) AS color")
 			->get();
 		$fishTotal = AquariumLife::where('aquariumID', '=', $aquariumID)
+			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
+			->join('LifeTypes', 'LifeTypes.lifeTypeID',
+				'=', 'Life.lifeTypeID')
+			->where('LifeTypes.lifeTypeName', '=', 'Fish')
 			->whereNull('deletedAt')
 			->sum('qty');
 					
