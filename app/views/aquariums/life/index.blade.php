@@ -11,14 +11,15 @@
 @if (count($currentLife) > 0)
 	<h3>Current Life</h3>
 	<div id="pieChart">
-		<canvas id="fishGraph"></canvas>
+		<h5>Animals</h5>
+		<canvas id="animalsGraph"></canvas>
 	</div>
 	<br />
 	<br />
 @endif
 
 <table>
-	<tr><th>Nickname</th><th>Common Name</th><th>Date Added</th><th>Qty</th><th>Price Paid</th></tr>
+	<tr><th>Nickname</th><th>Common Name</th><th>Type</th><th>Date Added</th><th>Qty</th><th>Price Paid</th></tr>
 	@if (count($currentLife) > 0)
 		@foreach ($currentLife as $item)
 			<tr>
@@ -32,6 +33,7 @@
 					</a>
 				</td>
 				<td>{{ $item->commonName }}</td>
+				<td>{{ $item->lifeTypeName }}</td>
 				<td>{{ $item->createdAt }}</td>
 				<td>{{ $item->qty }}</td>
 				<td>
@@ -111,10 +113,10 @@
 			Chart.defaults.global.scaleLineColor = "#ddddff";
 			Chart.defaults.global.scaleGridLineColor = "#ccccff";
 			
-			var fishGraph = document.getElementById('fishGraph').getContext('2d');
-			var fishData = {{ $fishGraphData }}
+			var animalsGraph = document.getElementById('animalsGraph').getContext('2d');
+			var animalsData = {{ $animalsGraphData }}
 
-			fishChart = new Chart(fishGraph).Pie(fishData, { 
+			animalsChart = new Chart(animalsGraph).Pie(animalsData, { 
 			}); 
 
 		})();	

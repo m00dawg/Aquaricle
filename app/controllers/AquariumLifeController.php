@@ -57,22 +57,23 @@ class AquariumLifeController extends BaseController
 		
 		$currentLife = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
+			->join('LifeTypes', 'LifeTypes.lifeTypeID', '=', 'Life.lifeTypeID')
 			->whereNull('deletedAt')
-			->orderBy('nickname')
+			->orderBy('LifeTypes.lifeTypeID', 'nickname')
 			->get();
 		
-		// Fish Graph Data
+		// Animals Graph Data
 		DB::statement('SELECT @colorsCnt := (SELECT MAX(colorID) FROM Colors)');
 		DB::statement('SELECT @rowNumber := 0');
-		$fishGraphData = AquariumLife::where('aquariumID', '=', $aquariumID)
+		$animalsGraphData = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
 			->join('LifeTypes', 'LifeTypes.lifeTypeID',
 				'=', 'Life.lifeTypeID')
-			->where('LifeTypes.lifeTypeName', '=', 'Fish')
+			->where('LifeTypes.lifeTypeName', '!=', 'Plants')
 			->whereNull('deletedAt')
 			->groupBy('AquariumLife.lifeID')
 			->selectRaw("@rowNumber:=@rowNumber + 1 AS rowNumber, 
-				Life.commonName AS label, COUNT(AquariumLife.lifeID) AS value,
+				Life.commonName AS label, SUM(AquariumLife.qty) AS value,
 				(SELECT CONCAT('#', LPAD(CONV(color, 10, 16), 6, '0'))
 					FROM Colors WHERE colorID = (@rowNumber % @colorsCnt)) AS color")
 			->get();
@@ -103,7 +104,7 @@ class AquariumLifeController extends BaseController
 			->with('currentSummary', $currentSummary)
 			->with('formerLife', $formerLife)
 			->with('formerSummary', $formerSummary)
-			->with('fishGraphData', json_encode($fishGraphData, JSON_NUMERIC_CHECK));
+			->with('animalsGraphData', json_encode($animalsGraphData, JSON_NUMERIC_CHECK));
 	}
 	
 	public function show($aquariumID, $aquariumLifeID)
