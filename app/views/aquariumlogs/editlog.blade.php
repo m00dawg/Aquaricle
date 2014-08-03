@@ -124,7 +124,7 @@
 		{{ Form::model($log, 
 			array('route' => array("aquariums.logs.update", $aquariumID, $log->aquariumLogID), 'method' => 'post')) }}		
 	@else
-		{{ Form::open(array('url' => "aquariums/$aquariumID/logs", 'method' => 'post')) }}
+		{{ Form::open(array('url' => "/aquariums/$aquariumID/logs/create", 'method' => 'post')) }}
 	@endif
 	
 	<table>

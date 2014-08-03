@@ -113,10 +113,10 @@ Route::post('/aquariums/{aquariumID}/logs/favorites', [
 
 Route::get('/aquariums/{aquariumID}/logs/create', [
 	'as'	=> 'aquariums.logs.create',
-	'uses' => 'AquariumLogsController@create'	
+	'uses' => 'AquariumLogsController@create'
 ]);
 
-Route::post('/aquarium/{aquariumID}/logs/create', [
+Route::post('/aquariums/{aquariumID}/logs/create', [
 	'as'	=> 'aquariums.logs.store',
 	'uses' => 'AquariumLogsController@store'	
 ]);
