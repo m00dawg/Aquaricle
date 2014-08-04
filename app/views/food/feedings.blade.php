@@ -7,10 +7,21 @@
 
 @if (isset($food))
 <table>
+	
+	@if (count($food) > 1)
+		<div id="pieChart">
+			<canvas id="foodGraph"></canvas>
+		</div>
+		<br />
+		<br />
+	@endif
+
+	
+	
 	<tr><th>Food</th><th>Count</th></tr>	
 	@if(count($food) > 0)
 		@foreach ($food as $item)
-			<tr><td>{{ $item->name }}</td><td>{{ $item->count }}</td></tr>
+			<tr><td>{{ $item->label }}</td><td>{{ $item->value }}</td></tr>
 		@endforeach
 	@else
 		<tr><td colspan="2">No Feedings Found</td</tr>
@@ -33,4 +44,28 @@
 
 {{ $logs->links() }}
 
+@stop
+
+@section('footer')
+	<script src="/js/vendor/chart.js"></script>
+	
+	<script>
+		(function()
+		{
+			Chart.defaults.global.responsive = true;
+			Chart.defaults.global.maintainAspectRatio = true;
+			Chart.defaults.global.tooltipTitleFontSize = 14;
+			Chart.defaults.global.tooltipFontSize = 12;
+			Chart.defaults.global.scaleFontColor = "#eeeeff";
+			Chart.defaults.global.scaleLineColor = "#ddddff";
+			Chart.defaults.global.scaleGridLineColor = "#ccccff";
+			
+			var foodGraph = document.getElementById('foodGraph').getContext('2d');
+			var foodData = {{ $foodGraphData }}
+
+			foodChart = new Chart(foodGraph).Pie(foodData, { 
+			}); 
+
+		})();	
+	</script>
 @stop

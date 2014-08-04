@@ -94,17 +94,23 @@ class FoodController extends \BaseController
 	{
 		$days = Input::get('days');
 		if(!isset($days))
-			$days = 7;		
+			$days = 30;		
+
+
+		DB::statement('SELECT @colorsCnt := (SELECT MAX(colorID) FROM Colors)');
+		DB::statement('SELECT @rowNumber := 0');
 		
 		$food = DB::select(
-			"SELECT Food.name AS name, COUNT(Food.name) AS count
+			"SELECT @rowNumber:=@rowNumber + 1 AS rowNumber,
+				Food.name AS label, COUNT(Food.name) AS value,
+ 				(SELECT CONCAT('#', LPAD(CONV(color, 10, 16), 6, '0'))
+ 					FROM Colors WHERE colorID = (@rowNumber % @colorsCnt)) AS color
 			 FROM AquariumLogs
 			 JOIN FoodLogs ON FoodLogs.aquariumLogID = AquariumLogs.aquariumLogID
 			 JOIN Food ON Food.foodID = FoodLogs.foodID
 			 WHERE AquariumLogs.aquariumID = ?
 			 AND logDate >= DATE_SUB(NOW(), INTERVAL ? Day)
 			 GROUP BY Food.name", array($aquariumID, $days));
-
 		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)
 			->join('FoodLogs', 'FoodLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->groupby('logDate')
@@ -114,6 +120,7 @@ class FoodController extends \BaseController
 			->with('aquariumID', $aquariumID)
 			->with('days', $days)
 			->with('food', $food)
+			->with('foodGraphData', json_encode($food, JSON_NUMERIC_CHECK))
 			->with('logs', $logs);
 	}
 
