@@ -9,6 +9,7 @@ class AquariumFile extends BaseModel {
 	public $timestamps = true;
 	
 	public static $thumbHeight = 160;
+	public static $fullHeight = 2048;
 
 
 	/* Relationships */

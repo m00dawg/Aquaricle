@@ -55,8 +55,13 @@ class AquariumLogsController extends BaseController
 		    $constraint->aspectRatio();
 			})
 			->save("$path/$fileID-thumb.$ext");
-		if(!$file->move($path, "$fileID-full.$ext"))
-			return false;
+			
+		Image::make($file)
+			->resize(null, AquariumFile::$fullHeight, function ($constraint) {
+			    $constraint->aspectRatio();
+			    $constraint->upsize();
+			})
+			->save("$path/$fileID-full.$ext");
 
 		$aquariumLogFile = new AquariumLogFile();
 		$aquariumLogFile->fileID = $fileID;
