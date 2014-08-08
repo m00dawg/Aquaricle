@@ -17,7 +17,12 @@ class AquariumLogsController extends BaseController
 		// Kinda janky since getMimeType() doesn't seem to work
 		switch(strtolower($file->getClientOriginalExtension()))
 		{
-			case 'jpg|jpeg':
+			case 'jpg':
+			{
+				$ext = 'jpg';
+				break;
+			}
+			case 'jpeg':
 			{
 				$ext = 'jpg';
 				break;
