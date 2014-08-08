@@ -16,6 +16,28 @@
 			<tr><td colspan="2">{{ $log->comments }}</td></tr>
 		@endif
 	</table>
+	
+	@if (count($files) > 0)
+		<br />
+		<table>
+			<tr><th colspan="2">Photos</th></tr>
+		@foreach ($files as $file)
+			<tr>
+				<td class="image">
+					<a href="/files/{{ $log->aquariumID }}/{{ $file->fileID }}-full.{{ $file->fileType }}">
+						<img src="/files/{{ $log->aquariumID }}/{{ $file->fileID }}-thumb.{{ $file->fileType }}" />
+					</a>
+				</td>
+				<td>
+					Title: {{ $file->title }}<br />
+					Caption: {{ $file->caption }}<br />
+					Uploaded On: {{ $file->createdAt }}<br />
+				</td>
+			
+		</tr>
+		@endforeach
+		</table>
+	@endif
 
 	@if (isset($log->temperature) || 
 		 isset($log->ammonia) ||
@@ -91,6 +113,7 @@
 	@endif
 @endif
 </div>
+<br />
 
 {{ link_to_route('aquariums.show', 'Go Back', array($aquariumID)) }} : 
 {{ link_to("aquariums/$aquariumID/logs/$log->aquariumLogID/edit", 
