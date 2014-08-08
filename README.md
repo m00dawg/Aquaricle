@@ -5,7 +5,8 @@ Laravel-powered web-project for managing an aquarium, and tracking stats from an
 
 Dependencies
 ------------
- * Laravel
+ * Laravel 4
+ * Intervention Image Class (http://image.intervention.io/getting_started/installation#laravel)
 
 Features Include
 ----------------

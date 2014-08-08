@@ -427,4 +427,8 @@ th.comments{
     width: 15%;
 }
 
-\
+/* Files */
+td.image{
+	width: 200px;
+	text-align: center;
+}

@@ -3,7 +3,6 @@
 
 <h2>Log Details</h2>
 
-
 @if (isset($status))
 <h4>{{ $status }}</h4>
 @endif
@@ -21,6 +20,28 @@
 			<tr><td colspan="2">{{ $log->comments }}</td></tr>
 		@endif
 	</table>
+
+	@if (count($files) > 0)
+		<br />
+		<table>
+			<tr><th colspan="2">Photos</th></tr>
+		@foreach ($files as $file)
+			<tr>
+				<td class="image">
+					<a href="/files/{{ $log->aquariumID }}/{{ $file->fileID }}-full.{{ $file->fileType }}">
+						<img src="/files/{{ $log->aquariumID }}/{{ $file->fileID }}-thumb.{{ $file->fileType }}" />
+					</a>
+				</td>
+				<td>
+					Title: {{ $file->title }}<br />
+					Caption: {{ $file->caption }}<br />
+					Uploaded On: {{ $file->createdAt }}<br />
+				</td>
+			
+		</tr>
+		@endforeach
+		</table>
+	@endif
 
 	@if (isset($log->temperature) || 
 		 isset($log->ammonia) ||
@@ -122,9 +143,9 @@
 <div class="formBox">
 	@if (isset($log))
 		{{ Form::model($log, 
-			array('route' => array("aquariums.logs.update", $aquariumID, $log->aquariumLogID), 'method' => 'post')) }}		
+			array('route' => array("aquariums.logs.update", $aquariumID, $log->aquariumLogID), 'method' => 'post', 'files' => true)) }}		
 	@else
-		{{ Form::open(array('url' => "/aquariums/$aquariumID/logs/create", 'method' => 'post')) }}
+		{{ Form::open(array('url' => "/aquariums/$aquariumID/logs/create", 'method' => 'post', 'files' => true)) }}
 	@endif
 	
 	<table>
@@ -196,14 +217,28 @@
 			<td>{{ Form::select('waterAdditive', $waterAdditives) }}</td>
 			<td>{{ Form::text('waterAdditiveAmount', null, array('size' => '8')) }} mL </td>
 		</tr>
-	</table>
-	<br />
 		
-	<table>
 		<tr>
 			<th>Equipment</th>
 			<td>{{ Form::select('equipment', $equipment) }}</td>
 			<td>{{ Form::checkbox('equipmentMaintenance') }} Maintenance</td>
+		</tr>
+	</table>
+	<br />
+	
+	<table>
+		<tr><th colspan="2">Upload File</th></tr>
+		<tr>
+			<th>File</th>
+			<td>{{ Form::file('file') }} (Currently JPEG and PNG supported)</td>
+		</tr>
+		<tr>
+			<th>Title</th>
+			<td>{{ Form::text('fileTitle', null, array('size' => '48')) }}</td>
+		</tr>
+		<tr>
+			<th>Caption</th>
+			<td>{{ Form::textarea('fileCaption') }}</td>
 		</tr>
 	</table>
 
@@ -223,7 +258,7 @@
 		{{ Form::label('setFavorite', 'Add As a Favorite') }}: {{ Form::text('name') }}<br />
 		<br />	
 		{{ Form::submit('Update') }}
-		<input type="submit" name="delete" value="Delete">
+		{{--- <input type="submit" name="delete" value="Delete"> ---}}
 	@else
 		{{ Form::submit('Add') }}
 	@endif	

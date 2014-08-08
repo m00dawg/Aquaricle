@@ -3,6 +3,64 @@
 class AquariumLogsController extends BaseController
 {
 	
+	private function uploadFile($log)
+	{
+		$path = public_path()."/files/".$log->aquariumID;
+		
+		if(!is_dir($path))
+			mkdir($path);
+		
+		$file = Input::file('file');
+		if(!$file->isValid())
+			return false;
+
+		// Kinda janky since getMimeType() doesn't seem to work
+		switch(strtolower($file->getClientOriginalExtension()))
+		{
+			case 'jpg|jpeg':
+			{
+				$ext = 'jpg';
+				break;
+			}
+			case 'png':
+			{
+				$ext = 'png';
+				break;
+			}
+			default:
+				return false;
+		}
+
+		$fileDB = new AquariumFile();
+		$fileDB->aquariumID = $log->aquariumID;
+		$fileDB->fileType = $ext;
+
+		$fileTitle = Input::get('fileTitle');
+		$fileCaption = Input::get('fileCaption');
+		if($fileTitle != '')
+			$fileDB->title = Input::get('fileTitle');
+		if($fileCaption != '')
+			$fileDB->caption = Input::get('fileCaption');
+
+		$fileDB->save();
+		$fileID = $fileDB->fileID;
+
+		Image::make($file)
+			->resize(null, AquariumFile::$thumbHeight, function ($constraint) {
+		    $constraint->aspectRatio();
+			})
+			->save("$path/$fileID-thumb.$ext");
+		if(!$file->move($path, "$fileID-full.$ext"))
+			return false;
+
+		$aquariumLogFile = new AquariumLogFile();
+		$aquariumLogFile->fileID = $fileID;
+		$aquariumLogFile->aquariumLogID = $log->aquariumLogID;
+		$aquariumLogFile->save();
+		
+		return $fileID;
+	}
+	
 	private function updateWaterTestLog($aquariumLogID)
 	{
 		if(Input::get('temperature') != '' ||
@@ -276,7 +334,10 @@ class AquariumLogsController extends BaseController
 				'TDS' => 'numeric|min:0|max:65535',
 				'amountExchanged' => 'numeric|min:1|max:65535',
 				'waterAdditiveAmount' => 'numeric|min:1|max:999',
-				'name' => 'max:48')
+				'name' => 'max:48',
+				'fileTitle' => 'max:48')
+				//'file' => 'size:5242880|mimes:image/png,image/jpeg')
+
 		);
 		
 		return $validator;
@@ -323,6 +384,7 @@ class AquariumLogsController extends BaseController
 		$measurementUnits = Aquarium::where('aquariumID', '=', $aquariumID)
 			->select('measurementUnits')
 			->first();
+			
 		DB::commit();
 
 		return View::make('aquariumlogs/editlog')
@@ -365,8 +427,19 @@ class AquariumLogsController extends BaseController
 		$this->updateEquipmentLog($aquariumLogID);
 		$this->updateFoodLog($aquariumLogID);
 		$this->updateAquariumLifeLog($aquariumLogID);
+		
+		if (Input::hasFile('file'))
+			if(!$this->uploadFile($log))
+			{
+				DB::rollback();
+				return Redirect::to("aquariums/$aquariumID/logs/create")
+					->withInput(Input::except('file'))
+					->withErrors(array('message' => "Could not upload file"));
+			}
+		
 		$log->summary = $this->generateLogSummary($aquariumLogID);
 		$log->save();
+
 		DB::commit();
 		
 		return Redirect::to("aquariums/$aquariumID/logs/$aquariumLogID/edit");
@@ -411,6 +484,10 @@ class AquariumLogsController extends BaseController
 			->join('Food', 'Food.foodID', '=', 'FoodLogs.foodID')
 			->get();
 		
+		$files = AquariumLogFile::where('aquariumLogID', '=', $logID)
+			->join('Files', 'Files.fileID', '=', 'AquariumLogFiles.fileID')
+			->get();
+		
 		DB::commit();
 
 		return View::make('aquariumlogs/log')
@@ -421,7 +498,8 @@ class AquariumLogsController extends BaseController
 			->with('waterAdditiveLogs', $waterAdditiveLogs)
 			->with('equipmentLogs', $equipmentLogs)
 			->with('equipment', $equipment)
-			->with('foodLogs', $foodLogs);
+			->with('foodLogs', $foodLogs)
+			->with('files', $files);
 	}
 
 
@@ -491,7 +569,12 @@ class AquariumLogsController extends BaseController
 			->join('AquariumLife', 'AquariumLife.aquariumLifeID',
 				'=', 'AquariumLifeLogs.aquariumLifeID')
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
-			->get();		
+			->get();
+				
+		$files = AquariumLogFile::where('aquariumLogID', '=', $logID)
+			->join('Files', 'Files.fileID', '=', 'AquariumLogFiles.fileID')
+			->get();
+				
 		DB::commit();
 
 		return View::make('aquariumlogs/editlog')
@@ -505,7 +588,8 @@ class AquariumLogsController extends BaseController
 			->with('equipment', $equipment)
 			->with('foodLogs', $foodLogs)
 			->with('aquariumLifeLogs', $aquariumLifeLogs)
-			->with('measurementUnits', $aquarium->getMeasurementUnits());
+			->with('measurementUnits', $aquarium->getMeasurementUnits())
+			->with('files', $files);
 	}
 
 	/**
@@ -545,6 +629,18 @@ class AquariumLogsController extends BaseController
 		$this->updateEquipmentLog($aquariumLogID);
 		$this->updateFoodLog($aquariumLogID);
 		$this->updateAquariumLifeLog($aquariumLogID);
+		
+		if (Input::hasFile('file'))
+		{
+			if(!$this->uploadFile($log))
+			{
+				DB::rollback();
+				return Redirect::to("aquariums/$aquariumID/logs/create")
+					->withInput(Input::except('file'))
+					->withErrors(array('message' => "Could not upload file"));
+			}
+		}
+
 		$log->summary = $this->generateLogSummary($aquariumLogID);
 		
 		// Add/Update Log as a favorite if it has been given a name
