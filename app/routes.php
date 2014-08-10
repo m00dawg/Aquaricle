@@ -284,9 +284,13 @@ Route::get('/', function()
 	//return View::make('index');
 	if(Auth::user())
 		return Redirect::to('aquariums');
-	return View::make('index');
+	return Redirect::to('news');
 });
 
+Route::get('/news', [
+	'as'	=> 'news.index',
+	'uses' 	=> 'NewsController@index'	
+]);
 
 Route::get('login', function()
 {

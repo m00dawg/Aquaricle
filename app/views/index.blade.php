@@ -12,4 +12,12 @@ for you to try.</p>
 	<li>Already have an account? <a href="/login">Login</a>!</li>
 	<li>Find a bug? Go <a href="https://github.com/m00dawg/Aquaricle/issues">here</a></li>
 </ul>
+
+@foreach ($news as $item)
+
+	<h1>{{ $item->title }}</h1>
+
+@endforeach
+
+
 @stop
