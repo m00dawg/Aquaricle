@@ -13,11 +13,11 @@ for you to try.</p>
 	<li>Find a bug? Go <a href="https://github.com/m00dawg/Aquaricle/issues">here</a></li>
 </ul>
 
-<h1>Latest News</h1>
+<h2>Latest News</h2>
 
 @foreach ($news as $item)
 
-	<h2>{{ date_format($item->createdAt, 'Y-m-d') }} : {{ $item->title }}</h2>
+	<h3>{{ date_format($item->createdAt, 'Y-m-d') }} : {{ $item->title }}</h3>
 	<div>{{ $item->content }}</div>
 
 @endforeach
