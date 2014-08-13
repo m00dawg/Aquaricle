@@ -87,7 +87,7 @@ class WaterLogsController extends BaseController
 			->whereNotNull('ammonia')
 			->whereNotNull('nitrites')
 			->whereNotNull('nitrates')
-			->orderBy('logDate', 'desc')
+			->orderBy('logDate', 'asc')
 			->paginate($numEntries);
 			
 		$phosphates = WaterTestLog::selectRaw('DATE(logDate) AS logDate, phosphates')
@@ -95,7 +95,7 @@ class WaterLogsController extends BaseController
 				'=', 'WaterTestLogs.aquariumLogID')
 			->where('AquariumLogs.aquariumID', '=', $aquariumID)
 			->whereNotNull('phosphates')
-			->orderBy('logDate', 'desc')
+			->orderBy('logDate', 'asc')
 			->paginate($numEntries);
 			
 		$waterExchanged = WaterTestLog::selectRaw('DATE(logDate) AS logDate, amountExchanged')
@@ -103,7 +103,7 @@ class WaterLogsController extends BaseController
 				'=', 'WaterTestLogs.aquariumLogID')
 			->where('AquariumLogs.aquariumID', '=', $aquariumID)
 			->whereNotNull('amountExchanged')
-			->orderBy('logDate', 'desc')
+			->orderBy('logDate', 'asc')
 			->paginate($numEntries);
 		
 		DB::commit();
