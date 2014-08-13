@@ -67,6 +67,7 @@
 
 <div id="footer">
 Aquaricle by Tim Soderstrom
+<script src="/js/vendor/jquery-2.1.1.min.js"></script>
 @yield('footer')
 </div>
 

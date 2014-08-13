@@ -64,7 +64,8 @@
 		</ul>
 	</li>
 	@if ($aquarium->sparkID && $aquarium->sparkToken)
-		<li><strong>Current Temperature:</strong> {{ round($aquarium->sparkTemperature(), 2) }} C</li>
+		<li><strong>Current Temperature:</strong> 
+			<span id="temperature">Updating</spam> C</li>
 	@endif
 </ul>
 
@@ -120,7 +121,17 @@
 <h3>Latest Logs</h3>
 @include('aquariumlogs.logsummary')
 
-
 {{ link_to_route('aquariums.logs.create', 'Log New Entry', array($aquarium->aquariumID)) }}
 
+@stop
+
+@section('footer')
+	<script>
+		$.ajax({
+		url: "/api/aquarium/{{ $aquariumID }}/temperature",
+		success: function( data ) {
+		$( "#temperature" ).html( data );
+		}
+		});
+	</script>
 @stop

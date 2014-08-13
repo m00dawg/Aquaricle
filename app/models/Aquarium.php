@@ -78,6 +78,6 @@ class Aquarium extends BaseModel {
 			 return null;
 		 }
 		 Cache::put($key, $decoded->result, Config::get('cache.ttl'));
-		 return $decoded->result;
+		 return $decoded->result.' C';
 	}
 }

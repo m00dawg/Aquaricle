@@ -20,6 +20,23 @@ Route::when('aquariums/*', 'auth.aquarium');
 Route::when('*', 'csrf', array('post', 'put', 'patch'));
 Route::when('public/aquariums/*', 'aquarium.public');
 
+/// API
+
+Route::get('/api/aquarium/{aquariumID}/temperature', [
+	'as' => 'api.aquarium.temperature',
+	'uses' => 'AquariumController@getTemperature'
+]);
+
+// This is for API calls that should be authenticated against
+/*
+Route::group(array('before' => 'auth'), function()
+{
+	Route::get('/api/')
+
+
+});
+*/
+
 /// Public Aquariums
 Route::get('/public/aquariums/{aquariumID}', [
 	'before' => 'cache',

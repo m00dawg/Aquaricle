@@ -115,7 +115,7 @@ class AquariumController extends BaseController
 			$aquarium->height = Input::get('height');
 		if(Input::get('waterChangeInterval') != '')
 			$aquarium->waterChangeInterval = Input::get('waterChangeInterval');
-		if(Input::get('targetTemperature') != '')
+		if(Input::get('targetPHerature') != '')
 			$aquarium->targetTemperature = Input::get('targetTemperature');
 		if(Input::get('targetPH') != '')
 			$aquarium->targetPH = Input::get('targetPH');
@@ -273,6 +273,13 @@ class AquariumController extends BaseController
 			->with('logs', $logs)
 			->with('equipment', $equipment)
 			->with('measurementUnits', $aquarium->getMeasurementUnits());
+	}
+	
+	// API Calls
+	public function getTemperature($aquariumID)
+	{
+		$aquarium = Aquarium::singleAquarium($aquariumID);
+		return round($aquarium->sparkTemperature(), 2);
 	}
 }
 	
