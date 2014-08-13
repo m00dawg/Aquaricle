@@ -30,7 +30,7 @@ body{
 
 /* Navigation bar */
 
-#navBar{
+#navbar{
 	background-color: #000040;
 	border-top: 1px;
 	border-bottom: 1px;
@@ -41,14 +41,15 @@ body{
 
 }
 
-#navBar ul {
+#navbar ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
 }
 
-#navBar li {
+
+#navbar li {
     float: left;
     display: block;
 	font-size: 1em;

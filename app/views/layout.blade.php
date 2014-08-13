@@ -1,8 +1,10 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>Aquaricle</title>
 <link rel="stylesheet" type="text/css" media="all" href="/static/style.css" />
 </head>
+
 <body>
 
 <div id="findABug">

@@ -2,10 +2,10 @@
 
 class WaterLogsController extends BaseController
 {	
+	private static $numEntries = 20;
 	
 	public function getWaterLogs($aquariumID)
 	{
-		$numEntries = 20;
 		DB::beginTransaction();
 		$aquarium = Aquarium::where('aquariumID', '=', $aquariumID)
 			->first();
@@ -20,7 +20,7 @@ class WaterLogsController extends BaseController
 			->join('Aquariums', 'Aquariums.aquariumID', '=', 'AquariumLogs.aquariumID')
 			->where('Aquariums.aquariumID', '=', $aquariumID)
 			->orderBy('logDate', 'desc')
-			->paginate($numEntries);
+			->paginate(self::$numEntries);
 	
 		$cycleData = WaterTestLog::selectRaw('DATE(logDate) AS logDate,
 				ammonia, nitrites, nitrates')
@@ -31,7 +31,7 @@ class WaterLogsController extends BaseController
 			->whereNotNull('nitrites')
 			->whereNotNull('nitrates')
 			->orderBy('logDate', 'asc')
-			->paginate($numEntries);
+			->paginate(self::$numEntries);
 			
 		$phosphates = WaterTestLog::selectRaw('DATE(logDate) AS logDate, phosphates')
 			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
@@ -39,7 +39,7 @@ class WaterLogsController extends BaseController
 			->where('AquariumLogs.aquariumID', '=', $aquariumID)
 			->whereNotNull('phosphates')
 			->orderBy('logDate', 'asc')
-			->paginate($numEntries);
+			->paginate(self::$numEntries);
 			
 		$waterExchanged = WaterTestLog::selectRaw('DATE(logDate) AS logDate, amountExchanged')
 			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
@@ -47,10 +47,10 @@ class WaterLogsController extends BaseController
 			->where('AquariumLogs.aquariumID', '=', $aquariumID)
 			->whereNotNull('amountExchanged')
 			->orderBy('logDate', 'asc')
-			->paginate($numEntries);
+			->paginate(self::$numEntries);
 			
 		DB::commit();
-		return View::make('aquariumlogs/waterlogs')
+		return View::make('waterlogs/index')
 			->with('aquariumID', $aquariumID)
 			->with('capacity', $aquarium->capacity)
 			->with('measurementUnits', $aquarium->getMeasurementUnits())
@@ -67,9 +67,7 @@ class WaterLogsController extends BaseController
 	
 	/* Public Interface Functions */
 	public function getPublicWaterLogs($aquariumID)
-	{
-		$numEntries = 20;
-		
+	{			
 		DB::beginTransaction();
 		
 		$aquarium = Aquarium::where('aquariumID', '=', $aquariumID)
@@ -88,7 +86,7 @@ class WaterLogsController extends BaseController
 			->whereNotNull('nitrites')
 			->whereNotNull('nitrates')
 			->orderBy('logDate', 'asc')
-			->paginate($numEntries);
+			->paginate(self::$numEntries);
 			
 		$phosphates = WaterTestLog::selectRaw('DATE(logDate) AS logDate, phosphates')
 			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
@@ -96,7 +94,7 @@ class WaterLogsController extends BaseController
 			->where('AquariumLogs.aquariumID', '=', $aquariumID)
 			->whereNotNull('phosphates')
 			->orderBy('logDate', 'asc')
-			->paginate($numEntries);
+			->paginate(self::$numEntries);
 			
 		$waterExchanged = WaterTestLog::selectRaw('DATE(logDate) AS logDate, amountExchanged')
 			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
@@ -104,7 +102,7 @@ class WaterLogsController extends BaseController
 			->where('AquariumLogs.aquariumID', '=', $aquariumID)
 			->whereNotNull('amountExchanged')
 			->orderBy('logDate', 'asc')
-			->paginate($numEntries);
+			->paginate(self::$numEntries);
 		
 		DB::commit();
 		return View::make('public/waterlogs')
