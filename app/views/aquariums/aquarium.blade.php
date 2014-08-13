@@ -120,7 +120,7 @@
 <h3>Latest Logs</h3>
 @include('aquariumlogs.logsummary')
 
-<br />
+
 {{ link_to_route('aquariums.logs.create', 'Log New Entry', array($aquarium->aquariumID)) }}
 
 @stop

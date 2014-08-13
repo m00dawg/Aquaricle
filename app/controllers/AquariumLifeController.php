@@ -118,15 +118,27 @@ class AquariumLifeController extends BaseController
 	
 	public function show($aquariumID, $aquariumLifeID)
 	{
+		DB::beginTransaction();
+		
 		$life = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->where('aquariumLifeID', '=', $aquariumLifeID)
 			->first();
 		if(!$life)
+		{
+			DB::rollback();
 			return Redirect::to("aquariums/$aquariumID/life/");
+		}
+		
+		$logs = AquariumLifeLog::where('aquariumLifeID', '=', $aquariumLifeID)
+			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
+				'=', 'AquariumLifeLogs.aquariumLogID')
+			->get();
+		
 			
 		return View::make('aquariums/life/show')
 			->with('aquariumID', $aquariumID)
-			->with('life', $life);
+			->with('life', $life)
+			->with('logs', $logs);
 	}
 	
 
