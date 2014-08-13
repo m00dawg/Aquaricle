@@ -6,4 +6,4 @@ This is a reminder of some tasks that will need to be taken care of for your aqu
 
 
 ---
-If you no longer wish to receive these e-mails, simply login and go to User Preferences and set "Uncheck E-mail Reminders" to No.
+If you no longer wish to receive these e-mails, simply login and go to User Preferences and set "Receive E-mail Reminders" to No.
