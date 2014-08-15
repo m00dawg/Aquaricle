@@ -45,7 +45,9 @@
 			@include('aquariums.life.graphs')
 		@endif
 	</div>
+</div>
 <div id="clear"></div>
+
 
 @stop
 
