@@ -7,8 +7,9 @@
 
 <body>
 
-<div id="findABug">
-	Find a bug? <a href="https://github.com/m00dawg/Aquaricle/issues">Log It!</a>
+<div id="topLinks">
+	<a href="/news">Latest News</a> : 
+	<a href="https://github.com/m00dawg/Aquaricle/issues">Bugs / Features</a>
 </div>
 
 @if ( Auth::user() && !Request::is('public/*'))

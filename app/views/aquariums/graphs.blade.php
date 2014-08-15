@@ -5,8 +5,9 @@
 <h2>Graphs</h2>
 
 @if ($aquarium->sparkID && $aquarium->sparkToken)
-	<h3>Aquarispark</h3>
 	<div id="graph">
+
+	<h3>Aquarispark</h3>
 	<h4>Daily</h4>
 
 	<a href="{{ Config::get('spark.uriGraphPath') }}{{ $aquarium->aquariumID }}/temp-daily-large.png">
