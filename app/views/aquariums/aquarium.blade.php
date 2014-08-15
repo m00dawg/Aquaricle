@@ -72,12 +72,15 @@
 @if ($aquarium->sparkID && $aquarium->sparkToken)
 	<h3>Graphs</h3>
 	<div id="graph">
-	<a href="/static/graphs/{{ $aquarium->aquariumID }}-temps-full.png">
-	    <img src="/static/graphs/{{ $aquarium->aquariumID }}-temps-thumb.png" />
+	
+	<a href="{{ Config::get('spark.uriGraphPath') }}{{ $aquarium->aquariumID }}/temp-daily-large.png">
+		<img src="{{ Config::get('spark.uriGraphPath') }}{{ $aquarium->aquariumID }}/temp-daily-small.png">
 	</a>
-	<a href="/static/graphs/{{ $aquarium->aquariumID }}-relays-full.png">
-	    <img src="/static/graphs/{{ $aquarium->aquariumID }}-relays-thumb.png" />
+		
+	<a href="{{ Config::get('spark.uriGraphPath') }}{{ $aquarium->aquariumID }}/relays-daily-large.png">
+		<img src="{{ Config::get('spark.uriGraphPath') }}{{ $aquarium->aquariumID }}/relays-daily-small.png">
 	</a>
+	
 	</div>
 @endif
 

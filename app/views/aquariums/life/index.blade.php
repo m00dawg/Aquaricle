@@ -10,11 +10,8 @@
 
 @if (count($currentLife) > 0)
 	<h3>Current Life</h3>
-	<div id="pieChart">
-		<h4>Fish</h4>
-		<canvas id="fishGraph"></canvas>
-		<p>Total: {{ $fishTotal }}</p>
-	</div>
+	@include('aquariums.life.graphs')
+	<p>Total: {{ $fishTotal }}</p>
 	<br />
 	<br />
 @endif
@@ -103,24 +100,4 @@
 
 @section('footer')
 	<script src="/js/vendor/chart.js"></script>
-	
-	<script>
-		(function()
-		{
-			Chart.defaults.global.responsive = true;
-			Chart.defaults.global.maintainAspectRatio = true;
-			Chart.defaults.global.tooltipTitleFontSize = 14;
-			Chart.defaults.global.tooltipFontSize = 12;
-			Chart.defaults.global.scaleFontColor = "#eeeeff";
-			Chart.defaults.global.scaleLineColor = "#ddddff";
-			Chart.defaults.global.scaleGridLineColor = "#ccccff";
-			
-			var fishGraph = document.getElementById('fishGraph').getContext('2d');
-			var fishData = {{ $fishGraphData }}
-
-			fishChart = new Chart(fishGraph).Pie(fishData, { 
-			}); 
-
-		})();	
-	</script>
 @stop

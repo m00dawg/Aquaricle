@@ -46,10 +46,13 @@ class GraphRRDs extends Command {
 		
 		foreach ($aquariums as $aquarium)
     	{
+			if(!is_dir(Config::get('spark.graphPath').$aquarium->aquariumID))
+				mkdir(Config::get('spark.graphPath').$aquarium->aquariumID);
+			
        	 	$this->info("Create RRD Graphs for Aquarium ".$aquarium->aquariumID);
 
-			$tempDaily = new  RRDGraph(Config::get('spark.graphPath').
-				$aquarium->aquariumID."-temp-daily-small.png");
+			$tempDailySmall = new  RRDGraph(Config::get('spark.graphPath').
+				$aquarium->aquariumID."/temp-daily-small.png");
 			$tempDailySmall->setOptions(
 				array(
 					"--title" => "Temperature",
@@ -67,8 +70,8 @@ class GraphRRDs extends Command {
 			);
 			$tempDailySmall->save();
 			
-			$tempDaily = new  RRDGraph(Config::get('spark.graphPath').
-				$aquarium->aquariumID."-temp-daily-large.png");
+			$tempDailyLarge = new  RRDGraph(Config::get('spark.graphPath').
+				$aquarium->aquariumID."/temp-daily-large.png");
 			$tempDailyLarge->setOptions(
 				array(
 					"--title" => "Temperature",
@@ -82,13 +85,131 @@ class GraphRRDs extends Command {
 					"VDEF:maxTemperature=temperature,MAXIMUM",
 					"VDEF:avgTemperature=temperature,AVERAGE",
 					'LINE1:temperature#FF0000:"Temperature"',
-					'GPRINT:lastTemperature:"Current: %2.2lfC"',
-					'GPRINT:minTemperature:"Min: %2.2lfC"',
-					'GPRINT:maxTemperature:"Max: %2.2lfC"',
-					'GPRINT:avgTemperature:" Average: %2.2lfC\\l\"',
+					"GPRINT:lastTemperature:Current\: %2.2lfC",
+					"GPRINT:minTemperature:Min\: %2.2lfC",
+					"GPRINT:maxTemperature:Max\: %2.2lfC",
+					"GPRINT:avgTemperature:Average\: %2.2lfC\"\l",
 				)
 			);
-			$tempDailySmall->save();
+			$tempDailyLarge->save();
+			
+			$tempWeeklySmall = new  RRDGraph(Config::get('spark.graphPath').
+				$aquarium->aquariumID."/temp-weekly-small.png");
+			$tempWeeklySmall->setOptions(
+				array(
+					"--title" => "Temperature",
+					"--width" => Config::get('spark.smallWidth'),
+					"--height" => Config::get('spark.smallHeight'),
+					"--slope-mode",
+					"--start", "end-1w",
+					"DEF:temperature=".Config::get('spark.rrdPath').$aquarium->aquariumID.
+						".rrd:temperature:AVERAGE",
+					"VDEF:lastTemperature=temperature,LAST",
+					"VDEF:minTemperature=temperature,MINIMUM",
+					"VDEF:maxTemperature=temperature,MAXIMUM",
+					"VDEF:avgTemperature=temperature,AVERAGE",
+					'LINE1:temperature#FF0000:"Temperature"',
+				)
+			);
+			$tempWeeklySmall->save();
+			
+			$tempWeeklyLarge = new  RRDGraph(Config::get('spark.graphPath').
+				$aquarium->aquariumID."/temp-weekly-large.png");
+			$tempWeeklyLarge->setOptions(
+				array(
+					"--title" => "Temperature",
+					"--width" => Config::get('spark.largeWidth'),
+					"--height" => Config::get('spark.largeHeight'),
+					"--slope-mode",
+					"--start", "end-1w",
+					"DEF:temperature=".Config::get('spark.rrdPath').$aquarium->aquariumID.
+						".rrd:temperature:AVERAGE",
+					"VDEF:lastTemperature=temperature,LAST",
+					"VDEF:minTemperature=temperature,MINIMUM",
+					"VDEF:maxTemperature=temperature,MAXIMUM",
+					"VDEF:avgTemperature=temperature,AVERAGE",
+					'LINE1:temperature#FF0000:"Temperature"',
+					"GPRINT:lastTemperature:Current\: %2.2lfC",
+					"GPRINT:minTemperature:Min\: %2.2lfC",
+					"GPRINT:maxTemperature:Max\: %2.2lfC",
+					"GPRINT:avgTemperature:Average\: %2.2lfC\"\l",
+				)
+			);
+			$tempWeeklyLarge->save();		
+			
+			$relaysDailySmall = new  RRDGraph(Config::get('spark.graphPath').
+				$aquarium->aquariumID."/relays-daily-small.png");
+			$relaysDailySmall->setOptions(
+				array(
+					"--title" => "Relays",
+					"--width" => Config::get('spark.smallWidth'),
+					"--height" => Config::get('spark.smallHeight'),
+					"--slope-mode",
+					"DEF:heater=".Config::get('spark.rrdPath').$aquarium->aquariumID.
+						".rrd:heater:AVERAGE",
+					"DEF:light=".Config::get('spark.rrdPath').$aquarium->aquariumID.
+						".rrd:light:AVERAGE",
+					"AREA:light#AAAAFF:Light:STACK",
+					"AREA:heater#FFFF00:Heater\l:STACK"
+				)
+			);
+			$relaysDailySmall->save();
+			
+			$relaysDailyLarge = new  RRDGraph(Config::get('spark.graphPath').
+				$aquarium->aquariumID."/relays-daily-large.png");
+			$relaysDailyLarge->setOptions(
+				array(
+					"--title" => "Relays",
+					"--width" => Config::get('spark.largeWidth'),
+					"--height" => Config::get('spark.largeHeight'),
+					"--slope-mode",
+					"DEF:heater=".Config::get('spark.rrdPath').$aquarium->aquariumID.
+						".rrd:heater:AVERAGE",
+					"DEF:light=".Config::get('spark.rrdPath').$aquarium->aquariumID.
+						".rrd:light:AVERAGE",
+					"AREA:light#AAAAFF:Light:STACK",
+					"AREA:heater#FFFF00:Heater\l:STACK"
+				)
+			);
+			$relaysDailyLarge->save();
+			
+			$relaysWeeklySmall = new  RRDGraph(Config::get('spark.graphPath').
+				$aquarium->aquariumID."/relays-weekly-small.png");
+			$relaysWeeklySmall->setOptions(
+				array(
+					"--title" => "Relays",
+					"--width" => Config::get('spark.smallWidth'),
+					"--height" => Config::get('spark.smallHeight'),
+					"--slope-mode",
+					"--start", "end-1w",
+					"DEF:heater=".Config::get('spark.rrdPath').$aquarium->aquariumID.
+						".rrd:heater:AVERAGE",
+					"DEF:light=".Config::get('spark.rrdPath').$aquarium->aquariumID.
+						".rrd:light:AVERAGE",
+					"AREA:light#AAAAFF:Light:STACK",
+					"AREA:heater#FFFF00:Heater\l:STACK"
+				)
+			);
+			$relaysWeeklySmall->save();
+			
+			$relaysWeeklyLarge = new  RRDGraph(Config::get('spark.graphPath').
+				$aquarium->aquariumID."/relays-weekly-large.png");
+			$relaysWeeklyLarge->setOptions(
+				array(
+					"--title" => "Relays",
+					"--width" => Config::get('spark.largeWidth'),
+					"--height" => Config::get('spark.largeHeight'),
+					"--slope-mode",
+					"--start", "end-1w",
+					"DEF:heater=".Config::get('spark.rrdPath').$aquarium->aquariumID.
+						".rrd:heater:AVERAGE",
+					"DEF:light=".Config::get('spark.rrdPath').$aquarium->aquariumID.
+						".rrd:light:AVERAGE",
+					"AREA:light#AAAAFF:Light:STACK",
+					"AREA:heater#FFFF00:Heater\l:STACK"
+				)
+			);
+			$relaysWeeklyLarge->save();
 			
 		}
 	}

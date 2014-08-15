@@ -83,6 +83,11 @@ Route::post('/aquariums/{aquariumID}/update', [
 	'uses' => 'AquariumController@update'	
 ]);
 
+Route::get('/aquariums/{aquariumID}/graphs', [
+	'as'	=> 'aquariums.graphs',
+	'uses' => 'AquariumController@getGraphs'	
+]);
+
 /// Aquarium Life Module
 Route::get('/aquariums/{aquariumID}/life', [
     'as'     => 'aquariums.life',

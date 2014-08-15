@@ -97,20 +97,10 @@ class FoodController extends \BaseController
 			$days = 30;		
 
 
-		DB::statement('SELECT @colorsCnt := (SELECT MAX(colorID) FROM Colors)');
-		DB::statement('SELECT @rowNumber := 0');
+
 		
-		$food = DB::select(
-			"SELECT @rowNumber:=@rowNumber + 1 AS rowNumber,
-				Food.name AS label, COUNT(Food.name) AS value,
- 				(SELECT CONCAT('#', LPAD(CONV(color, 10, 16), 6, '0'))
- 					FROM Colors WHERE colorID = (@rowNumber % @colorsCnt)) AS color
-			 FROM AquariumLogs
-			 JOIN FoodLogs ON FoodLogs.aquariumLogID = AquariumLogs.aquariumLogID
-			 JOIN Food ON Food.foodID = FoodLogs.foodID
-			 WHERE AquariumLogs.aquariumID = ?
-			 AND logDate >= DATE_SUB(NOW(), INTERVAL ? Day)
-			 GROUP BY Food.name", array($aquariumID, $days));
+		$food = FoodLog::FeedingsByDays($aquariumID, $days);
+		
 		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)
 			->join('FoodLogs', 'FoodLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->groupby('logDate')

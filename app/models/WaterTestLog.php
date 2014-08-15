@@ -11,6 +11,41 @@ class WaterTestLog extends BaseModel {
 	{
 		return $this->belongsTo('AquariumLog');
 	}
+	
+	public function scopeCycleData($query, $aquariumID)
+	{
+		return self::selectRaw('DATE(logDate) AS logDate,
+				ammonia, nitrites, nitrates')
+			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
+				'=', 'WaterTestLogs.aquariumLogID')
+			->where('AquariumLogs.aquariumID', '=', $aquariumID)
+			->whereNotNull('ammonia')
+			->whereNotNull('nitrites')
+			->whereNotNull('nitrates')
+			->orderBy('logDate', 'asc');
+	}
+	
+	public function scopePhosphateData($query, $aquariumID)
+	{
+		return self::selectRaw('DATE(logDate) AS logDate, phosphates')
+		->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
+			'=', 'WaterTestLogs.aquariumLogID')
+		->where('AquariumLogs.aquariumID', '=', $aquariumID)
+		->whereNotNull('phosphates')
+		->orderBy('logDate', 'asc');
+	}
+		
+	public function scopeWaterExchangeDate($query, $aquariumID)
+	{
+	 	return self::selectRaw('DATE(logDate) AS logDate, amountExchanged')
+		->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
+			'=', 'WaterTestLogs.aquariumLogID')
+		->where('AquariumLogs.aquariumID', '=', $aquariumID)
+		->whereNotNull('amountExchanged')
+		->orderBy('logDate', 'asc');		
+	}
+	
+	
 
 	public function nextWaterChangeClass()
 	{

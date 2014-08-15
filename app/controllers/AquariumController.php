@@ -227,6 +227,41 @@ class AquariumController extends BaseController
 	 	echo "Missing, goddamnit";
 	}
 	
+	public function getGraphs($aquariumID)
+	{
+		$numEntries = 20;
+		
+		$aquarium = Aquarium::singleAquarium($aquariumID);
+		
+		$cycleData = WaterTestLog::cycleData($aquariumID)
+			->paginate($numEntries);	
+		$phosphates = WaterTestLog::phosphateData($aquariumID)
+			->paginate($numEntries);
+		$waterExchanged = WaterTestLog::waterExchangeDate($aquariumID)
+			->paginate($numEntries);
+		
+		$food = FoodLog::FeedingsByDays($aquariumID);
+		$fishGraphData = AquariumLife::fish($aquariumID)
+			->get();
+		
+		
+		
+		
+		return View::make('aquariums/graphs')
+			->with('aquariumID', $aquariumID)
+			->with('aquarium', $aquarium)
+			->with('cycleLogDateList', $cycleData->lists('logDate'))
+			->with('ammoniaList', $cycleData->lists('ammonia'))
+			->with('nitriteList', $cycleData->lists('nitrites'))
+			->with('nitrateList', $cycleData->lists('nitrates'))
+			->with('phoshateLogDateList', $phosphates->lists('logDate'))
+			->with('phoshateDataList', $phosphates->lists('phosphates'))
+			->with('waterChangeDateList', $waterExchanged->lists('logDate'))
+			->with('waterChangeDataList', $waterExchanged->lists('amountExchanged'))
+			->with('foodGraphData', json_encode($food, JSON_NUMERIC_CHECK))
+			->with('fishGraphData', json_encode($fishGraphData, JSON_NUMERIC_CHECK));
+	}
+	
 	/* Public Functions */
 	public function getPublicAquarium($aquariumID)
 	{

@@ -57,5 +57,6 @@
 @stop
 
 @section('footer')
-
+	@parent
+	<script src="/js/vendor/chart.js"></script>
 @stop

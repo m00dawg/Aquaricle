@@ -77,31 +77,13 @@ class WaterLogsController extends BaseController
 			->orderBy('logDate', 'desc')
 			->get();
 		
-		$cycleData = WaterTestLog::selectRaw('DATE(logDate) AS logDate,
-				ammonia, nitrites, nitrates')
-			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
-				'=', 'WaterTestLogs.aquariumLogID')
-			->where('AquariumLogs.aquariumID', '=', $aquariumID)
-			->whereNotNull('ammonia')
-			->whereNotNull('nitrites')
-			->whereNotNull('nitrates')
-			->orderBy('logDate', 'asc')
+		$cycleData = WaterTestLog::cycleData($aquariumID)
 			->paginate(self::$numEntries);
 			
-		$phosphates = WaterTestLog::selectRaw('DATE(logDate) AS logDate, phosphates')
-			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
-				'=', 'WaterTestLogs.aquariumLogID')
-			->where('AquariumLogs.aquariumID', '=', $aquariumID)
-			->whereNotNull('phosphates')
-			->orderBy('logDate', 'asc')
+		$phosphates = WaterTestLog::phosphateData($aquariumID)
 			->paginate(self::$numEntries);
 			
-		$waterExchanged = WaterTestLog::selectRaw('DATE(logDate) AS logDate, amountExchanged')
-			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
-				'=', 'WaterTestLogs.aquariumLogID')
-			->where('AquariumLogs.aquariumID', '=', $aquariumID)
-			->whereNotNull('amountExchanged')
-			->orderBy('logDate', 'asc')
+		$waterExchanged = WaterTestLog::waterExchangeDate($aquariumID)
 			->paginate(self::$numEntries);
 		
 		DB::commit();

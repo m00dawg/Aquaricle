@@ -63,20 +63,9 @@ class AquariumLifeController extends BaseController
 			->get();
 		
 		// Fish Graph Data
-		DB::statement('SELECT @colorsCnt := (SELECT MAX(colorID) FROM Colors)');
-		DB::statement('SELECT @rowNumber := 0');
-		$fishGraphData = AquariumLife::where('aquariumID', '=', $aquariumID)
-			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
-			->join('LifeTypes', 'LifeTypes.lifeTypeID',
-				'=', 'Life.lifeTypeID')
-			->where('LifeTypes.lifeTypeName', '=', 'Fish')
-			->whereNull('deletedAt')
-			->groupBy('AquariumLife.lifeID')
-			->selectRaw("@rowNumber:=@rowNumber + 1 AS rowNumber, 
-				Life.commonName AS label, SUM(AquariumLife.qty) AS value,
-				(SELECT CONCAT('#', LPAD(CONV(color, 10, 16), 6, '0'))
-					FROM Colors WHERE colorID = (@rowNumber % @colorsCnt)) AS color")
+		$fishGraphData = AquariumLife::fish($aquariumID)
 			->get();
+		
 		$fishTotal = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
 			->join('LifeTypes', 'LifeTypes.lifeTypeID',
