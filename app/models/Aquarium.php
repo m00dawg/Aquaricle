@@ -77,7 +77,14 @@ class Aquarium extends BaseModel {
 		 if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
 			 return null;
 		 }
-		 Cache::put($key, $decoded->result, Config::get('cache.ttl'));
-		 return $decoded->result.' C';
+		
+		// Temperature is Celsius by default, so we have to convert if we want Farenheight 
+		if($this->measurementUnits != 'Metric')
+			$temp = $decoded->result * 1.8 + 32;
+		else
+			$temp = $decoded->result;
+		
+		 Cache::put($key, $temp, Config::get('cache.ttl'));
+		 return $temp;
 	}
 }

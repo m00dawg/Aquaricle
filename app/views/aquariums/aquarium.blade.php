@@ -65,7 +65,7 @@
 	</li>
 	@if ($aquarium->sparkID && $aquarium->sparkToken)
 		<li><strong>Current Temperature:</strong> 
-			<span id="temperature">Updating</spam> C</li>
+			<span id="temperature">Updating</spam></li>
 	@endif
 </ul>
 

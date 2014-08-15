@@ -313,7 +313,8 @@ class AquariumController extends BaseController
 	public function getTemperature($aquariumID)
 	{
 		$aquarium = Aquarium::singleAquarium($aquariumID);
-		return round($aquarium->sparkTemperature(), 2);
+		$units = $aquarium->getMeasurementUnits();
+		return round($aquarium->sparkTemperature(), 2)." ".$units['Temperature'];
 	}
 }
 	
