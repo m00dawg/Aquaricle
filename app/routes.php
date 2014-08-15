@@ -51,6 +51,14 @@ Route::get('/public/aquariums/{aquariumID}/waterlogs', [
     'as'     => 'public.aquariums.waterlogs',
     'uses'   => 'WaterLogsController@getPublicWaterLogs'
 ]);
+	
+Route::get('/public/aquariums/{aquariumID}/graphs', [
+	'before' => 'cache',
+	'after' => 'cache',
+	'as'	=> 'public.aquariums.graphs',
+	'uses' => 'AquariumController@getGraphs'	
+]);
+	
 
 // Aquariums Module
 Route::get('/aquarium/create', [
