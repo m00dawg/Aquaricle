@@ -9,7 +9,8 @@ return array(
 
     /* Paths for RRDs */
     'rrdPath' => __DIR__.'/../../rrd/',
-    'graphPath' => __DIR__.'/../../public/static/graphs/',
+    'graphPath' => __DIR__.'/../../public/graphs/',
+    'uriGraphPath' =>'/graphs/',
 
     'smallWidth' => 480,
     'smallHeight' => 120,
