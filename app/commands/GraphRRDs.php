@@ -65,7 +65,11 @@ class GraphRRDs extends Command {
 					"VDEF:minTemperature=temperature,MINIMUM",
 					"VDEF:maxTemperature=temperature,MAXIMUM",
 					"VDEF:avgTemperature=temperature,AVERAGE",
-					'LINE1:temperature#FF0000:"Temperature"',
+					'LINE1:temperature#FF0000:Temperature',
+					"GPRINT:lastTemperature:Current\: %2.2lfC",
+					"GPRINT:minTemperature:Min\: %2.2lfC",
+					"GPRINT:maxTemperature:Max\: %2.2lfC",
+					"GPRINT:avgTemperature:Average\: %2.2lfC\"\l",
 				)
 			);
 			$tempDailySmall->save();
@@ -84,7 +88,7 @@ class GraphRRDs extends Command {
 					"VDEF:minTemperature=temperature,MINIMUM",
 					"VDEF:maxTemperature=temperature,MAXIMUM",
 					"VDEF:avgTemperature=temperature,AVERAGE",
-					'LINE1:temperature#FF0000:"Temperature"',
+					'LINE1:temperature#FF0000:Temperature',
 					"GPRINT:lastTemperature:Current\: %2.2lfC",
 					"GPRINT:minTemperature:Min\: %2.2lfC",
 					"GPRINT:maxTemperature:Max\: %2.2lfC",
@@ -108,7 +112,11 @@ class GraphRRDs extends Command {
 					"VDEF:minTemperature=temperature,MINIMUM",
 					"VDEF:maxTemperature=temperature,MAXIMUM",
 					"VDEF:avgTemperature=temperature,AVERAGE",
-					'LINE1:temperature#FF0000:"Temperature"',
+					'LINE1:temperature#FF0000:Temperature',
+					"GPRINT:lastTemperature:Current\: %2.2lfC",
+					"GPRINT:minTemperature:Min\: %2.2lfC",
+					"GPRINT:maxTemperature:Max\: %2.2lfC",
+					"GPRINT:avgTemperature:Average\: %2.2lfC\"\l",
 				)
 			);
 			$tempWeeklySmall->save();
