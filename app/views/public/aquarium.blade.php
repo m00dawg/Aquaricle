@@ -120,3 +120,14 @@
 	@endif
 </table>
 @stop
+
+@section('footer')
+	<script>
+		$.ajax({
+		url: "/api/aquarium/{{ $aquariumID }}/temperature",
+		success: function( data ) {
+		$( "#temperature" ).html( data );
+		}
+		});
+	</script>
+@stop
