@@ -241,7 +241,7 @@ class AquariumController extends BaseController
 			->paginate($numEntries);
 		
 		$food = FoodLog::FeedingsByDays($aquariumID);
-		$fishGraphData = AquariumLife::fish($aquariumID)
+		$fish = AquariumLife::fish($aquariumID)
 			->get();
 		
 		return View::make('aquariums/graphs')
@@ -255,8 +255,10 @@ class AquariumController extends BaseController
 			->with('phoshateDataList', $phosphates->lists('phosphates'))
 			->with('waterChangeDateList', $waterExchanged->lists('logDate'))
 			->with('waterChangeDataList', $waterExchanged->lists('amountExchanged'))
+			->with('foodCount', count($food))
 			->with('foodGraphData', json_encode($food, JSON_NUMERIC_CHECK))
-			->with('fishGraphData', json_encode($fishGraphData, JSON_NUMERIC_CHECK));
+			->with('fishCount', count($fish))				
+			->with('fishGraphData', json_encode($fish, JSON_NUMERIC_CHECK));
 	}
 	
 	/* Public Functions */

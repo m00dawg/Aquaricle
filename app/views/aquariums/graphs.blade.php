@@ -35,10 +35,14 @@
 		@include('waterlogs.graphs')
 	</div>
 	<div id="rightColumn">
-		<h3>Recent Feedings</h3>
-		@include('food.graphs')
-		<h3>Life</h3>
-		@include('aquariums.life.graphs')
+		@if ($foodCount > 1)
+			<h3>Recent Feedings</h3>
+			@include('food.graphs')
+		@endif
+		@if ($fishCount > 1)
+			<h3>Life</h3>
+			@include('aquariums.life.graphs')
+		@endif
 	</div>
 <div id="clear"></div>
 
