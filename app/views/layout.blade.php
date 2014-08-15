@@ -46,7 +46,7 @@
 			<li>{{ link_to_route('aquariums.life', 'Life', array($aquariumID)) }}</li>
 		@elseif (Request::is('public/*') && isset($aquariumID))
 			<li>{{ link_to_route('public.aquariums', 'Aquarium', array($aquariumID)) }}</li>
-			<li>{{ link_to_route('aquariums.graphs', 'Graphs', array($aquariumID)) }}</li>			
+			<li>{{ link_to_route('public.aquariums.graphs', 'Graphs', array($aquariumID)) }}</li>			
 			<li>{{ link_to_route('public.aquariums.waterlogs', 'Water Tests', array($aquariumID)) }}</li>
 		@else
 			<li>{{ link_to('/', 'News') }}</li>

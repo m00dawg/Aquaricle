@@ -244,9 +244,6 @@ class AquariumController extends BaseController
 		$fishGraphData = AquariumLife::fish($aquariumID)
 			->get();
 		
-		
-		
-		
 		return View::make('aquariums/graphs')
 			->with('aquariumID', $aquariumID)
 			->with('aquarium', $aquarium)
