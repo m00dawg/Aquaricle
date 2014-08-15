@@ -70,6 +70,8 @@
 	<a href="{{ Config::get('spark.uriGraphPath') }}{{ $aquarium->aquariumID }}/relays-daily-large.png">
 		<img src="{{ Config::get('spark.uriGraphPath') }}{{ $aquarium->aquariumID }}/relays-daily-small.png">
 	</a>
+	
+	</div>
 @endif
 
 <h3>Active Equipment</h3>
