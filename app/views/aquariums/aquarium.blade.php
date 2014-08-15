@@ -116,6 +116,7 @@
 	@foreach($favorites as $favorite)
 		{{ Form::radio('favoriteLog', $favorite->aquariumLogID) }} {{ $favorite->name }} <br />
 	@endforeach
+	<br />
 	{{ Form::submit('Process') }}<br />
 	{{ Form::close() }}
 @endif	
