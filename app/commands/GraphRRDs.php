@@ -69,7 +69,7 @@ class GraphRRDs extends Command {
 					"GPRINT:lastTemperature:Current\: %2.2lfC",
 					"GPRINT:minTemperature:Min\: %2.2lfC",
 					"GPRINT:maxTemperature:Max\: %2.2lfC",
-					"GPRINT:avgTemperature:Average\: %2.2lfC\"\l",
+					"GPRINT:avgTemperature:Average\: %2.2lfC\l",
 				)
 			);
 			$tempDailySmall->save();
@@ -92,7 +92,7 @@ class GraphRRDs extends Command {
 					"GPRINT:lastTemperature:Current\: %2.2lfC",
 					"GPRINT:minTemperature:Min\: %2.2lfC",
 					"GPRINT:maxTemperature:Max\: %2.2lfC",
-					"GPRINT:avgTemperature:Average\: %2.2lfC\"\l",
+					"GPRINT:avgTemperature:Average\: %2.2lfC\l",
 				)
 			);
 			$tempDailyLarge->save();
@@ -116,7 +116,7 @@ class GraphRRDs extends Command {
 					"GPRINT:lastTemperature:Current\: %2.2lfC",
 					"GPRINT:minTemperature:Min\: %2.2lfC",
 					"GPRINT:maxTemperature:Max\: %2.2lfC",
-					"GPRINT:avgTemperature:Average\: %2.2lfC\"\l",
+					"GPRINT:avgTemperature:Average\: %2.2lfC\l",
 				)
 			);
 			$tempWeeklySmall->save();
@@ -140,7 +140,7 @@ class GraphRRDs extends Command {
 					"GPRINT:lastTemperature:Current\: %2.2lfC",
 					"GPRINT:minTemperature:Min\: %2.2lfC",
 					"GPRINT:maxTemperature:Max\: %2.2lfC",
-					"GPRINT:avgTemperature:Average\: %2.2lfC\"\l",
+					"GPRINT:avgTemperature:Average\: %2.2lfC\l",
 				)
 			);
 			$tempWeeklyLarge->save();		
