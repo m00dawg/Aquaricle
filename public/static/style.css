@@ -37,10 +37,12 @@ body{
 #leftColumn {
 	float: left;
 	width: 50%;
+	text-align: center;
 }
 #rightColumn {
 	float: right;
 	width: 50%;
+	text-align: center;
 }
 #clear {
     clear: both;

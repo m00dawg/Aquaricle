@@ -26,6 +26,7 @@
 	<a href="{{ Config::get('spark.uriGraphPath') }}{{ $aquarium->aquariumID }}/relays-weekly-large.png">
 		<img src="{{ Config::get('spark.uriGraphPath') }}{{ $aquarium->aquariumID }}/relays-weekly-small.png">
 	</a>
+	</div>
 @endif
 
 <div id="columnWrap">
