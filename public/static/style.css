@@ -240,7 +240,7 @@ a.aquariumLife:hover { color: #0000FF; }
     background-color: #000055;
     margin-left: auto;
     margin-right: auto;
-    text-align: center;
+ /*   text-align: center; */
     padding-top: 1%;
     padding-bottom: 1%;
 }
