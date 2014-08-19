@@ -243,7 +243,8 @@
 	</table>
 
 	<br />
-	
+
+    <div style="text-align: center;">	
 	{{ Form::label('logDate', 'Date') }}: {{ Form::text('logDate') }}
 	
 	@if(!isset($log))
@@ -264,6 +265,8 @@
 	@endif	
 	
 	{{ Form::close() }}
+
+    </div>
 
 </div>
 <br />
