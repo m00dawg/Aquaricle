@@ -63,6 +63,7 @@ class ProcessEmailReminders extends Command {
 				elseif($aquarium->dueIn == 0)
 					$body .= "Your ".$aquarium->name." is due for a water change today!\n";
 				else
+					$body .= "Your ".$aquarium->name." is OVERDUE for a water change!\n";
 				$body .= "Last water change was performend on ".$aquarium->logDate."\n\n";
 			}
 			// Check on Equipment Maintenance			
