@@ -2,14 +2,14 @@
 
 class AquariumLogsController extends BaseController
 {
-	
+
 	private function uploadFile($log)
 	{
 		$path = public_path()."/files/".$log->aquariumID;
-		
+
 		if(!is_dir($path))
 			mkdir($path);
-		
+
 		$file = Input::file('file');
 		if(!$file->isValid())
 			return false;
@@ -37,6 +37,7 @@ class AquariumLogsController extends BaseController
 		}
 
 		$fileDB = new AquariumFile();
+		$fileDB->userID = Auth::id();
 		$fileDB->aquariumID = $log->aquariumID;
 		$fileDB->fileType = $ext;
 
@@ -55,7 +56,7 @@ class AquariumLogsController extends BaseController
 		    $constraint->aspectRatio();
 			})
 			->save("$path/$fileID-thumb.$ext");
-			
+
 		Image::make($file)
 			->resize(null, AquariumFile::$fullHeight, function ($constraint) {
 			    $constraint->aspectRatio();
@@ -67,10 +68,10 @@ class AquariumLogsController extends BaseController
 		$aquariumLogFile->fileID = $fileID;
 		$aquariumLogFile->aquariumLogID = $log->aquariumLogID;
 		$aquariumLogFile->save();
-		
+
 		return $fileID;
 	}
-	
+
 	private function updateWaterTestLog($aquariumLogID)
 	{
 		if(Input::get('temperature') != '' ||
@@ -105,12 +106,12 @@ class AquariumLogsController extends BaseController
 			if(Input::get('TDS') != '')
 				$waterTestLog->TDS = Input::get('TDS');
 			if(Input::get('amountExchanged') != '')
-				$waterTestLog->amountExchanged = Input::get('amountExchanged');	
+				$waterTestLog->amountExchanged = Input::get('amountExchanged');
 			$waterTestLog->save();
 		}
 	}
-	
-	// We had to use DB::table here over Eloquent because Eloquent does not 
+
+	// We had to use DB::table here over Eloquent because Eloquent does not
 	// support composite primary keys
 	private function updateWaterAdditive($aquariumLogID)
 	{
@@ -121,14 +122,14 @@ class AquariumLogsController extends BaseController
 				// See if it exists in the DB
 				$additiveLog = DB::table('WaterAdditiveLogs')
 					->where('aquariumLogID', '=', $aquariumLogID)
-					->where('waterAdditiveID', '=', Input::get('waterAdditive'))	
+					->where('waterAdditiveID', '=', Input::get('waterAdditive'))
 					->first();
 				if(isset($additiveLog))
 				{
 					// Now see if we need to update the additive, or delete the entry
 					if(Input::get('waterAdditiveAmount') > 0)
 					{
-						// There is probably a better way to do this, but convert the standard 
+						// There is probably a better way to do this, but convert the standard
 						// DB object above into an array and include the amount
 						$additiveLog = array('aquariumLogID' => $additiveLog->aquariumLogID,
 							'waterAdditiveID' => $additiveLog->waterAdditiveID,
@@ -150,14 +151,14 @@ class AquariumLogsController extends BaseController
 				elseif(Input::get('waterAdditiveAmount') > 0)
 				{
 					DB::table('WaterAdditiveLogs')->insert(
-					    array('aquariumLogID' => $aquariumLogID, 
+					    array('aquariumLogID' => $aquariumLogID,
 							  'waterAdditiveID' => Input::get('waterAdditive'),
 							  'amount' => Input::get('waterAdditiveAmount')));
 				}
 			}
 	}
-	
-	// We had to use DB::table here over Eloquent because Eloquent does not 
+
+	// We had to use DB::table here over Eloquent because Eloquent does not
 	// support composite primary keys
 	private function updateEquipmentLog($aquariumLogID)
 	{
@@ -170,15 +171,15 @@ class AquariumLogsController extends BaseController
 					$maintenance = 'Yes';
 				else
 					$maintenance = 'No';
-				
+
 				// See if it exists in the DB
 				$equipmentLog = DB::table('EquipmentLogs')
 					->where('aquariumLogID', '=', $aquariumLogID)
-					->where('equipmentID', '=', Input::get('equipment'))	
+					->where('equipmentID', '=', Input::get('equipment'))
 					->first();
 				// If so, we update the entry
 				if(isset($equipmentLog))
-				{	
+				{
 					// As with the WaterAdditiveLogs, this is not elegant and should be improved.
 					$equipmentLog = array('aquariumLogID' => $equipmentLog->aquariumLogID,
 						'maintenance' => $maintenance);
@@ -191,39 +192,39 @@ class AquariumLogsController extends BaseController
 				else
 				{
 					DB::table('EquipmentLogs')->insert(
-					    array('aquariumLogID' => $aquariumLogID, 
+					    array('aquariumLogID' => $aquariumLogID,
 							  'equipmentID' => Input::get('equipment'),
 							  'maintenance' => $maintenance));
 				}
 			}
 	}
-	
+
 	private function updateFoodLog($aquariumLogID)
 	{
 		//First delete what's there
 		DB::table('FoodLogs')->where('aquariumLogID', '=', $aquariumLogID)->delete();
 		//Then check to see if food is part of input
 		if(Input::get('food') != '')
- 			if(Input::get('food') != 0)	
+ 			if(Input::get('food') != 0)
 				foreach(Input::get('food') as $foodID)
 					DB::table('FoodLogs')->insert(array('aquariumLogID' => $aquariumLogID, 'foodID' => $foodID));
 	}
-	
+
 	private function updateAquariumLifeLog($aquariumLogID)
 	{
 		//First delete what's there
 		DB::table('AquariumLifeLogs')->where('aquariumLogID', '=', $aquariumLogID)->delete();
 		//Then check to see if food is part of input
 		if(Input::get('aquariumLife') != '')
- 			if(Input::get('aquariumLife') != 0)	
+ 			if(Input::get('aquariumLife') != 0)
 				foreach(Input::get('aquariumLife') as $aquariumLifeID)
 					DB::table('AquariumLifeLogs')
-						->insert(array('aquariumLogID' => $aquariumLogID, 
+						->insert(array('aquariumLogID' => $aquariumLogID,
 									   'aquariumLifeID' => $aquariumLifeID));
 	}
-	
+
 	private function generateLogSummary($aquariumLogID)
-	{	
+	{
 		// Water Test Log
 		$summary = '';
 		$waterLog = WaterTestLog::where('aquariumLogID', '=', $aquariumLogID)->first();
@@ -246,7 +247,7 @@ class AquariumLogsController extends BaseController
 				$summary .= 'Exchanged Water';
 			}
 		}
-		
+
 		// Water Additives Log
 		$waterAdditiveLog = WaterAdditiveLog::where('aquariumLogID', '=', $aquariumLogID)
 			->join('WaterAdditives', 'WaterAdditives.waterAdditiveID', '=', 'WaterAdditiveLogs.waterAdditiveID')
@@ -260,7 +261,7 @@ class AquariumLogsController extends BaseController
 				$summary .= 'Added '.$additive->name;
 			}
 		}
-		
+
 		// Equipment Log
 		$equipmentLog = EquipmentLog::where('aquariumLogID', '=', $aquariumLogID)
 			->join('Equipment', 'Equipment.equipmentID', '=', 'EquipmentLogs.equipmentID')
@@ -274,7 +275,7 @@ class AquariumLogsController extends BaseController
 				$summary .= 'Maintained '.$equipment->name;
 			}
 		}
-		
+
 		// Food
 		$foodLog = FoodLog::where('aquariumLogID', '=', $aquariumLogID)
 			->join('Food', 'Food.foodID', '=', 'FoodLogs.foodID')
@@ -285,7 +286,7 @@ class AquariumLogsController extends BaseController
 			if($summary != '')
 				$summary .= ', ';
 			$summary .= 'Fed Fish';
-			
+
 			$count = 0;
 			foreach($foodLog as $foodItem)
 			{
@@ -295,10 +296,10 @@ class AquariumLogsController extends BaseController
 				++$count;
 			}
 		}
-		
+
 		// Aquarium Life
 		$aquariumLifeLog = AquariumLifeLog::where('aquariumLogID', '=', $aquariumLogID)
-			->join('AquariumLife', 'AquariumLife.aquariumLifeID', 
+			->join('AquariumLife', 'AquariumLife.aquariumLifeID',
 				'=', 'AquariumLifeLogs.aquariumLifeID')
 			->get();
 		$aquariumLifeLogCount = count($aquariumLifeLog);
@@ -307,7 +308,7 @@ class AquariumLogsController extends BaseController
 			if($summary != '')
 				$summary .= ', ';
 			$summary .= 'Looked At';
-			
+
 			$count = 0;
 			foreach($aquariumLifeLog as $life)
 			{
@@ -315,19 +316,19 @@ class AquariumLogsController extends BaseController
 					$name = $life->nickname;
 				else
 					$name = $life->life->commonName;
-					
+
 				$summary .= ' '.$name;
 				if($count + 1 < $aquariumLifeLogCount)
 					$summary .= ' &amp; ';
 				++$count;
 			}
 		}
-		
+
 		if($summary != '')
 			return $summary;
 		return null;
 	}
-	
+
 	private static function validateLog()
 	{
 		$validator = Validator::make(
@@ -349,10 +350,10 @@ class AquariumLogsController extends BaseController
 				//'file' => 'size:5242880|mimes:image/png,image/jpeg')
 
 		);
-		
+
 		return $validator;
 	}
-	
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -387,14 +388,14 @@ class AquariumLogsController extends BaseController
 		//$waterAdditives = WaterAdditive::get();
 
 		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
-			
+
 		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)
 			->lists('name', 'equipmentID');
 
 		$measurementUnits = Aquarium::where('aquariumID', '=', $aquariumID)
 			->select('measurementUnits')
 			->first();
-			
+
 		DB::commit();
 
 		return View::make('aquariumlogs/editlog')
@@ -419,11 +420,11 @@ class AquariumLogsController extends BaseController
 			return Redirect::to("aquariums/$aquariumID/logs/create")
 				->withInput(Input::all())
 				->withErrors($validator);
-	
+
 		$log = new AquariumLog();
 		$log->aquariumID = $aquariumID;
 		$log->comments = Input::get('comments');
-		
+
 		$logDate = Input::get('logDate');
 		if(isset($logDate))
 			if($logDate != '')
@@ -437,7 +438,7 @@ class AquariumLogsController extends BaseController
 		$this->updateEquipmentLog($aquariumLogID);
 		$this->updateFoodLog($aquariumLogID);
 		$this->updateAquariumLifeLog($aquariumLogID);
-		
+
 		if (Input::hasFile('file'))
 			if(!$this->uploadFile($log))
 			{
@@ -446,12 +447,12 @@ class AquariumLogsController extends BaseController
 					->withInput(Input::except('file'))
 					->withErrors(array('message' => "Could not upload file"));
 			}
-		
+
 		$log->summary = $this->generateLogSummary($aquariumLogID);
 		$log->save();
 
 		DB::commit();
-		
+
 		return Redirect::to("aquariums/$aquariumID/logs/$aquariumLogID/edit");
 	}
 
@@ -466,7 +467,7 @@ class AquariumLogsController extends BaseController
 		DB::beginTransaction();
 		$log = AquariumLog::where('AquariumLogs.aquariumLogID', '=', $logID)
 			->leftjoin('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
-			->select('AquariumLogs.aquariumLogID', 'AquariumLogs.aquariumID', 'logDate', 
+			->select('AquariumLogs.aquariumLogID', 'AquariumLogs.aquariumID', 'logDate',
 				'summary', 'comments', 'temperature', 'ammonia', 'nitrites', 'nitrates',
 				'phosphates', 'pH', 'KH', 'GH', 'TDS', 'amountExchanged')
 			->first();
@@ -477,27 +478,27 @@ class AquariumLogsController extends BaseController
 			})
 			->selectraw('Food.foodID AS foodID, name, IF(aquariumLogID, true, false) AS selected')
 			->get();
-		
+
 		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
 		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)
 			->lists('name', 'equipmentID');
-		
+
 		$waterAdditiveLogs = WaterAdditiveLog::where('aquariumLogID', '=', $logID)
 			->join('WaterAdditives', 'WaterAdditives.waterAdditiveID', '=', 'WaterAdditiveLogs.waterAdditiveID')
 			->get();
-		
+
 		$equipmentLogs = EquipmentLog::where('aquariumLogID', '=', $logID)
 			->join('Equipment', 'Equipment.equipmentID', '=', 'EquipmentLogs.equipmentID')
 			->get();
-		
+
 		$foodLogs = FoodLog::where('aquariumLogID', '=', $logID)
 			->join('Food', 'Food.foodID', '=', 'FoodLogs.foodID')
 			->get();
-		
+
 		$files = AquariumLogFile::where('aquariumLogID', '=', $logID)
 			->join('Files', 'Files.fileID', '=', 'AquariumLogFiles.fileID')
 			->get();
-		
+
 		DB::commit();
 
 		return View::make('aquariumlogs/log')
@@ -522,22 +523,22 @@ class AquariumLogsController extends BaseController
 	public function edit($aquariumID, $logID)
 	{
 		DB::beginTransaction();
-		
+
 		$aquarium = Aquarium::where('aquariumID', '=', $aquariumID)
 			->first();
-		
+
 		$log = AquariumLog::where('AquariumLogs.aquariumLogID', '=', $logID)
 			->where('AquariumLogs.aquariumID', '=', $aquariumID)
 			->leftjoin('WaterTestLogs', 'WaterTestLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->leftjoin('AquariumLogFavorites', 'AquariumLogFavorites.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
-			->select('AquariumLogs.aquariumLogID', 'AquariumLogs.aquariumID', 'logDate', 
+			->select('AquariumLogs.aquariumLogID', 'AquariumLogs.aquariumID', 'logDate',
 				'summary', 'comments', 'temperature', 'ammonia', 'nitrites', 'nitrates',
 				'phosphates', 'pH', 'KH', 'GH', 'TDS', 'amountExchanged', 'name')
 			->first();
-				
+
 		if(!$log)
 			return Redirect::to("aquariums/$aquariumID/");
-				
+
 		$food = Food::leftjoin('FoodLogs', function ($join) use($logID)
 			{
 				$join->on('FoodLogs.foodID', '=', 'Food.foodID')
@@ -547,30 +548,30 @@ class AquariumLogsController extends BaseController
 			->orWhere('Food.userID', '=', null)
 			->selectraw('Food.foodID AS foodID, name, IF(aquariumLogID, true, false) AS selected')
 			->get();
-			
+
 		$aquariumLife = AquariumLife::leftjoin('AquariumLifeLogs', function ($join) use($logID)
 			{
 				$join->on('AquariumLifeLogs.aquariumLifeID', '=', 'AquariumLife.aquariumLifeID')
 					->where('AquariumLifeLogs.aquariumLogID', '=', $logID);
 			})
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
-			->selectraw('AquariumLife.aquariumLifeID AS aquariumLifeID, 
-				nickname, commonName, 
+			->selectraw('AquariumLife.aquariumLifeID AS aquariumLifeID,
+				nickname, commonName,
 				IF(aquariumLogID, true, false) AS selected')
-			->get();		
-			
+			->get();
+
 		$waterAdditives = array('0' => 'None') + WaterAdditive::lists('name', 'waterAdditiveID');
 		$equipment = array('0' => 'None') + Equipment::where('aquariumID', '=', $aquariumID)
 			->lists('name', 'equipmentID');
-		
+
 		$waterAdditiveLogs = WaterAdditiveLog::where('aquariumLogID', '=', $logID)
 			->join('WaterAdditives', 'WaterAdditives.waterAdditiveID', '=', 'WaterAdditiveLogs.waterAdditiveID')
 			->get();
-		
+
 		$equipmentLogs = EquipmentLog::where('aquariumLogID', '=', $logID)
 			->join('Equipment', 'Equipment.equipmentID', '=', 'EquipmentLogs.equipmentID')
 			->get();
-		
+
 		$foodLogs = FoodLog::where('aquariumLogID', '=', $logID)
 			->join('Food', 'Food.foodID', '=', 'FoodLogs.foodID')
 			->get();
@@ -580,11 +581,11 @@ class AquariumLogsController extends BaseController
 				'=', 'AquariumLifeLogs.aquariumLifeID')
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
 			->get();
-				
+
 		$files = AquariumLogFile::where('aquariumLogID', '=', $logID)
 			->join('Files', 'Files.fileID', '=', 'AquariumLogFiles.fileID')
 			->get();
-				
+
 		DB::commit();
 
 		return View::make('aquariumlogs/editlog')
@@ -610,26 +611,26 @@ class AquariumLogsController extends BaseController
 	 * @return Response
 	 */
 	public function update($aquariumID, $aquariumLogID)
-	{		
+	{
 		if(Input::get('delete'))
 			return $this->destroy($aquariumID, $aquariumLogID);
-		
+
 		$validator = self::validateLog();
 		if ($validator->fails())
 			return Redirect::to("aquariums/$aquariumID/logs/$aquariumLogID/edit")
 				->withInput(Input::all())
 				->withErrors($validator);
-			
+
 		DB::beginTransaction();
 		$log = AquariumLog::where('aquariumLogID', '=', $aquariumLogID)->first();
-		
+
 		if($log->aquariumID != $aquariumID)
 		{
 			DB::rollback();
 			return Redirect::to("aquariums");
 		}
-	
-		$log->comments = Input::get('comments');		
+
+		$log->comments = Input::get('comments');
 		$logDate = Input::get('logDate');
 		if(isset($logDate))
 			if($logDate != '')
@@ -639,7 +640,7 @@ class AquariumLogsController extends BaseController
 		$this->updateEquipmentLog($aquariumLogID);
 		$this->updateFoodLog($aquariumLogID);
 		$this->updateAquariumLifeLog($aquariumLogID);
-		
+
 		if (Input::hasFile('file'))
 		{
 			if(!$this->uploadFile($log))
@@ -652,7 +653,7 @@ class AquariumLogsController extends BaseController
 		}
 
 		$log->summary = $this->generateLogSummary($aquariumLogID);
-		
+
 		// Add/Update Log as a favorite if it has been given a name
 		$name = Input::get('name');
 		if(isset($name))
@@ -678,10 +679,10 @@ class AquariumLogsController extends BaseController
 					->delete();
 			}
 		}
-			
+
 		$log->save();
 		DB::commit();
-	
+
 		return Redirect::to("aquariums/$aquariumID/logs/$aquariumLogID/edit");
 	}
 
@@ -700,13 +701,13 @@ class AquariumLogsController extends BaseController
 		$log->delete();
 		return Redirect::to("aquariums/$aquariumID/");
 	}
-	
+
 	/* Non Resource Functions */
 	public function getFavorites($aquariumID)
 	{
-		$favorites = AquariumLogFavorite::where('AquariumLogFavorites.aquariumID', 
+		$favorites = AquariumLogFavorite::where('AquariumLogFavorites.aquariumID',
 				'=', $aquariumID)
-			->join('AquariumLogs', 
+			->join('AquariumLogs',
 				'AquariumLogs.aquariumLogID', '=', 'AquariumLogFavorites.aquariumLogID')
 			->select('AquariumLogFavorites.aquariumLogID',
 					'AquariumLogFavorites.name',
@@ -716,9 +717,9 @@ class AquariumLogsController extends BaseController
 			->with('aquariumID', $aquariumID)
 			->with('favorites', $favorites);
 	}
-	
+
 	public function storeFavorite($aquariumID)
-	{	
+	{
 		DB::beginTransaction();
 		$aquariumLogID = Input::get('favoriteLog');
 		$results = DB::select('CALL ProcessFavoriteLog(?,?)',array($aquariumLogID, $aquariumID));
@@ -733,8 +734,8 @@ class AquariumLogsController extends BaseController
 	{
 		$days = Input::get('days');
 		if(!isset($days))
-			$days = 7;		
-		
+			$days = 7;
+
 		$food = DB::select(
 			"SELECT Food.name AS name, COUNT(Food.name) AS count
 			 FROM AquariumLogs
@@ -754,7 +755,7 @@ class AquariumLogsController extends BaseController
 			->with('days', $days)
 			->with('food', $food)
 			->with('logs', $logs);
-		
+
 	}
-	
+
 }
