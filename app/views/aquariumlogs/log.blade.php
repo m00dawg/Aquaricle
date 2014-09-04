@@ -16,7 +16,7 @@
 			<tr><td colspan="2">{{ $log->comments }}</td></tr>
 		@endif
 	</table>
-	
+
 	@if (count($files) > 0)
 		<br />
 		<table>
@@ -24,8 +24,8 @@
 		@foreach ($files as $file)
 			<tr>
 				<td class="image">
-					<a href="/files/{{ $log->aquariumID }}/{{ $file->fileID }}-full.{{ $file->fileType }}">
-						<img src="/files/{{ $log->aquariumID }}/{{ $file->fileID }}-thumb.{{ $file->fileType }}" />
+					<a href="/files/{{ $log->userID }}/{{ $file->fileID }}-full.{{ $file->fileType }}">
+						<img src="/files/{{ $log->userID }}/{{ $file->fileID }}-thumb.{{ $file->fileType }}" />
 					</a>
 				</td>
 				<td>
@@ -33,13 +33,13 @@
 					Caption: {{ $file->caption }}<br />
 					Uploaded On: {{ $file->createdAt }}<br />
 				</td>
-			
+
 		</tr>
 		@endforeach
 		</table>
 	@endif
 
-	@if (isset($log->temperature) || 
+	@if (isset($log->temperature) ||
 		 isset($log->ammonia) ||
 		 isset($log->nitrites) ||
 		 isset($log->nitrates) ||
@@ -48,7 +48,7 @@
 		 isset($log->KH) ||
 		 isset($log->amountExchanged))
 		<br />
-		<table>	
+		<table>
 			<tr>
 				<th>Temperature</th>
 				<th>Ammonia</th>
@@ -70,13 +70,13 @@
 				<td>{{ $log->pH }}</td>
 				<td>{{ $log->KH }}</td>
 				<td>{{ $log->GH }}</td>
-				<td>{{ $log->TDS }}</td>				
+				<td>{{ $log->TDS }}</td>
 				<td>{{ $log->amountExchanged }}</td>
 			</tr>
 		</table>
 	@endif
 	<br />
-	
+
 	@if (count($waterAdditiveLogs) > 0)
 		<table>
 			<tr><th>Additive</th><th>Amount</th></tr>
@@ -84,12 +84,12 @@
 				<tr>
 					<td>{{ $additiveLog->name }}</td>
 					<td>{{ $additiveLog->amount }}</td>
-				</tr>	
+				</tr>
 			@endforeach
 		</table>
 		<br />
 	@endif
-	
+
 	@if (count($equipmentLogs) > 0)
 		<table>
 			<tr><th>Equipment</th><th>Maintenance</th></tr>
@@ -102,7 +102,7 @@
 		</table>
 		<br />
 	@endif
-	
+
 	@if (count($foodLogs) > 0)
 		<table>
 			<tr><th>Food</th></tr>
@@ -115,8 +115,8 @@
 </div>
 <br />
 
-{{ link_to_route('aquariums.show', 'Go Back', array($aquariumID)) }} : 
-{{ link_to("aquariums/$aquariumID/logs/$log->aquariumLogID/edit", 
+{{ link_to_route('aquariums.show', 'Go Back', array($aquariumID)) }} :
+{{ link_to("aquariums/$aquariumID/logs/$log->aquariumLogID/edit",
 	'Edit Log') }}
 
 

@@ -5,7 +5,7 @@ class AquariumLogsController extends BaseController
 
 	private function uploadFile($log)
 	{
-		$path = public_path()."/files/".$log->aquariumID;
+		$path = public_path()."/files/".Auth::id();
 
 		if(!is_dir($path))
 			mkdir($path);
