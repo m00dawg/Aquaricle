@@ -7,6 +7,7 @@ class AquariumFilesController extends BaseController
   {
     $files = AquariumFile::where('userID', '=', Auth::id())
       ->where('aquariumID', '=', $aquariumID)
+      ->orderBy('updatedAt', 'desc')
       ->get();
     return View::make('aquariums/files/index')
       ->with('files', $files)
