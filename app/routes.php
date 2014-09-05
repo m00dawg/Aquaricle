@@ -44,56 +44,63 @@ Route::get('/public/aquariums/{aquariumID}', [
 	'as'	=> 'public.aquariums',
 	'uses'	=> 'AquariumController@getPublicAquarium'
 ]);
-	
+
 Route::get('/public/aquariums/{aquariumID}/waterlogs', [
 	'before' => 'cache',
 	'after' => 'cache',
     'as'     => 'public.aquariums.waterlogs',
     'uses'   => 'WaterLogsController@getPublicWaterLogs'
 ]);
-	
+
 Route::get('/public/aquariums/{aquariumID}/graphs', [
 	'before' => 'cache',
 	'after' => 'cache',
 	'as'	=> 'public.aquariums.graphs',
-	'uses' => 'AquariumController@getGraphs'	
+	'uses' => 'AquariumController@getGraphs'
 ]);
-	
+
+Route::get('/public/aquariums/{aquariumID}/photos', [
+	'before' => 'cache',
+	'after' => 'cache',
+	'as'	=> 'public.aquariums.photos',
+	'uses' => 'AquariumFilesController@getPublicPhotos'
+]);
+
 
 // Aquariums Module
 Route::get('/aquarium/create', [
 	'as'	=> 'aquariums.create',
-	'uses' => 'AquariumController@create'	
+	'uses' => 'AquariumController@create'
 ]);
 
 Route::post('/aquarium/create', [
 	'as'	=> 'aquariums.store',
-	'uses' => 'AquariumController@store'	
+	'uses' => 'AquariumController@store'
 ]);
-	
+
 Route::get('/aquariums', [
 	'as'	=> 'aquariums.index',
-	'uses' => 'AquariumController@index'	
+	'uses' => 'AquariumController@index'
 ]);
-	
+
 Route::get('/aquariums/{aquariumID}', [
 	'as'	=> 'aquariums.show',
-	'uses' => 'AquariumController@getAquarium'	
+	'uses' => 'AquariumController@getAquarium'
 ]);
 
 Route::get('/aquariums/{aquariumID}/edit', [
 	'as'	=> 'aquariums.edit',
-	'uses' => 'AquariumController@edit'	
+	'uses' => 'AquariumController@edit'
 ]);
-	
+
 Route::post('/aquariums/{aquariumID}/update', [
 	'as'	=> 'aquariums.update',
-	'uses' => 'AquariumController@update'	
+	'uses' => 'AquariumController@update'
 ]);
 
 Route::get('/aquariums/{aquariumID}/graphs', [
 	'as'	=> 'aquariums.graphs',
-	'uses' => 'AquariumController@getGraphs'	
+	'uses' => 'AquariumController@getGraphs'
 ]);
 
 /// Aquarium Life Module
@@ -121,7 +128,7 @@ Route::get('/aquariums/{aquariumID}/life/{lifeID}/edit', [
     'as'     => 'aquariums.life.edit',
     'uses'   => 'AquariumLifeController@edit'
 ]);
-	
+
 Route::post('/aquariums/{aquariumID}/life/{lifeID}/update', [
     'as'     => 'aquariums.life.update',
     'uses'   => 'AquariumLifeController@update'
@@ -148,27 +155,27 @@ Route::get('/aquariums/{aquariumID}/logs/create', [
 
 Route::post('/aquariums/{aquariumID}/logs/create', [
 	'as'	=> 'aquariums.logs.store',
-	'uses' => 'AquariumLogsController@store'	
+	'uses' => 'AquariumLogsController@store'
 ]);
-	
+
 Route::get('/aquariums/{aquariumID}/logs', [
 	'as'	=> 'aquariums.logs.index',
-	'uses' => 'AquariumLogsController@index'	
+	'uses' => 'AquariumLogsController@index'
 ]);
-	
+
 Route::get('/aquariums/{aquariumID}/logs/{aquariumLogID}', [
 	'as'	=> 'aquariums.logs.show',
-	'uses' => 'AquariumLogsController@show'	
+	'uses' => 'AquariumLogsController@show'
 ]);
 
 Route::get('/aquariums/{aquariumID}/logs/{aquariumLogID}/edit', [
 	'as'	=> 'aquariums.logs.edit',
-	'uses' => 'AquariumLogsController@edit'	
+	'uses' => 'AquariumLogsController@edit'
 ]);
-	
+
 Route::post('/aquariums/{aquariumID}/logs/{aquariumLogID}/update', [
 	'as'	=> 'aquariums.logs.update',
-	'uses' => 'AquariumLogsController@update'	
+	'uses' => 'AquariumLogsController@update'
 ]);
 
 // Water Logs
@@ -181,12 +188,12 @@ Route::get('/aquariums/{aquariumID}/waterlogs', [
 Route::get('/aquariums/{aquariumID}/wateradditives', [
     'as'     => 'aquariums.wateradditives',
     'uses'   => 'WaterAdditivesController@index'
-]);	
-	
+]);
+
 Route::get('/aquariums/{aquariumID}/wateradditives/{waterAdditiveID}', [
     'as'     => 'aquariums.wateradditives.show',
     'uses'   => 'WaterAdditivesController@getWaterAdditive'
-]);	
+]);
 
 // Food
 Route::get('/aquariums/{aquariumID}/feedings/', [
@@ -203,7 +210,7 @@ Route::get('/food/create', [
     'as'     => 'food.create',
     'uses'   => 'FoodController@create'
 ]);
-	
+
 Route::post('/food/create', [
     'as'     => 'food.create',
     'uses'   => 'FoodController@store'
@@ -212,42 +219,48 @@ Route::post('/food/create', [
 Route::get('/food/{foodID}/edit', [
     'as'     => 'food.edit',
     'uses'   => 'FoodController@edit'
-]);	
+]);
 
 Route::post('/food/{foodID}/edit', [
     'as'     => 'food.edit',
     'uses'   => 'FoodController@update'
-]);	
-	
-/// Equipment
+]);
+
+// Equipment
 Route::get('/aquariums/{aquariumID}/equipment/create', [
 	'as'	=> 'aquariums.equipment.create',
-	'uses' => 'EquipmentController@create'	
+	'uses' => 'EquipmentController@create'
 ]);
 
 Route::post('/aquariums/{aquariumID}/equipment/create', [
 	'as'	=> 'aquariums.equipment.store',
-	'uses' => 'EquipmentController@store'	
+	'uses' => 'EquipmentController@store'
 ]);
-	
+
 Route::get('/aquariums/{aquariumID}/equipment', [
 	'as'	=> 'aquariums.equipment.index',
-	'uses' => 'EquipmentController@index'	
+	'uses' => 'EquipmentController@index'
 ]);
-	
+
 Route::get('/aquariums/{aquariumID}/equipment/{equipmentID}', [
 	'as'	=> 'aquariums.equipment.show',
-	'uses' => 'EquipmentController@show'	
+	'uses' => 'EquipmentController@show'
 ]);
 
 Route::get('/aquariums/{aquariumID}/equipment/{equipmentID}/edit', [
 	'as'	=> 'aquariums.equipment.edit',
-	'uses' => 'EquipmentController@edit'	
+	'uses' => 'EquipmentController@edit'
 ]);
-	
+
 Route::post('/aquariums/{aquariumID}/equipment/{equipmentID}/update', [
 	'as'	=> 'aquariums.equipment.update',
-	'uses' => 'EquipmentController@update'	
+	'uses' => 'EquipmentController@update'
+]);
+
+// Photos
+Route::get('/aquariums/{aquariumID}/photos', [
+	'as'	=> 'aquariums.photos',
+	'uses' => 'AquariumFilesController@index'
 ]);
 
 /// Global Life Module
@@ -255,7 +268,7 @@ Route::get('/life/', [
     'as'     => 'life',
     'uses'   => 'LifeController@index'
 ]);
-	
+
 Route::get('/life/create', [
     'as'     => 'life.create',
     'uses'   => 'LifeController@create'
@@ -265,17 +278,17 @@ Route::post('/life/create', [
     'as'     => 'life.create',
     'uses'   => 'LifeController@store'
 ]);
-	
+
 Route::get('/life/{lifeID}', [
     'as'     => 'life.show',
     'uses'   => 'LifeController@show'
 ]);
-	
+
 Route::get('/life/{lifeID}/edit', [
     'as'     => 'life.edit',
     'uses'   => 'LifeController@edit'
 ]);
-	
+
 Route::post('/life/{lifeID}/edit', [
     'as'     => 'life.update',
     'uses'   => 'LifeController@update'
@@ -287,13 +300,13 @@ Route::get('/user/profile', [
     'as'     => 'user.profile',
     'uses'   => 'UserController@getProfile'
 ]);
-	
+
 // Update Logged In User's Profile
 Route::get('/user/editprofile', [
     'as'     => 'user.editprofile',
     'uses'   => 'UserController@updateProfile'
 ]);
-	
+
 Route::post('/user/editprofile', [
     'as'     => 'user.editprofile',
     'uses'   => 'UserController@storeProfile'
@@ -319,7 +332,7 @@ Route::get('/', function()
 
 Route::get('/news', [
 	'as'	=> 'news.index',
-	'uses' 	=> 'NewsController@index'	
+	'uses' 	=> 'NewsController@index'
 ]);
 
 Route::get('login', function()
@@ -345,17 +358,17 @@ Route::get('/signup', [
     'as'     => 'signup',
     'uses'   => 'SignupController@getSignup'
 ]);
-	
+
 Route::post('/signup', [
     'as'     => 'signup',
     'uses'   => 'SignupController@postSignup'
 ]);
-	
+
 Route::get('/signup/validate', [
     'as'     => 'signup.validate',
     'uses'   => 'SignupController@getValidate'
 ]);
-	
+
 
 /*
 Route::get('users', function()

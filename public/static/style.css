@@ -166,7 +166,7 @@ th{
 td, th{
     border: 1px;
     border-style: solid;
-    border-color: #000000; 
+    border-color: #000000;
 }
 
 td{
@@ -178,9 +178,9 @@ td.blank{
 	border-color: #888888;
 }
 
-a{ 
-    text-decoration: none; 
-    font-weight: bold; 
+a{
+    text-decoration: none;
+    font-weight: bold;
 }
 
 a:link { color: #9999FF; }
@@ -236,13 +236,17 @@ a.aquariumLife:hover { color: #0000FF; }
 	color: #ffff55;
 }
 
-.formBox{
+.formBox, .loginBox{
     background-color: #000055;
     margin-left: auto;
     margin-right: auto;
  /*   text-align: center; */
     padding-top: 1%;
     padding-bottom: 1%;
+}
+
+.loginBox{
+  text-align: center;
 }
 
 .pager{
@@ -308,7 +312,7 @@ th.equipmentName{
 }
 
 td.equipmentName{
-    font-weight: bold;	
+    font-weight: bold;
 }
 
 .equipmentType{
@@ -415,7 +419,7 @@ th.logDate{
 }
 
 span.waterNeverChanged{
-	color: #ffff00;	
+	color: #ffff00;
 }
 
 span.waterChangeDueSoon{

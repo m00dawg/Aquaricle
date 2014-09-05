@@ -28,8 +28,8 @@
 		@foreach ($files as $file)
 			<tr>
 				<td class="image">
-					<a href="/files/{{ $log->aquariumID }}/{{ $file->fileID }}-full.{{ $file->fileType }}">
-						<img src="/files/{{ $log->aquariumID }}/{{ $file->fileID }}-thumb.{{ $file->fileType }}" />
+					<a href="/files/{{ $file->userID }}/{{ $file->fileID }}-full.{{ $file->fileType }}">
+						<img src="/files/{{ $file->userID }}/{{ $file->fileID }}-thumb.{{ $file->fileType }}" />
 					</a>
 				</td>
 				<td>
@@ -37,13 +37,13 @@
 					Caption: {{ $file->caption }}<br />
 					Uploaded On: {{ $file->createdAt }}<br />
 				</td>
-			
+
 		</tr>
 		@endforeach
 		</table>
 	@endif
 
-	@if (isset($log->temperature) || 
+	@if (isset($log->temperature) ||
 		 isset($log->ammonia) ||
 		 isset($log->nitrites) ||
 		 isset($log->nitrates) ||
@@ -54,7 +54,7 @@
   		 isset($log->TDS) ||
 		 isset($log->amountExchanged))
 		<br />
-		<table>	
+		<table>
 			<tr>
 				<th>Temperature</th>
 				<th>Ammonia</th>
@@ -82,7 +82,7 @@
 		</table>
 	@endif
 	<br />
-	
+
 	@if (count($waterAdditiveLogs) > 0)
 		<table>
 			<tr><th>Additive</th><th>Amount</th></tr>
@@ -90,12 +90,12 @@
 				<tr>
 					<td>{{ $additiveLog->name }}</td>
 					<td>{{ $additiveLog->amount }}</td>
-				</tr>	
+				</tr>
 			@endforeach
 		</table>
 		<br />
 	@endif
-	
+
 	@if (count($equipmentLogs) > 0)
 		<table>
 			<tr><th>Equipment</th><th>Maintenance</th></tr>
@@ -108,7 +108,7 @@
 		</table>
 		<br />
 	@endif
-	
+
 	@if (count($foodLogs) > 0)
 		<table>
 			<tr><th>Food</th></tr>
@@ -118,7 +118,7 @@
 		</table>
 		<br />
 	@endif
-	
+
 	@if (count($aquariumLifeLogs) > 0)
 		<table>
 			<tr><th>Aquarium Life</th></tr>
@@ -142,12 +142,12 @@
 
 <div class="formBox">
 	@if (isset($log))
-		{{ Form::model($log, 
-			array('route' => array("aquariums.logs.update", $aquariumID, $log->aquariumLogID), 'method' => 'post', 'files' => true)) }}		
+		{{ Form::model($log,
+			array('route' => array("aquariums.logs.update", $aquariumID, $log->aquariumLogID), 'method' => 'post', 'files' => true)) }}
 	@else
 		{{ Form::open(array('url' => "/aquariums/$aquariumID/logs/create", 'method' => 'post', 'files' => true)) }}
 	@endif
-	
+
 	<table>
 		<tr><th colspan="2">Water Logs</th></tr>
 		<tr>
@@ -187,20 +187,20 @@
 		<tr><th>Food</th></tr>
 		@foreach($food as $item)
 			<tr><td>
-				{{ Form::checkbox('food[]', 
+				{{ Form::checkbox('food[]',
 					$item->foodID, $item->selected) }}
 				{{ $item->name }}
 			</td></tr>
 		@endforeach
 	</table>
 	<br />
-		
+
 	<table>
 		<tr><th>Aquarium Life</th></tr>
 		@foreach($aquariumLife as $life)
 			<tr><td>
-				{{ Form::checkbox('aquariumLife[]', 
-					$life->aquariumLifeID, $life->selected) }} 
+				{{ Form::checkbox('aquariumLife[]',
+					$life->aquariumLifeID, $life->selected) }}
 				@if ($life->nickname)
 					{{ $life->nickname }}
 				@else
@@ -217,7 +217,7 @@
 			<td>{{ Form::select('waterAdditive', $waterAdditives) }}</td>
 			<td>{{ Form::text('waterAdditiveAmount', null, array('size' => '8')) }} mL </td>
 		</tr>
-		
+
 		<tr>
 			<th>Equipment</th>
 			<td>{{ Form::select('equipment', $equipment) }}</td>
@@ -225,7 +225,7 @@
 		</tr>
 	</table>
 	<br />
-	
+
 	<table>
 		<tr><th colspan="2">Upload File</th></tr>
 		<tr>
@@ -244,26 +244,26 @@
 
 	<br />
 
-    <div style="text-align: center;">	
+    <div style="text-align: center;">
 	{{ Form::label('logDate', 'Date') }}: {{ Form::text('logDate') }}
-	
+
 	@if(!isset($log))
 		(Leave Blank for Current Time)
 	@endif
-	
+
 	<br />
 	{{ Form::label('comments', 'Comments') }}: {{ Form::textarea('comments') }}<br />
-	
+
 	@if (isset($log))
 		<br />
 		{{ Form::label('setFavorite', 'Add As a Favorite') }}: {{ Form::text('name') }}<br />
-		<br />	
+		<br />
 		{{ Form::submit('Update') }}
 		{{--- <input type="submit" name="delete" value="Delete"> ---}}
 	@else
 		{{ Form::submit('Add') }}
-	@endif	
-	
+	@endif
+
 	{{ Form::close() }}
 
     </div>
