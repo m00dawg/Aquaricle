@@ -24,9 +24,11 @@ class AquariumController extends BaseController
 		if ($aquariumID == null)
 			return Redirect::to("aquariums");
 
+		$lastDays = 30;
+
 		// Only look at last 30 days for the Aquarium Logs
 		$dateSub = new DateTime();
-		$dateSub->sub(new DateInterval('P10D'));
+		$dateSub->sub(new DateInterval('P'.$lastDays.'D'));
 
 		DB::beginTransaction();
 
@@ -60,7 +62,8 @@ class AquariumController extends BaseController
 			->with('logs', $logs)
 			->with('favorites', $favorites)
 			->with('equipment', $equipment)
-			->with('measurementUnits', $aquarium->getMeasurementUnits());
+			->with('measurementUnits', $aquarium->getMeasurementUnits())
+			->with('lastDays', $lastDays);
 	}
 
 	public function create()

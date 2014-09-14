@@ -259,6 +259,8 @@
 		{{ Form::label('setFavorite', 'Add As a Favorite') }}: {{ Form::text('name') }}<br />
 		<br />
 		{{ Form::submit('Update') }}
+		<input type="submit" class="delete" data-confirm="Are you sure to delete this log?" value="Delete" />
+
 		{{--- <input type="submit" name="delete" value="Delete"> ---}}
 	@else
 		{{ Form::submit('Add') }}
@@ -280,6 +282,20 @@
 <br />
 
 {{ link_to("aquariums/$aquariumID/", "Go Back") }}</td>
+@stop
 
+@section('footer')
+	@parent
+	<script>
+		var deleteButton = document.querySelector('.delete');
+		deleteButton.addEventListener('click', function(event)
+		{
+			event.preventDefault();
+			if (confirm(this.getAttribute('data-confirm'))) {
+				$("form").append('<input type="hidden" name="delete" value="true" />');
+    		$("form").submit();
+			}
+		});
 
+	</script>
 @stop

@@ -16,8 +16,8 @@
 <ul>
 	<li><strong>Location:</strong> {{ $aquarium->location }}</li>
 	<li><strong>Capacity:</strong> {{ $aquarium->capacity }} {{ $measurementUnits['Volume'] }}
-		({{ $aquarium->length }} {{ $measurementUnits['Length'] }} x 
-		 {{ $aquarium->width }} {{ $measurementUnits['Length'] }}  x 
+		({{ $aquarium->length }} {{ $measurementUnits['Length'] }} x
+		 {{ $aquarium->width }} {{ $measurementUnits['Length'] }}  x
 		 {{ $aquarium->height }} {{ $measurementUnits['Length'] }})</li>
 	<li><strong>Active Since:</strong> {{ $aquarium->createdAt }}</li>
 	<li><strong>Water Changes:</strong>
@@ -28,7 +28,7 @@
 					@if ($lastWaterChange->daysSince == 0)
 						Today
 					@else
-						{{ $lastWaterChange->daysSince }} 
+						{{ $lastWaterChange->daysSince }}
 						@if ($lastWaterChange->daysSince > 1)
 							Days
 						@else
@@ -36,8 +36,8 @@
 						@endif
 						Ago
 					@endif
-					({{ $lastWaterChange->changePct }}% / 
-					{{ $lastWaterChange->amountExchanged }} {{ $measurementUnits['Volume'] }}) 
+					({{ $lastWaterChange->changePct }}% /
+					{{ $lastWaterChange->amountExchanged }} {{ $measurementUnits['Volume'] }})
 				@else
 					Water Never Changed
 				@endif
@@ -64,7 +64,7 @@
 		</ul>
 	</li>
 	@if ($aquarium->sparkID && $aquarium->sparkToken)
-		<li><strong>Current Temperature:</strong> 
+		<li><strong>Current Temperature:</strong>
 			<span id="temperature">Updating</spam></li>
 	@endif
 </ul>
@@ -72,15 +72,15 @@
 @if ($aquarium->sparkID && $aquarium->sparkToken)
 	<h3>Graphs</h3>
 	<div id="graph">
-	
+
 	<a href="{{ Config::get('spark.uriGraphPath') }}{{ $aquarium->aquariumID }}/temp-daily-large.png">
 		<img src="{{ Config::get('spark.uriGraphPath') }}{{ $aquarium->aquariumID }}/temp-daily-small.png">
 	</a>
-		
+
 	<a href="{{ Config::get('spark.uriGraphPath') }}{{ $aquarium->aquariumID }}/relays-daily-large.png">
 		<img src="{{ Config::get('spark.uriGraphPath') }}{{ $aquarium->aquariumID }}/relays-daily-small.png">
 	</a>
-	
+
 	</div>
 @endif
 
@@ -91,8 +91,8 @@
 	@if (count($equipment) > 0)
 		@foreach($equipment as $equip)
 			<tr>
-				<td>{{ link_to_route('aquariums.equipment.show', 
-					$equip->name, 
+				<td>{{ link_to_route('aquariums.equipment.show',
+					$equip->name,
 					array($aquarium->aquariumID, $equip->equipmentID),
 					array('class'=>'logs')) }}</td>
 				<td class="lastMaintenance"> {{ $equip->lastMaint }}</td>
@@ -119,10 +119,10 @@
 	<br />
 	{{ Form::submit('Process') }}<br />
 	{{ Form::close() }}
-@endif	
+@endif
 
 
-<h3>Latest Logs</h3>
+<h3>Latest Logs (Last {{ $lastDays}} Days)</h3>
 @include('aquariumlogs.logsummary')
 
 {{ link_to_route('aquariums.logs.create', 'Log New Entry', array($aquarium->aquariumID)) }}
