@@ -90,6 +90,7 @@ class ProcessEmailReminders extends Command {
 
 			if($body != '')
 			{
+                $body .= "Click here to do stuff: https://www.aquaricle.com/aquariums\n\n";
 				Mail::send(array('text' => 'email.reminders'), 
 				array('body' => $body, 'username' => $user->username), 
 				function($message) use ($user, $subject)
