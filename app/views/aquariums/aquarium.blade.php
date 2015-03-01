@@ -1,4 +1,5 @@
 @extends('layout')
+
 @section('content')
 
 <h2>{{ $aquarium->name }}
@@ -103,7 +104,13 @@
 
 
 <h3>Latest Logs (Last {{ $lastDays}} Days)</h3>
-@include('aquariumlogs.logsummary')
+
+<table id="logs">
+	<tr><th class="logDate">Date</th><th>Summary</th></tr>
+</table>
+
+<br />
+
 
 {{ link_to_route('aquariums.logs.create', 'Log New Entry', array($aquarium->aquariumID)) }}
 
@@ -138,7 +145,7 @@
 				$.each(data, function()
 				{
 					$("#activeEquipment").append(
-						"<tr><td><a href='/aquarium/{{ $aquariumID }}/equipment/" + this.equipmentID + "'>" + this.name + "</a>" +
+						"<tr><td><a class='logs' href='/aquarium/{{ $aquariumID }}/equipment/" + this.equipmentID + "'>" + this.name + "</a>" +
 						"</td><td class='lastMaintenance'>" + this.lastMaint +
 						"</td><td class='equipmentDaysSince'>" + this.daysSinceMaint +
 						"</td><td>" + this.nextMaintDays + "</td></tr>");
@@ -146,7 +153,22 @@
 			}
 		}
 
-		function error_callback(jqXHR, status)
+		function displayLogs(data, status, jqXHR)
+		{
+			if(data.length == 0)
+				$("#logs").append("<tr><td colspan='2'>No Logs Found</td></tr>");
+			else
+			{
+				$.each(data.data, function()
+				{
+					$("#logs").append(
+						"<tr><td><a class='logs' href='/aquarium/{{ $aquariumID }}/log/" + this.aquariumLogID + "'>" + this.logDate + "</a>" +
+						"</td><td>" + this.summary + "</td></tr>");
+				});
+			}
+		}
+
+		function errorCallback(jqXHR, status)
 		{
 				alert(status);
 		}
@@ -157,7 +179,7 @@
 				contentType: "application/json",
 		   	dataType: "json",
 		    success: displayAquarium,
-		    error: error_callback
+		    error: errorCallback
 		});
 
 		jQuery.ajax({
@@ -166,7 +188,18 @@
 				contentType: "application/json",
 				dataType: "json",
 				success: displayEquipment,
-				error: error_callback
+				error: errorCallback
 		});
+
+		jQuery.ajax({
+				type: "GET",
+				url: "/api/v1/aquarium/{{ $aquariumID }}/logs",
+				contentType: "application/json",
+				dataType: "json",
+				success: displayLogs,
+				error: errorCallback
+		});
+
+
 	</script>
 @stop

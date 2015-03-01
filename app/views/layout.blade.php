@@ -4,7 +4,6 @@
 <title>Aquaricle</title>
 <link rel="stylesheet" type="text/css" media="all" href="/static/style.css" />
 <script src="/js/vendor/jquery-2.1.3.min.js"></script>
-<script src="/js/vendor/jsonTable/jsonTable.js"></script>
 </head>
 
 <body>
@@ -40,7 +39,7 @@
 			<li>{{ link_to_route('aquariums.index', 'Home') }}</li>
 			<li>{{ link_to_route('aquariums.show', 'Summary', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.graphs', 'Graphs', array($aquariumID)) }}</li>
-			<li>{{ link_to_route('aquariums.equipment.index', 'Equipment', array($aquariumID)) }}</li>
+			<li>{{ link_to_route('aquarium.equipment.index', 'Equipment', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.logs.favorites', 'Actions', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.logs.index', 'Logs', array($aquariumID)) }}</li>
 			<li>{{ link_to_route('aquariums.waterlogs', 'Tests', array($aquariumID)) }}</li>
@@ -78,7 +77,6 @@
 
 <div id="footer">
 Aquaricle by Tim Soderstrom
-<script src="/js/vendor/jquery-2.1.1.min.js"></script>
 @yield('footer')
 </div>
 

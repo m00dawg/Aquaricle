@@ -163,8 +163,8 @@ Route::get('/aquariums/{aquariumID}/logs', [
 	'uses' => 'AquariumLogsController@index'
 ]);
 
-Route::get('/aquariums/{aquariumID}/logs/{aquariumLogID}', [
-	'as'	=> 'aquariums.logs.show',
+Route::get('/aquarium/{aquariumID}/log/{aquariumLogID}', [
+	'as'	=> 'aquariums.log.show',
 	'uses' => 'AquariumLogsController@show'
 ]);
 
@@ -237,8 +237,8 @@ Route::post('/aquariums/{aquariumID}/equipment/create', [
 	'uses' => 'EquipmentController@store'
 ]);
 
-Route::get('/aquariums/{aquariumID}/equipment', [
-	'as'	=> 'aquariums.equipment.index',
+Route::get('/aquarium/{aquariumID}/equipment', [
+	'as'	=> 'aquarium.equipment.index',
 	'uses' => 'EquipmentController@index'
 ]);
 
