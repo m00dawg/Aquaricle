@@ -9,17 +9,15 @@
 @elseif (!Request::is('public/*'))
 	({{ link_to_route('aquariums.edit', 'Edit', array($aquarium->aquariumID)) }})
 @endif
-
-
 </h2>
 
 <ul>
-	<li><strong>Location:</strong> {{ $aquarium->location }}</li>
-	<li><strong>Capacity:</strong> {{ $aquarium->capacity }} {{ $measurementUnits['Volume'] }}
-		({{ $aquarium->length }} {{ $measurementUnits['Length'] }} x
-		 {{ $aquarium->width }} {{ $measurementUnits['Length'] }}  x
-		 {{ $aquarium->height }} {{ $measurementUnits['Length'] }})</li>
-	<li><strong>Active Since:</strong> {{ $aquarium->createdAt }}</li>
+	<li><strong>Location:</strong> <span id="location"></span></li>
+	<li><strong>Capacity:</strong> <span id="capacity"></span> {{ $measurementUnits['Volume'] }}
+		(<span id="length"></span> {{ $measurementUnits['Length'] }} x
+		 <span id="width"></span> {{ $measurementUnits['Length'] }}  x
+		 <span id="height"></span> {{ $measurementUnits['Length'] }})</li>
+	<li><strong>Active Since:</strong> <span id="createdAt"></span></li>
 	<li><strong>Water Changes:</strong>
 		<ul>
 			<li>
@@ -84,30 +82,12 @@
 	</div>
 @endif
 
-<h3>Active Equipment</h3>
+<h3>Equipment Maintenance</h3>
 
-<table>
-	<tr><th>Equipment</th><th>Last Maintenance</th><th>Days Since</th><th>Next Due</th></tr>
-	@if (count($equipment) > 0)
-		@foreach($equipment as $equip)
-			<tr>
-				<td>{{ link_to_route('aquariums.equipment.show',
-					$equip->name,
-					array($aquarium->aquariumID, $equip->equipmentID),
-					array('class'=>'logs')) }}</td>
-				<td class="lastMaintenance"> {{ $equip->lastMaint }}</td>
-				@if (isset($equip->daysSinceMaint))
-					<td class="equipmentDaysSince">{{ $equip->daysSinceMaint }}</td>
-					<td class="{{ $equip->nextMaintClass() }}">{{ $equip->nextMaintDays }}</td>
-				@else
-					<td colspan="2" class="blank"></td>
-				@endif
-			</tr>
-		@endforeach
-	@else
-		<tr><td colspan="4">No Equipment Has Been Added Yet</td></tr>
-	@endif
+<table id="activeEquipment">
+<tr><th>Equipment</th><th>Last Maintenance</th><th>Days Since</th><th>Next Due</th></tr>
 </table>
+
 <br />
 
 @if (count($favorites) > 0)
@@ -130,12 +110,63 @@
 @stop
 
 @section('footer')
-	<script>
+	<script type="text/javascript">
 		$.ajax({
 		url: "/api/aquarium/{{ $aquariumID }}/temperature",
 		success: function( data ) {
 		$( "#temperature" ).html( data );
 		}
+		});
+
+
+		function displayAquarium(data, status, jqXHR)
+		{
+			$("#location").append(data.location);
+			$("#capacity").append(data.capacity);
+			$("#length").append(data.length);
+			$("#width").append(data.width);
+			$("#height").append(data.height);
+			$("#createdAt").append(data.createdAt);
+		}
+
+		function displayEquipment(data, status, jqXHR)
+		{
+			if(data.length == 0)
+				$("#activeEquipment").append("<tr><td colspan='4'>No Equipment Found</td></tr>");
+			else
+			{
+				$.each(data, function()
+				{
+					$("#activeEquipment").append(
+						"<tr><td><a href='/aquarium/{{ $aquariumID }}/equipment/" + this.equipmentID + "'>" + this.name + "</a>" +
+						"</td><td class='lastMaintenance'>" + this.lastMaint +
+						"</td><td class='equipmentDaysSince'>" + this.daysSinceMaint +
+						"</td><td>" + this.nextMaintDays + "</td></tr>");
+				});
+			}
+		}
+
+		function error_callback(jqXHR, status)
+		{
+				alert(status);
+		}
+
+		jQuery.ajax({
+		    type: "GET",
+		    url: "/api/v1/aquarium/{{ $aquariumID }}",
+				contentType: "application/json",
+		   	dataType: "json",
+		    success: displayAquarium,
+		    error: error_callback
+		});
+
+		jQuery.ajax({
+				type: "GET",
+				url: "/api/v1/aquarium/{{ $aquariumID }}/equipment/maintenance",
+				contentType: "application/json",
+				dataType: "json",
+				success: displayEquipment,
+				error: error_callback
 		});
 	</script>
 @stop
