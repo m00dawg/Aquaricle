@@ -38,6 +38,8 @@
 </table>
 <br />
 
+@include('aquariumlogs.logsummary')
+
 {{ link_to_route('aquariums.life', 'Go Back', array('aquariumID' => $aquariumID )) }}
 
 @stop

@@ -73,7 +73,9 @@ class EquipmentController extends \BaseController {
 			Input::all(),
 			array('name' => "required|unique:Equipment,name,NULL,id,aquariumID,$aquariumID",
 				  'createdAt' => 'date',
-   		  		  'maintInterval' => 'integer|min:0|max:65535')
+   		  		  'maintInterval' => 'integer|min:0|max:65535',
+				  'purchasePrice' => 'numeric|min:0|max:9999.99',
+				  'url' => 'url')
 		);
 		if ($validator->fails())
 			return Redirect::to("aquariums/$aquariumID/equipment/create")
@@ -88,6 +90,10 @@ class EquipmentController extends \BaseController {
 			$equipment->createdAt = strtotime(Input::get('createdAt'));
 		if(Input::get('maintInterval') != '')
 			$equipment->maintInterval = Input::get('maintInterval');
+		if(Input::get('purchasePrice') != '')
+			$equipment->purchasePrice = Input::get('purchasePrice');
+		if(Input::get('url') != '')
+			$equipment->url = Input::get('url');
 		$equipment->comments = Input::get('comments');
 		
 		DB::beginTransaction();
@@ -257,6 +263,7 @@ class EquipmentController extends \BaseController {
 			->where('equipmentID', '=', $equipmentID)
 			->first();
 		$equipment->delete();
+		DB::commit();
 		return Redirect::to("aquariums/$aquariumID/equipment");
 	}
 

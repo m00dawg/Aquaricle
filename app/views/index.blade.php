@@ -12,4 +12,15 @@ for you to try.</p>
 	<li>Already have an account? <a href="/login">Login</a>!</li>
 	<li>Find a bug? Go <a href="https://github.com/m00dawg/Aquaricle/issues">here</a></li>
 </ul>
+
+<h2>Latest News</h2>
+
+@foreach ($news as $item)
+
+	<h3>{{ date_format($item->createdAt, 'Y-m-d') }} : {{ $item->title }}</h3>
+	<div>{{ $item->content }}</div>
+
+@endforeach
+
+
 @stop

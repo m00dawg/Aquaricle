@@ -7,10 +7,23 @@
 
 @if (isset($food))
 <table>
+	
+	@include('food.graphs')
+	
+	
+	
+	@if (count($food) > 1)
+		<div id="pieChart">
+			<canvas id="foodGraph"></canvas>
+		</div>
+		<br />
+		<br />
+	@endif
+
 	<tr><th>Food</th><th>Count</th></tr>	
 	@if(count($food) > 0)
 		@foreach ($food as $item)
-			<tr><td>{{ $item->name }}</td><td>{{ $item->count }}</td></tr>
+			<tr><td>{{ $item->label }}</td><td>{{ $item->value }}</td></tr>
 		@endforeach
 	@else
 		<tr><td colspan="2">No Feedings Found</td</tr>
@@ -33,4 +46,9 @@
 
 {{ $logs->links() }}
 
+@stop
+
+@section('footer')
+	@parent
+	<script src="/js/vendor/chart.js"></script>
 @stop

@@ -1,8 +1,3 @@
-@extends('layout')
-@section('content')
-
-<h2>Water Logs</h2>
-
 <div id="graphs">
 	{{-- Set to > 1 since we need at least 2 data points to make a useful graph --}}
 
@@ -28,45 +23,10 @@
 	@endif
 </div>
 
-<h3>Data</h3>
-
-<table>	
-	<tr>
-		<th>Date</th>
-		<th>Temperature ({{ $measurementUnits['Temperature'] }})</th>
-		<th>Ammonia</th>
-		<th>Nitrites</th>
-		<th>Nitrates</th>
-		<th>Phosphates</th>
-		<th>pH</th>
-		<th>KH</th>
-		<th>Water Exchanged ({{ $measurementUnits['Volume'] }})</th>
-	</tr>
-	
-	@if (count($waterLogs) > 0)
-		@foreach($waterLogs as $log)
-			<tr>
-				<td>{{ $log->logDate }}</td>
-				<td>{{ $log->temperature }}</td>
-				<td style="background-color: {{ $log->ammoniaBackgroundColor() }}">{{ $log->ammonia }}</td>
-				<td style="background-color: {{ $log->nitriteBackgroundColor() }}">{{ $log->nitrites }}</td>
-				<td style="background-color: {{ $log->nitrateBackgroundColor() }}">{{ $log->nitrates }}</td>
-				<td style="background-color: {{ $log->phosphateBackgroundColor()}}">{{ $log->phosphates }}</td>
-				<td>{{ $log->pH }}</td>
-				<td>{{ $log->KH }}</td>
-				<td>{{ $log->amountExchanged }}</td>
-			</tr>
-		@endforeach
-	@else
-		<tr><td colspan="9">No Water Tests Have Been Logged Yet.</td></tr>
-	@endif
-</table>
-
-@stop
 
 @section('footer')
-	<script src="/js/vendor/chart.js"></script>
-	
+	@parent
+
 	<script>
 		(function()
 		{
@@ -77,7 +37,7 @@
 			Chart.defaults.global.scaleFontColor = "#eeeeff";
 			Chart.defaults.global.scaleLineColor = "#ddddff";
 			Chart.defaults.global.scaleGridLineColor = "#ccccff";
-			
+		
 			@if (count($cycleLogDateList) > 1)
 				var waterCycleGraph = document.getElementById('waterCycleGraph').getContext('2d');
 				var waterCycleData = 
@@ -107,7 +67,7 @@
 						},
 					]
 				};
-				
+			
 				basicTestsChart = new Chart(waterCycleGraph).Line(waterCycleData, { 
 					bezierCurve: false
 				}); 
@@ -134,7 +94,7 @@
 					bezierCurve: false
 				}); 
 			@endif
-	
+
 			@if (count($waterChangeDataList) > 1)
 				var waterChangeGraph = document.getElementById('waterChangeGraph').getContext('2d');
 				var waterChangeData = 
@@ -150,7 +110,7 @@
 						},
 					]
 				};
-			
+		
 				waterChangeChart = new Chart(waterChangeGraph).Bar(waterChangeData, { 
 					bezierCurve: false,
 					scaleBeginAtZero: true

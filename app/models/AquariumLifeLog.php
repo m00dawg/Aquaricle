@@ -1,8 +1,8 @@
 <?php
 
-class LifeLog extends BaseModel {
+class AquariumLifeLog extends BaseModel {
 
-	protected $table = 'LifeLogs';
+	protected $table = 'AquariumLifeLogs';
 	protected $guarded = array('aquariumLogID', 'lifeID');
 	public $primaryKey = array('aquariumLogID', 'lifeID');
 	public $incrementing = false;

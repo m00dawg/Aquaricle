@@ -45,21 +45,38 @@ class AquariumLifeController extends BaseController
 		}		
 		$log->save();
 		
-		$lifeLog = new LifeLog();
-		$lifeLog->aquariumLogID = $log->aquariumLogID;
-		$lifeLog->lifeID = $life->lifeID;
-		$lifeLog->save();
+		$aquariumLifeLog = new AquariumLifeLog();
+		$aquariumLifeLog->aquariumLogID = $log->aquariumLogID;
+		$aquariumLifeLog->aquariumLifeID = $life->aquariumLifeID;
+		$aquariumLifeLog->save();
 	}
 	
 	public function index($aquariumID)
 	{	
+		DB::beginTransaction();
+		
 		$currentLife = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
+			->join('LifeTypes', 'LifeTypes.lifeTypeID', '=', 'Life.lifeTypeID')
 			->whereNull('deletedAt')
-			->orderBy('nickname')
+			->orderBy('LifeTypes.lifeTypeID', 'nickname')
 			->get();
+		
+		// Fish Graph Data
+		$fishGraphData = AquariumLife::fish($aquariumID)
+			->get();
+		
+		$fishTotal = AquariumLife::where('aquariumID', '=', $aquariumID)
+			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
+			->join('LifeTypes', 'LifeTypes.lifeTypeID',
+				'=', 'Life.lifeTypeID')
+			->where('LifeTypes.lifeTypeName', '=', 'Fish')
+			->whereNull('deletedAt')
+			->sum('qty');
+					
 		$formerLife = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->join('Life', 'Life.lifeID', '=', 'AquariumLife.lifeID')
+			->join('LifeTypes', 'LifeTypes.lifeTypeID', '=', 'Life.lifeTypeID')
 			->whereNotNull('deletedAt')
 			->orderBy('nickname')
 			->get();
@@ -76,25 +93,41 @@ class AquariumLifeController extends BaseController
 			->selectRaw('SUM(purchasePrice) AS totalPrice, SUM(qty) AS totalQty')
 			->first();
 		
+		DB::commit();
+		
 		return View::make('aquariums/life/index')
 			->with('aquariumID', $aquariumID)
 			->with('currentLife', $currentLife)
 			->with('currentSummary', $currentSummary)
 			->with('formerLife', $formerLife)
-			->with('formerSummary', $formerSummary);
+			->with('formerSummary', $formerSummary)
+			->with('fishGraphData', json_encode($fishGraphData, JSON_NUMERIC_CHECK))
+			->with('fishTotal', $fishTotal);
 	}
 	
 	public function show($aquariumID, $aquariumLifeID)
 	{
+		DB::beginTransaction();
+		
 		$life = AquariumLife::where('aquariumID', '=', $aquariumID)
 			->where('aquariumLifeID', '=', $aquariumLifeID)
 			->first();
 		if(!$life)
+		{
+			DB::rollback();
 			return Redirect::to("aquariums/$aquariumID/life/");
+		}
+		
+		$logs = AquariumLifeLog::where('aquariumLifeID', '=', $aquariumLifeID)
+			->join('AquariumLogs', 'AquariumLogs.aquariumLogID', 
+				'=', 'AquariumLifeLogs.aquariumLogID')
+			->get();
+		
 			
 		return View::make('aquariums/life/show')
 			->with('aquariumID', $aquariumID)
-			->with('life', $life);
+			->with('life', $life)
+			->with('logs', $logs);
 	}
 	
 

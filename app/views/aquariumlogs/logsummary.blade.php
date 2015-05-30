@@ -22,3 +22,4 @@
 		<tr><td colspan="2">No Logs Have Been Added Yet</td></tr>
 	@endif
 </table>
+<br />

@@ -28,9 +28,29 @@ body{
     border-radius: 32px 32px 0 0;
 }
 
+/* Columns */
+
+#columnWrap {
+	margin: 0 auto;
+  width: 100%;
+}
+#leftColumn {
+	float: left;
+	width: 50%;
+	text-align: center;
+}
+#rightColumn {
+	float: right;
+	width: 50%;
+	text-align: center;
+}
+#clear {
+    clear: both;
+}
+
 /* Navigation bar */
 
-#navBar{
+#navbar{
 	background-color: #000040;
 	border-top: 1px;
 	border-bottom: 1px;
@@ -41,14 +61,15 @@ body{
 
 }
 
-#navBar ul {
+#navbar ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
 }
 
-#navBar li {
+
+#navbar li {
     float: left;
     display: block;
 	font-size: 1em;
@@ -64,19 +85,30 @@ body{
 	border-left: 1px;
 	border-right: 1px;
 	border-color: #000000;
-    border-style: solid;
+  border-style: solid;
+}
+
+#topLinks{
+	float: left;
+	text-align: left;
+  display: block;
+	font-size: .8em;
+	font-weight: bold;
+	text-align: right;
+  text-decoration: none;
+	padding: 0.25%;
+	padding-left: 6%;
 }
 
 #login{
 	text-align: right;
-    display: block;
+  display: block;
 	font-size: .8em;
 	font-weight: bold;
 	text-align: right;
-    text-decoration: none;
+  text-decoration: none;
 	padding: 0.25%;
 	padding-right: 5%;
-
 }
 
 #navBar a{
@@ -134,7 +166,7 @@ th{
 td, th{
     border: 1px;
     border-style: solid;
-    border-color: #000000; 
+    border-color: #000000;
 }
 
 td{
@@ -146,9 +178,9 @@ td.blank{
 	border-color: #888888;
 }
 
-a{ 
-    text-decoration: none; 
-    font-weight: bold; 
+a{
+    text-decoration: none;
+    font-weight: bold;
 }
 
 a:link { color: #9999FF; }
@@ -204,13 +236,17 @@ a.aquariumLife:hover { color: #0000FF; }
 	color: #ffff55;
 }
 
-.formBox{
+.formBox, .loginBox{
     background-color: #000055;
     margin-left: auto;
     margin-right: auto;
-    text-align: center;
+ /*   text-align: center; */
     padding-top: 1%;
     padding-bottom: 1%;
+}
+
+.loginBox{
+  text-align: center;
 }
 
 .pager{
@@ -276,7 +312,7 @@ th.equipmentName{
 }
 
 td.equipmentName{
-    font-weight: bold;	
+    font-weight: bold;
 }
 
 .equipmentType{
@@ -360,8 +396,30 @@ th.logDate{
 
 /* Water Logs */
 
+#graphs{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.graph{
+	text-align: center;
+}
+
+#pieChart{
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+#waterCycleGraph, #waterPhosphatesGraph, #waterChangeGraph{
+	background-color: #9999dd;
+	border: 1px solid #444488;
+  box-shadow: 8px 8px 12px rgba(0,0,0,0.2);
+}
+
 span.waterNeverChanged{
-	color: #ffff00;	
+	color: #ffff00;
 }
 
 span.waterChangeDueSoon{
@@ -394,4 +452,8 @@ th.comments{
     width: 15%;
 }
 
-\
+/* Files */
+td.image{
+	width: 200px;
+	text-align: center;
+}

@@ -7,4 +7,14 @@ return array(
     /* API Root URL */
     'url' => 'https://api.spark.io/v1/devices/',
 
+    /* Paths for RRDs */
+    'rrdPath' => __DIR__.'/../../rrd/',
+    'graphPath' => __DIR__.'/../../public/graphs/',
+    'uriGraphPath' =>'/graphs/',
+
+    'smallWidth' => 480,
+    'smallHeight' => 120,
+    'largeWidth' => 1280,
+    'largeHeight' => 640,
+
 );

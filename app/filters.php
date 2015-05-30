@@ -56,11 +56,13 @@ Route::filter('auth.basic', function()
 
 // Check to make sure the user is accessing only their aquariums
 Route::filter('auth.aquarium', function()
-{
-	if(!(DB::table('Aquariums')
+{	
+	$aquarium = DB::table('Aquariums')
 		->where('aquariumID', '=', Route::input('aquariumID'))
 		->where('userID', '=', Auth::id())
-		->first()))
+		->first();
+	
+	if(!($aquarium))
 			return Redirect::to('aquariums');
 });
 

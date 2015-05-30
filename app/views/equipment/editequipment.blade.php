@@ -5,10 +5,11 @@
 	<h1>{{ $equipment->name }}</h1>
 	{{ Form::model($equipment, 
 		array('route' => array('aquariums.equipment.update', 
-			$aquariumID, $equipment->equipmentID), 'method' => 'put')) }}
+			$aquariumID, $equipment->equipmentID), 'method' => 'post')) }}
 @else
 	<h1>Add New Equipment</h1>
-	{{ Form::open(array('url' => "aquariums/$aquariumID/equipment")) }}
+	{{ Form::open(array('url' => "aquariums/$aquariumID/equipment/create",
+		'method' => 'post' )) }}
 @endif
 
 @foreach ($errors->all() as $message)

@@ -94,17 +94,13 @@ class FoodController extends \BaseController
 	{
 		$days = Input::get('days');
 		if(!isset($days))
-			$days = 7;		
-		
-		$food = DB::select(
-			"SELECT Food.name AS name, COUNT(Food.name) AS count
-			 FROM AquariumLogs
-			 JOIN FoodLogs ON FoodLogs.aquariumLogID = AquariumLogs.aquariumLogID
-			 JOIN Food ON Food.foodID = FoodLogs.foodID
-			 WHERE AquariumLogs.aquariumID = ?
-			 AND logDate >= DATE_SUB(NOW(), INTERVAL ? Day)
-			 GROUP BY Food.name", array($aquariumID, $days));
+			$days = 30;		
 
+
+
+		
+		$food = FoodLog::FeedingsByDays($aquariumID, $days);
+		
 		$logs = AquariumLog::where('aquariumID', '=', $aquariumID)
 			->join('FoodLogs', 'FoodLogs.aquariumLogID', '=', 'AquariumLogs.aquariumLogID')
 			->groupby('logDate')
@@ -114,6 +110,7 @@ class FoodController extends \BaseController
 			->with('aquariumID', $aquariumID)
 			->with('days', $days)
 			->with('food', $food)
+			->with('foodGraphData', json_encode($food, JSON_NUMERIC_CHECK))
 			->with('logs', $logs);
 	}
 

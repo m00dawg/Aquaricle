@@ -8,12 +8,16 @@
 	<h4>{{ $message }}</h4>
 @endforeach
 
-@if (count($formerLife) > 0)
+@if (count($currentLife) > 0)
 	<h3>Current Life</h3>
+	@include('aquariums.life.graphs')
+	<p>Total: {{ $fishTotal }}</p>
+	<br />
+	<br />
 @endif
 
 <table>
-	<tr><th>Nickname</th><th>Common Name</th><th>Date Added</th><th>Qty</th><th>Price Paid</th></tr>
+	<tr><th>Nickname</th><th>Common Name</th><th>Type</th><th>Date Added</th><th>Qty</th><th>Price Paid</th></tr>
 	@if (count($currentLife) > 0)
 		@foreach ($currentLife as $item)
 			<tr>
@@ -27,6 +31,7 @@
 					</a>
 				</td>
 				<td>{{ $item->commonName }}</td>
+				<td>{{ $item->lifeTypeName }}</td>
 				<td>{{ $item->createdAt }}</td>
 				<td>{{ $item->qty }}</td>
 				<td>
@@ -37,7 +42,7 @@
 			</tr>
 		@endforeach
 		<tr class="totals">
-			<td colspan="3">Totals</td>
+			<td colspan="4">Totals</td>
 			<td>{{ $currentSummary->totalQty }}</td>
 			<td>{{ $currentSummary->totalPrice }}</td>
 		</tr>
@@ -50,7 +55,7 @@
 @if (count($formerLife) > 0)
 	<h3>Former Life</h3>
 	<table>
-		<tr><th>Nickname</th><th>Common Name</th><th>Date Removed</th><th>Qty</th><th>Price Paid</th></tr>
+		<tr><th>Nickname</th><th>Common Name</th><th>Type</th><th>Date Added</th><th>Qty</th><th>Price Paid</th></tr>
 		@foreach ($formerLife as $item)
 			<tr>
 				<td>
@@ -63,6 +68,7 @@
 					</a>
 				</td>
 				<td>{{ $item->commonName }}</td>
+				<td>{{ $item->lifeTypeName }}</td>
 				<td>{{ $item->deletedAt }}</td>
 				<td>{{ $item->qty }}</td>
 				<td>
@@ -90,4 +96,8 @@
 
 {{ link_to_route('aquariums.life.create', 'Add Life To Aquarium', array('aquariumID' => $aquariumID)) }}
 
+@stop
+
+@section('footer')
+	<script src="/js/vendor/chart.js"></script>
 @stop

@@ -17,9 +17,9 @@
 
 <div class="formBox">
 	@if (isset($aquarium))
-		{{ Form::model($aquarium, array('route' => array('aquariums.update', $aquarium->aquariumID), 'method' => 'PUT')) }}
+		{{ Form::model($aquarium, array('route' => array('aquariums.update', $aquarium->aquariumID), 'method' => 'POST')) }}
 	@else
-		{{ Form::open(array('url' => 'aquariums')) }}
+		{{ Form::open(array('url' => 'aquarium/create', 'method' => 'POST')) }}
 	@endif
 	<table>
 		<tr><th>{{ Form::label('name', 'Name') }}</th><td>{{ Form::text('name') }}</td></tr>
