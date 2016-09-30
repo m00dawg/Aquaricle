@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Aquaricle</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="all">
+<link href="/static/dashboard.css" rel="stylesheet" media="all">
+<link href="/static/style.css" rel="stylesheet" media="all">
+</head>
+
+{% block body %}
+<body>
+  {% block navbar %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div id="navbar-header">
+          <a class="navbar-brand" href="#">Aquaricle</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-left">
+            <li class="active"><a href="/">Aquariums</a></li>
+            <li><a href="/">Life</a></li>
+            <li><a href="/">Food</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Login</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  {% endblock %}
+
+  {% block container %}
+  <div class="container-fluid">
+    <div class="row">
+      {% block sidebar %}
+        <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+            <li><a href="/">Summary</a></li>
+            <li><a href="/">Graphs</a></li>
+            <li><a href="/">Equipment</a></li>
+            <li><a href="/">Life</a></li>
+            <li><a href="/">Photos</a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+            <li><a href="/">Logs</a></li>
+            <li><a href="/">Tests</a></li>
+            <li><a href="/">Additves</a></li>
+            <li><a href="/">Actions</a></li>
+            <li><a href="/">Feedings</a></li>
+        </ul>
+        </div>
+      {% endblock %}
+
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div id="content">
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+</body>
+{% endblock %}

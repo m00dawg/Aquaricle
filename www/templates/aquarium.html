@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="page-header">{{ aquarium.name }}</h1>
+
+<ul>
+  <li><strong>Location:</strong> {{ aquarium.location }}</li>
+  <li><strong>Capacity:</strong> {{ aquarium.capacity }}</li>
+  <li><strong>Active Since:</strong> {{ aquarium.createdAt }}</li>
+</ul>
+
+<h2 class="sub-header">Active Equipment</h2>
+<table class="table table-bordered table-striped">
+  <tr><th>Equipment</th><th>Maint Interval</th></tr>
+  {% for equip in equipment %}
+    <tr>
+      <td>{{ equip.name }}</td>
+      <td>{{ equip.maintInterval }}</td>
+    </tr>
+  {% endfor %}
+</table>
+
+<h2 class="sub-header">Recent Logs</h2>
+<table class="table table-bordered table-striped">
+  <tr><th>Date</th><th>Summary</th></tr>
+    {% for log in logs %}
+      <tr>
+        <td>{{ log.logDate }}</td>
+        <td>{{ log.summary }}</td>
+      </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
