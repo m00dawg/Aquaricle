@@ -1,12 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="page-header">{{ aquarium.name }}</h1>
-
+<h1 class="page-header">{{ aquarium.name }} <small>{{ aquarium.location }}</small></h1>
 <ul>
-  <li><strong>Location:</strong> {{ aquarium.location }}</li>
-  <li><strong>Capacity:</strong> {{ aquarium.capacity }}</li>
-  <li><strong>Active Since:</strong> {{ aquarium.createdAt }}</li>
+  <li>Last Water Change: </li>
+  <li>Last Feeding: </li>
+</ul>
+
+<h3 class="sub-header">Quick Actions</h3>
+<ul class="list-inline">
+  {% for action in actions %}
+  <li><button type="button" class="btn btn-lg btn-primary">{{ action.name}}</button></li>
+  {% endfor %}
+  <li><button type="button" class="btn btn-lg btn-warning">Change Water</button></li>
+  <li><button type="button" class="btn btn-lg btn-danger">Change Sponge Filter</button></li>
 </ul>
 
 <h2 class="sub-header">Active Equipment</h2>

@@ -40,6 +40,11 @@ def aquarium(aquariumID):
         ORDER BY aquariumLogID DESC LIMIT 30""")
     logs = engine.execute(qry, aquariumID=aquariumID).fetchall()
 
+    qry = text("""SELECT name FROM AquariumLogFavorites
+        WHERE aquariumID = :aquariumID""")
+    actions = engine.execute(qry, aquariumID=aquariumID).fetchall()
+
     return render_template('aquarium.html', aquarium=aquarium,
                             equipment=equipment,
-                            logs = logs)
+                            logs = logs,
+                            actions = actions)
