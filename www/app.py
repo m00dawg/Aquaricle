@@ -37,7 +37,7 @@ def aquarium(aquariumID):
     qry = text("""SELECT aquariumLogID, logDate, summary
         FROM AquariumLogs
         WHERE aquariumID = :aquariumID
-        ORDER BY aquariumLogID DESC LIMIT 30""")
+        ORDER BY aquariumLogID DESC LIMIT 10""")
     logs = engine.execute(qry, aquariumID=aquariumID).fetchall()
 
     qry = text("""SELECT name FROM AquariumLogFavorites

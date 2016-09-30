@@ -1,3 +1,15 @@
 body{
   /* background-color: #eeeeff;*/
 }
+
+.nav{
+
+}
+
+.navbar{
+  background-color: #111133;
+}
+
+li.active {
+  background-color: #222255;  
+}
